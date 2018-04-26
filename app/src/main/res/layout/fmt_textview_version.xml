@@ -1,0 +1,40 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:rtv="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <com.ruffian.library.widget.RTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="520"
+            android:textColor="@android:color/holo_red_light"
+            android:textSize="22sp"
+            rtv:text_typeface="fonts/RobotoMono-Thin.ttf" />
+
+        <com.ruffian.library.widget.RTextView
+            android:id="@+id/id_typeface"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="Special Typeface"
+            android:textColor="@android:color/black"
+            rtv:text_typeface="fonts/RobotoMono-ThinItalic.ttf" />
+
+        <com.ruffian.library.widget.RTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="华康少女娃娃字体"
+            android:textColor="@android:color/holo_purple"
+            android:textSize="22sp"
+            rtv:text_typeface="fonts/huakangshaonv.ttf" />
+    </LinearLayout>
+</ScrollView>

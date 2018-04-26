@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_horizontal_margin">
+
+    <com.ruffian.library.widget.RLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:clickable="true"
+        android:padding="10dp"
+        app:background_pressed="#ccc"
+        app:border_color_normal="#7c829e"
+        app:border_width_normal="2dp"
+        app:corner_radius_top_left="6dp"
+        app:corner_radius_top_right="6dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:drawableLeft="@mipmap/icon_help"
+            android:drawablePadding="6dp"
+            android:text="帮助"
+            android:textSize="15sp" />
+
+    </com.ruffian.library.widget.RLinearLayout>
+
+    <com.ruffian.library.widget.RLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="-2dp"
+        android:clickable="true"
+        android:padding="10dp"
+        app:background_pressed="#ccc"
+        app:border_color_normal="#7c829e"
+        app:border_width_normal="2dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:drawableLeft="@mipmap/icon_phone"
+            android:drawablePadding="6dp"
+            android:text="绑定号码"
+            android:textSize="15sp" />
+
+    </com.ruffian.library.widget.RLinearLayout>
+
+    <com.ruffian.library.widget.RLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="-2dp"
+        android:clickable="true"
+        android:padding="10dp"
+        app:background_pressed="#ccc"
+        app:border_color_normal="#7c829e"
+        app:border_width_normal="2dp"
+        app:corner_radius_bottom_left="6dp"
+        app:corner_radius_bottom_right="6dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:drawableLeft="@mipmap/icon_settings"
+            android:drawablePadding="6dp"
+            android:text="设置"
+            android:textSize="15sp" />
+
+    </com.ruffian.library.widget.RLinearLayout>
+
+    <com.ruffian.library.widget.RRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:clickable="true"
+        app:background_normal="@color/colorPrimary"
+        app:background_pressed="@color/colorPrimaryDark"
+        app:corner_radius="6dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="退出登录"
+            android:textColor="@android:color/white" />
+
+    </com.ruffian.library.widget.RRelativeLayout>
+
+</LinearLayout>

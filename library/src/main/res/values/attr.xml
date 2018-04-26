@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--基础通用属性-->
+
+    <!--四周圆角度、左上、右上、左下、右下-->
+    <attr name="corner_radius" format="dimension" />
+    <attr name="corner_radius_top_left" format="dimension" />
+    <attr name="corner_radius_top_right" format="dimension" />
+    <attr name="corner_radius_bottom_left" format="dimension" />
+    <attr name="corner_radius_bottom_right" format="dimension" />
+
+    <!--虚线边框宽度/间隔-->
+    <attr name="border_dash_width" format="dimension" />
+    <attr name="border_dash_gap" format="dimension" />
+
+    <!--边框宽度-->
+    <attr name="border_width_normal" format="dimension" />
+    <attr name="border_width_pressed" format="dimension" />
+    <attr name="border_width_unable" format="dimension" />
+
+    <!--边框颜色-->
+    <attr name="border_color_normal" format="color" />
+    <attr name="border_color_pressed" format="color" />
+    <attr name="border_color_unable" format="color" />
+
+    <!--背景颜色-->
+    <attr name="background_normal" format="color" />
+    <attr name="background_pressed" format="color" />
+    <attr name="background_unable" format="color" />
+
+    <!-- TextView相关属性 -->
+
+    <!--文本颜色-->
+    <attr name="text_color_normal" format="color" />
+    <attr name="text_color_pressed" format="color" />
+    <attr name="text_color_unable" format="color" />
+
+    <!--图标资源-->
+    <attr name="icon_src_normal" format="reference" />
+    <attr name="icon_src_pressed" format="reference" />
+    <attr name="icon_src_unable" format="reference" />
+
+    <!--图标、大小、位置-->
+    <attr name="icon_height" format="dimension" />
+    <attr name="icon_width" format="dimension" />
+    <attr name="icon_direction">
+        <enum name="left" value="1" />
+        <enum name="top" value="2" />
+        <enum name="right" value="3" />
+        <enum name="bottom" value="4" />
+    </attr>
+
+    <!--字体样式-->
+    <attr name="text_typeface" format="string" />
+
+    <!--RBaseView 通用-->
+    <declare-styleable name="RBaseView">
+
+        <!--四周圆角度、左上、右上、左下、右下-->
+        <attr name="corner_radius" />
+        <attr name="corner_radius_top_left" />
+        <attr name="corner_radius_top_right" />
+        <attr name="corner_radius_bottom_left" />
+        <attr name="corner_radius_bottom_right" />
+
+        <!--虚线边框宽度/间隔-->
+        <attr name="border_dash_width" />
+        <attr name="border_dash_gap" />
+
+        <!--边框宽度-->
+        <attr name="border_width_normal" />
+        <attr name="border_width_pressed" />
+        <attr name="border_width_unable" />
+
+        <!--边框颜色-->
+        <attr name="border_color_normal" />
+        <attr name="border_color_pressed" />
+        <attr name="border_color_unable" />
+
+        <!--背景颜色-->
+        <attr name="background_normal" />
+        <attr name="background_pressed" />
+        <attr name="background_unable" />
+
+    </declare-styleable>
+
+    <!-- TextView -->
+    <declare-styleable name="RTextView">
+
+        <!--四周圆角度、左上、右上、左下、右下-->
+        <attr name="corner_radius" />
+        <attr name="corner_radius_top_left" />
+        <attr name="corner_radius_top_right" />
+        <attr name="corner_radius_bottom_left" />
+        <attr name="corner_radius_bottom_right" />
+
+        <!--虚线边框宽度/间隔-->
+        <attr name="border_dash_width" />
+        <attr name="border_dash_gap" />
+
+        <!--边框宽度-->
+        <attr name="border_width_normal" />
+        <attr name="border_width_pressed" />
+        <attr name="border_width_unable" />
+
+        <!--边框颜色-->
+        <attr name="border_color_normal" />
+        <attr name="border_color_pressed" />
+        <attr name="border_color_unable" />
+
+        <!--背景颜色-->
+        <attr name="background_normal" />
+        <attr name="background_pressed" />
+        <attr name="background_unable" />
+
+        <!--文本颜色-->
+        <attr name="text_color_normal" />
+        <attr name="text_color_pressed" />
+        <attr name="text_color_unable" />
+
+        <!--图标资源-->
+        <attr name="icon_src_normal" />
+        <attr name="icon_src_pressed" />
+        <attr name="icon_src_unable" />
+
+        <!--图标、大小、位置-->
+        <attr name="icon_height" />
+        <attr name="icon_width" />
+        <attr name="icon_direction" />
+
+        <!--字体样式-->
+        <attr name="text_typeface" />
+
+    </declare-styleable>
+
+    <!-- REditText -->
+    <declare-styleable name="REditText">
+
+        <!--四周圆角度、左上、右上、左下、右下-->
+        <attr name="corner_radius" />
+        <attr name="corner_radius_top_left" />
+        <attr name="corner_radius_top_right" />
+        <attr name="corner_radius_bottom_left" />
+        <attr name="corner_radius_bottom_right" />
+
+        <!--虚线边框宽度/间隔-->
+        <attr name="border_dash_width" />
+        <attr name="border_dash_gap" />
+
+        <!--边框宽度-->
+        <attr name="border_width_normal" />
+        <attr name="border_width_pressed" />
+        <attr name="border_width_unable" />
+
+        <!--边框颜色-->
+        <attr name="border_color_normal" />
+        <attr name="border_color_pressed" />
+        <attr name="border_color_unable" />
+
+        <!--背景颜色-->
+        <attr name="background_normal" />
+        <attr name="background_pressed" />
+        <attr name="background_unable" />
+
+        <!--文本颜色-->
+        <attr name="text_color_normal" />
+        <attr name="text_color_pressed" />
+        <attr name="text_color_unable" />
+
+        <!--图标资源-->
+        <attr name="icon_src_normal" />
+        <attr name="icon_src_pressed" />
+        <attr name="icon_src_unable" />
+
+        <!--图标、大小、位置-->
+        <attr name="icon_height" />
+        <attr name="icon_width" />
+        <attr name="icon_direction" />
+
+        <!--字体样式-->
+        <attr name="text_typeface" />
+
+    </declare-styleable>
+
+    <!-- ImageView -->
+    <declare-styleable name="RImageView">
+
+        <!--四周圆角度、左上、右上、左下、右下-->
+        <attr name="corner_radius" />
+        <attr name="corner_radius_top_left" />
+        <attr name="corner_radius_top_right" />
+        <attr name="corner_radius_bottom_left" />
+        <attr name="corner_radius_bottom_right" />
+
+        <!--图标资源-->
+        <attr name="icon_src_normal" />
+        <attr name="icon_src_pressed" />
+        <attr name="icon_src_unable" />
+
+        <!--边框-->
+        <attr name="border_width" format="dimension" />
+        <attr name="border_color" format="color" />
+
+        <!--是否圆形-->
+        <attr name="is_circle" format="boolean" />
+
+    </declare-styleable>
+
+    <!-- RLinearLayout -->
+    <declare-styleable name="RLinearLayout">
+
+        <!--四周圆角度、左上、右上、左下、右下-->
+        <attr name="corner_radius" />
+        <attr name="corner_radius_top_left" />
+        <attr name="corner_radius_top_right" />
+        <attr name="corner_radius_bottom_left" />
+        <attr name="corner_radius_bottom_right" />
+
+        <!--虚线边框宽度/间隔-->
+        <attr name="border_dash_width" />
+        <attr name="border_dash_gap" />
+
+        <!--边框宽度-->
+        <attr name="border_width_normal" />
+        <attr name="border_width_pressed" />
+        <attr name="border_width_unable" />
+
+        <!--边框颜色-->
+        <attr name="border_color_normal" />
+        <attr name="border_color_pressed" />
+        <attr name="border_color_unable" />
+
+        <!--背景颜色-->
+        <attr name="background_normal" />
+        <attr name="background_pressed" />
+        <attr name="background_unable" />
+    </declare-styleable>
+
+    <!-- RRelativeLayout -->
+    <declare-styleable name="RRelativeLayout">
+
+        <!--四周圆角度、左上、右上、左下、右下-->
+        <attr name="corner_radius" />
+        <attr name="corner_radius_top_left" />
+        <attr name="corner_radius_top_right" />
+        <attr name="corner_radius_bottom_left" />
+        <attr name="corner_radius_bottom_right" />
+
+        <!--虚线边框宽度/间隔-->
+        <attr name="border_dash_width" />
+        <attr name="border_dash_gap" />
+
+        <!--边框宽度-->
+        <attr name="border_width_normal" />
+        <attr name="border_width_pressed" />
+        <attr name="border_width_unable" />
+
+        <!--边框颜色-->
+        <attr name="border_color_normal" />
+        <attr name="border_color_pressed" />
+        <attr name="border_color_unable" />
+
+        <!--背景颜色-->
+        <attr name="background_normal" />
+        <attr name="background_pressed" />
+        <attr name="background_unable" />
+    </declare-styleable>
+
+    <!-- RView -->
+    <declare-styleable name="RView">
+
+        <!--四周圆角度、左上、右上、左下、右下-->
+        <attr name="corner_radius" />
+        <attr name="corner_radius_top_left" />
+        <attr name="corner_radius_top_right" />
+        <attr name="corner_radius_bottom_left" />
+        <attr name="corner_radius_bottom_right" />
+
+        <!--虚线边框宽度/间隔-->
+        <attr name="border_dash_width" />
+        <attr name="border_dash_gap" />
+
+        <!--边框宽度-->
+        <attr name="border_width_normal" />
+        <attr name="border_width_pressed" />
+        <attr name="border_width_unable" />
+
+        <!--边框颜色-->
+        <attr name="border_color_normal" />
+        <attr name="border_color_pressed" />
+        <attr name="border_color_unable" />
+
+        <!--背景颜色-->
+        <attr name="background_normal" />
+        <attr name="background_pressed" />
+        <attr name="background_unable" />
+    </declare-styleable>
+
+</resources>

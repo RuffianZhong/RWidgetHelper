@@ -1,0 +1,162 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:rtv="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.ruffian.library.widget.RTextView
+            android:id="@+id/text1"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:gravity="center"
+            android:text="背景\n变色"
+            android:textColor="@android:color/white"
+            rtv:background_normal="@color/colorPrimary"
+            rtv:background_pressed="#FF450F21"
+            rtv:border_color_normal="@color/colorAccent"
+            rtv:border_width_normal="3dp"
+            rtv:corner_radius="10dp" />
+
+        <com.ruffian.library.widget.RTextView
+            android:id="@+id/text2"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:text="背景+边框\n变色"
+            android:textColor="@android:color/white"
+            rtv:background_normal="@color/colorPrimary"
+            rtv:background_pressed="#FF450F21"
+            rtv:border_color_normal="@color/colorAccent"
+            rtv:border_color_pressed="@color/colorPrimary"
+            rtv:border_width_normal="3dp"
+            rtv:corner_radius="10dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.ruffian.library.widget.RTextView
+            android:id="@+id/text4"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:gravity="center"
+            android:text="边框\n变色"
+            android:textColor="@color/colorPrimary"
+            rtv:border_color_normal="@color/colorPrimary"
+            rtv:border_color_pressed="@color/colorAccent"
+            rtv:border_dash_gap="1dp"
+            rtv:border_dash_width="8dp"
+            rtv:border_width_normal="3dp"
+            rtv:corner_radius="10dp" />
+
+        <com.ruffian.library.widget.RTextView
+            android:id="@+id/text5"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:text="边框+文字\n变色"
+            android:textColor="@color/colorPrimary"
+            rtv:border_color_normal="@color/colorPrimary"
+            rtv:border_color_pressed="@color/colorAccent"
+            rtv:border_dash_gap="8dp"
+            rtv:border_dash_width="8dp"
+            rtv:border_width_normal="3dp"
+            rtv:corner_radius="50dp"
+            rtv:text_color_pressed="@color/colorAccent" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.ruffian.library.widget.RTextView
+            android:id="@+id/text3"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:text="背景/边框/文字\n变色"
+            android:textColor="@android:color/white"
+            rtv:background_normal="@color/colorPrimary"
+            rtv:background_pressed="#FF450F21"
+            rtv:border_color_normal="@color/colorAccent"
+            rtv:border_color_pressed="@color/colorPrimary"
+            rtv:border_width_normal="3dp"
+            rtv:corner_radius="10dp"
+            rtv:text_color_pressed="@color/colorPrimary" />
+
+        <com.ruffian.library.widget.RTextView
+            android:id="@+id/text6"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:text="背景/边框/文字/图片\n变色"
+            android:textColor="@android:color/white"
+            rtv:background_normal="@color/colorPrimary"
+            rtv:background_pressed="#FF450F21"
+            rtv:border_color_normal="@color/colorAccent"
+            rtv:border_color_pressed="@color/colorPrimary"
+            rtv:border_width_normal="3dp"
+            rtv:corner_radius="10dp"
+            rtv:icon_direction="top"
+            rtv:icon_height="30dp"
+            rtv:icon_src_normal="@mipmap/icon_phone_normal"
+            rtv:icon_src_pressed="@mipmap/icon_phone_pressed"
+            rtv:icon_width="30dp"
+            rtv:text_color_pressed="@color/colorPrimary" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.ruffian.library.widget.RTextView
+            android:id="@+id/text7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="10dp"
+            android:background="@drawable/bg_selector"
+            android:gravity="center"
+            android:text="原生背景图片"
+            android:textColor="#ff23dd" />
+
+        <com.ruffian.library.widget.RTextView
+            android:id="@+id/text8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="10dp"
+            android:background="@android:color/holo_blue_dark"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="原生背景颜色"
+            android:textColor="@android:color/white"
+            rtv:corner_radius="20dp" />
+
+    </LinearLayout>
+</LinearLayout>
