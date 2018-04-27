@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 26
@@ -19,6 +20,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    android {
+        lintOptions {
+            abortOnError false
+        }
+    }
 }
 
 dependencies {
@@ -28,4 +34,13 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
     testCompile 'junit:junit:4.12'
+}
+
+publish {
+    userOrg = 'ruffian'
+    groupId = 'com.ruffian.library'
+    artifactId = 'RWidgetHelper'
+    publishVersion = '1.0.0'
+    desc = 'A set widget for developer easy to use.'
+    website = 'https://github.com/RuffianZhong/RWidgetHelper'
 }
