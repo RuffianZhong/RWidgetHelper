@@ -30,7 +30,7 @@
 
 > 示例效果图，不限于如此，更多使用详细参考相关属性
 
-![](RWidgetHelper.gif) 
+![](picture/RWidgetHelper.gif) 
 
 ### 通用属性
 
@@ -76,9 +76,9 @@
 
 > 示例效果图，不限于如此，更多使用详细参考相关属性
 
-![](RTextView_corner.png)   ![](RTextView_state.gif)
+![](picture/RTextView_corner.png)   ![](picture/RTextView_state.gif)
 
-![](RTextView_typeface.png)
+![](picture/RTextView_typeface.png)
 
 ### 3.属性说明
 
@@ -194,7 +194,7 @@
 
 > REditText 使用方法跟 RTextView 完全一致
 
-![](REditText.png)
+![](picture/REditText.png)
 
 
 
@@ -228,7 +228,7 @@
 | background_unable 			|   背景颜色  	不可点击 |
 
 
-![](RViewGroup.png)  ![](RView.png)
+![](picture/RViewGroup.png)  ![](picture/RView.png)
 
 
 
@@ -247,7 +247,7 @@
 > 5.各个state状态的图片 默认/按下/不可点击
 >   
 
-![](RImageView.png)
+![](picture/RImageView.png)
 
 > ### 属性说明
 
