@@ -29,14 +29,6 @@ public class RTextViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_textview_main);
         initViews();
         initData();
-
-        RTextView textView = (RTextView) findViewById(R.id.text1);
-        //获取Helper
-        RTextViewHelper tvHelper = textView.getHelper();
-        tvHelper.setIconNormal(getDrawable(R.mipmap.ic_launcher))
-                 .setIconHeight(10)
-                 .setIconWidth(20)
-                 .setIconDirection(RTextViewHelper.ICON_DIR_TOP);
     }
 
 
