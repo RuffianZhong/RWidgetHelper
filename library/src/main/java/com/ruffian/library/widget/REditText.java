@@ -35,12 +35,16 @@ public class REditText extends EditText implements RHelper<RTextViewHelper> {
     @Override
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
-        mHelper.setEnabled(enabled);
+        if (mHelper != null) {
+            mHelper.setEnabled(enabled);
+        }
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        mHelper.onTouchEvent(event);
+        if (mHelper != null) {
+            mHelper.onTouchEvent(event);
+        }
         return super.onTouchEvent(event);
     }
 

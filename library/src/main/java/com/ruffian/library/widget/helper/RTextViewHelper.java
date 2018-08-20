@@ -334,6 +334,7 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
      * @param event
      */
     public void onTouchEvent(MotionEvent event) {
+        if (!mView.isEnabled()) return;
         mGestureDetector.onTouchEvent(event);
         int action = event.getAction();
         switch (action) {
