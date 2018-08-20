@@ -52,7 +52,7 @@
 ### 使用
 > ###  Gradle （版本号根据更新历史使用最新版）
 
-    compile 'com.ruffian.library:RWidgetHelper:1.0.0'
+    compile 'com.ruffian.library:RWidgetHelper:1.0.1'
 
 ### 1.RTextView
 
@@ -300,6 +300,8 @@
  ### 项目前身 [RTextView](https://github.com/RuffianZhong/RTextView)
 
 ### 版本历史
+
+**v1.0.1**　`2018.08.20`　Fix bug setEnabled [issues #7](https://github.com/RuffianZhong/RWidgetHelper/issues/7)
 
 **v1.0.0**　`2018.04.26`　发布第一版本
 
