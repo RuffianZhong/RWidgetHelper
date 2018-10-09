@@ -5,7 +5,7 @@
 
 ### 说明
 
-> 在Android开发中经常需要实现，基础控件的：圆角，边框，State各个状态的UI样式
+> 在Android开发中经常需要实现，基础控件的：圆角，边框，Gradient渐变，State各个状态的UI样式
 > 
 > 基于快速开发，优化代码，简化使用的目的推出一套基于基础控件的封装
 
@@ -48,11 +48,23 @@
 >   
 > 7. background_xx       各个state状态背景颜色
 > 
+> 8. gradient_orientation       渐变的方向
+>
+> 9. gradient_type       渐变的样式
+> 
+> 10. gradient_radius       渐变半径
+> 
+> 11. gradient_centerX       渐变中心点X坐标（0.0-1.0）
+> 
+> 12. gradient_centerY       渐变中心点Y坐标（0.0-1.0）
+
+
+
 
 ### 使用
 > ###  Gradle （版本号根据更新历史使用最新版）
 
-    compile 'com.ruffian.library:RWidgetHelper:1.0.1'
+    compile 'com.ruffian.library:RWidgetHelper:1.0.2'
 
 ### 1.RTextView
 
@@ -296,10 +308,75 @@
                 .setIconPressed(getDrawable(R.mipmap.icon_man_pressed));
 
 
+### 5. Gradient 渐变使用
 
- ### 项目前身 [RTextView](https://github.com/RuffianZhong/RTextView)
+> Gradient 渐变作用于所有View，是通用属性
+>   
+> 
+> 1. gradient_orientation       渐变的方向
+>
+> 2. gradient_type       渐变的样式
+> 
+> 3. gradient_radius       渐变半径
+> 
+> 4. gradient_centerX       渐变中心点X坐标（0.0-1.0）
+> 
+> 5. gradient_centerY       渐变中心点Y坐标（0.0-1.0）
+>   
+
+![](picture/Gradient.png)
+
+> ### 属性说明
+
+| 属性			|说明			 |
+| ------------- |  :-------------|
+| gradient_orientation |渐变的方向	参考 GradientDrawable.Orientation:TOP_BOTTOM，TR_BL...	|
+| gradient_type     |   渐变的样式	linear线性，radial径向，sweep扫描式	默认：linear|
+| gradient_radius 	|	渐变半径	 默认:（宽或高最小值）/ 2 |
+| gradient_centerX 	|   渐变中心点X坐标（0.0-1.0）	0.5表示中间	默认:0.5 |
+| gradient_centerY 	|   渐变中心点Y坐标（0.0-1.0）	0.5表示中间	默认:0.5 |
+| background_xxx 	|   渐变颜色值，大于2个颜色值则有渐变效果，否则默认背景颜色 	|
+
+> ### xml使用
+
+```
+        <com.ruffian.library.widget.RTextView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:text="左到右"
+            android:textColor="@android:color/white"
+            android:textSize="11sp"
+            app:background_normal="@array/array_l_r"
+            app:background_pressed="#74EBD5"
+            app:corner_radius="10dp"
+            app:gradient_radius="100dp"
+            app:gradient_centerX="0.5"
+            app:gradient_centerY="0.5"
+            app:gradient_type="linear"
+            app:gradient_orientation="LEFT_RIGHT" />
+
+
+		array.xml
+		<?xml version="1.0" encoding="utf-8"?>
+		<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+		
+		    <!--左到右-->
+		    <array name="array_l_r">
+		        <item>#74EBD5</item>
+		        <item>#9FACE6</item>
+		    </array>
+		
+		</resources>	
+```
+
+>##### background_XXX 如果使用array(大于2个颜色值)则有渐变效果；  如果 app:background_normal="#74EBD5" 这类单个颜色值则是默认背景颜色
+
 
 ### 版本历史
+
+**v1.0.2**　`2018.10.09`　添加 Gradient 渐变功能
 
 **v1.0.1**　`2018.08.20`　Fix bug setEnabled [issues #7](https://github.com/RuffianZhong/RWidgetHelper/issues/7)
 
