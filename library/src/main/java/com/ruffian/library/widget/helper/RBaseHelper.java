@@ -8,12 +8,22 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
+import android.support.annotation.IntDef;
+import android.support.annotation.StyleableRes;
+import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.ViewTreeObserver;
 
 import com.ruffian.library.widget.R;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+import static android.graphics.drawable.GradientDrawable.RADIAL_GRADIENT;
 
 /**
  * BaseHelper
@@ -45,9 +55,19 @@ public class RBaseHelper<T extends View> {
     private int mBackgroundColorNormal;
     private int mBackgroundColorPressed;
     private int mBackgroundColorUnable;
+    //BackgroundColorArray
+    private int[] mBackgroundColorNormalArray;
+    private int[] mBackgroundColorPressedArray;
+    private int[] mBackgroundColorUnableArray;
     private GradientDrawable mBackgroundNormal;
     private GradientDrawable mBackgroundPressed;
     private GradientDrawable mBackgroundUnable;
+
+    //Gradient
+    private int mGradientType = 0;
+    private float mGradientRadius;
+    private float mGradientCenterX, mGradientCenterY;
+    private GradientDrawable.Orientation mGradientOrientation = GradientDrawable.Orientation.TOP_BOTTOM;
 
     protected int[][] states = new int[4][];
     private StateListDrawable mStateBackground;
@@ -78,6 +98,8 @@ public class RBaseHelper<T extends View> {
         mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         //初始化控件属性
         initAttributeSet(context, attrs);
+        //监听View大小改变
+        addOnGlobalLayoutListener();
     }
 
     /**
@@ -108,14 +130,23 @@ public class RBaseHelper<T extends View> {
         mBorderColorPressed = a.getColor(R.styleable.RBaseView_border_color_pressed, Color.TRANSPARENT);
         mBorderColorUnable = a.getColor(R.styleable.RBaseView_border_color_unable, Color.TRANSPARENT);
         //background
-        mBackgroundColorNormal = a.getColor(R.styleable.RBaseView_background_normal, 0);
-        mBackgroundColorPressed = a.getColor(R.styleable.RBaseView_background_pressed, 0);
-        mBackgroundColorUnable = a.getColor(R.styleable.RBaseView_background_unable, 0);
+        mBackgroundColorNormal = (int) getBackgroundColor(a, R.styleable.RBaseView_background_normal)[0];
+        mBackgroundColorNormalArray = (int[]) getBackgroundColor(a, R.styleable.RBaseView_background_normal)[1];
+        mBackgroundColorPressed = (int) getBackgroundColor(a, R.styleable.RBaseView_background_pressed)[0];
+        mBackgroundColorPressedArray = (int[]) getBackgroundColor(a, R.styleable.RBaseView_background_pressed)[1];
+        mBackgroundColorUnable = (int) getBackgroundColor(a, R.styleable.RBaseView_background_unable)[0];
+        mBackgroundColorUnableArray = (int[]) getBackgroundColor(a, R.styleable.RBaseView_background_unable)[1];
+        //gradient
+        mGradientType = a.getInt(R.styleable.RBaseView_gradient_type, 0);
+        mGradientOrientation = getGradientOrientation(a);
+        mGradientRadius = a.getDimensionPixelSize(R.styleable.RBaseView_gradient_radius, -1);
+        mGradientCenterX = a.getFloat(R.styleable.RBaseView_gradient_centerX, 0.5f);
+        mGradientCenterY = a.getFloat(R.styleable.RBaseView_gradient_centerY, 0.5f);
 
         a.recycle();
 
-        mHasPressedBgColor = mBackgroundColorPressed < 0;
-        mHasUnableBgColor = mBackgroundColorUnable < 0;
+        mHasPressedBgColor = mBackgroundColorPressed < 0 || mBackgroundColorNormalArray != null;
+        mHasUnableBgColor = mBackgroundColorUnable < 0 || mBackgroundColorUnableArray != null;
         mHasPressedBorderColor = mBorderColorPressed < 0;
         mHasUnableBorderColor = mBorderColorUnable < 0;
         mHasPressedBorderWidth = mBorderWidthPressed < 0;
@@ -147,14 +178,34 @@ public class RBaseHelper<T extends View> {
          */
         if (!mHasPressedBgColor) {
             mBackgroundColorPressed = mBackgroundColorNormal;
+            mBackgroundColorPressedArray = mBackgroundColorNormalArray;
         }
         if (!mHasUnableBgColor) {
             mBackgroundColorUnable = mBackgroundColorNormal;
+            mBackgroundColorUnableArray = mBackgroundColorNormalArray;
         }
 
-        mBackgroundNormal.setColor(mBackgroundColorNormal);
-        mBackgroundPressed.setColor(mBackgroundColorPressed);
-        mBackgroundUnable.setColor(mBackgroundColorUnable);
+
+        /**
+         * 设置背景颜色（包含渐变）
+         */
+        if (mBackgroundColorNormalArray != null && mBackgroundColorNormalArray.length > 0) {
+            mBackgroundNormal.setColors(mBackgroundColorNormalArray);
+        } else {
+            mBackgroundNormal.setColor(mBackgroundColorNormal);
+        }
+        if (mBackgroundColorPressedArray != null && mBackgroundColorPressedArray.length > 0) {
+            mBackgroundPressed.setColors(mBackgroundColorPressedArray);
+        } else {
+            mBackgroundPressed.setColor(mBackgroundColorPressed);
+        }
+        if (mBackgroundColorUnableArray != null && mBackgroundColorUnableArray.length > 0) {
+            mBackgroundUnable.setColors(mBackgroundColorUnableArray);
+        } else {
+            mBackgroundUnable.setColor(mBackgroundColorUnable);
+        }
+        //设置渐变相关Gradient
+        setGradient();
 
         //pressed, focused, normal, unable
         states[0] = new int[]{android.R.attr.state_enabled, android.R.attr.state_pressed};
@@ -182,19 +233,8 @@ public class RBaseHelper<T extends View> {
             mBorderColorUnable = mBorderColorNormal;
         }
 
-        if (mBackgroundColorNormal == 0 && mBackgroundColorUnable == 0 && mBackgroundColorPressed == 0) {//未设置自定义背景色
-           /* if (mBorderColorPressed == 0 && mBorderColorUnable == 0 && mBorderColorNormal == 0) {//未设置自定义边框
-                //获取原生背景并设置
-                setBackgroundState(true);
-            } else {
-                setBackgroundState(false);
-            }*/
-            //获取原生背景并设置
-            setBackgroundState(true);
-        } else {
-            //设置背景资源
-            setBackgroundState(false);
-        }
+        //设置背景
+        setBackgroundState();
 
         //设置边框
         setBorder();
@@ -204,6 +244,175 @@ public class RBaseHelper<T extends View> {
 
     }
 
+    /**
+     * 获取背景颜色
+     * 备注:数组[0]:单一颜色（可能为0）   数组[1]:颜色列表（可能为null）
+     *
+     * @param a
+     * @param styleableRes
+     * @return
+     */
+    private Object[] getBackgroundColor(TypedArray a, @StyleableRes int styleableRes) {
+        int bgColor = 0;//单一颜色
+        int[] bgColorArray = null;//多个颜色
+        int resId = a.getResourceId(styleableRes, 0);
+        if (resId == 0) {//单一颜色
+            bgColor = a.getColor(styleableRes, 0);
+        } else {//多个颜色
+            String typeName = mContext.getResources().getResourceTypeName(resId);
+            if ("array".equals(typeName)) {//array
+                String[] strArray = mContext.getResources().getStringArray(resId);
+                int[] intArray = mContext.getResources().getIntArray(resId);
+                int length = Math.min(intArray.length, strArray.length);
+                bgColorArray = new int[length];
+                String strIndex;
+                int intIndex;
+                for (int i = 0; i < length; i++) {
+                    strIndex = strArray[i];
+                    intIndex = intArray[i];
+                    bgColorArray[i] = !TextUtils.isEmpty(strIndex) ? Color.parseColor(strIndex) : intIndex;
+                }
+            } else {
+                bgColor = a.getColor(styleableRes, 0);
+            }
+        }
+        return new Object[]{bgColor, bgColorArray};
+    }
+
+    /**
+     * 获取渐变方向
+     *
+     * @param a
+     * @return
+     */
+    private GradientDrawable.Orientation getGradientOrientation(TypedArray a) {
+        GradientDrawable.Orientation orientation = GradientDrawable.Orientation.BL_TR;
+        int gradientOrientation = a.getInt(R.styleable.RBaseView_gradient_orientation, 0);
+        switch (gradientOrientation) {
+            case 0:
+                orientation = GradientDrawable.Orientation.TOP_BOTTOM;
+                break;
+            case 1:
+                orientation = GradientDrawable.Orientation.TR_BL;
+                break;
+            case 2:
+                orientation = GradientDrawable.Orientation.RIGHT_LEFT;
+                break;
+            case 3:
+                orientation = GradientDrawable.Orientation.BR_TL;
+                break;
+            case 4:
+                orientation = GradientDrawable.Orientation.BOTTOM_TOP;
+                break;
+            case 5:
+                orientation = GradientDrawable.Orientation.BL_TR;
+                break;
+            case 6:
+                orientation = GradientDrawable.Orientation.LEFT_RIGHT;
+                break;
+            case 7:
+                orientation = GradientDrawable.Orientation.TL_BR;
+                break;
+        }
+        return orientation;
+    }
+
+    /*********************
+     * Gradient
+     ********************/
+    public float getGradientRadius() {
+        return mGradientRadius;
+    }
+
+    public float getGradientCenterX() {
+        return mGradientCenterX;
+    }
+
+    public float getGradientCenterY() {
+        return mGradientCenterY;
+    }
+
+    public int getGradientType() {
+        return mGradientType;
+    }
+
+    public RBaseHelper setGradientRadius(float gradientRadius) {
+        this.mGradientRadius = gradientRadius;
+        setGradient();
+        setBackgroundState();
+        return this;
+    }
+
+    public RBaseHelper setGradientCenterX(float gradientCenterX) {
+        this.mGradientCenterX = gradientCenterX;
+        setGradient();
+        setBackgroundState();
+        return this;
+    }
+
+    public RBaseHelper setGradientCenterY(float gradientCenterY) {
+        this.mGradientCenterY = gradientCenterY;
+        setGradient();
+        setBackgroundState();
+        return this;
+    }
+
+    /**
+     * 设置渐变样式/类型
+     *
+     * @param gradientType {LINEAR_GRADIENT=0, RADIAL_GRADIENT=1, SWEEP_GRADIENT=2}
+     * @return
+     */
+    public RBaseHelper setGradientType(int gradientType) {
+        if (gradientType < 0 || gradientType > 2) {
+            gradientType = 0;
+        }
+        this.mGradientType = gradientType;
+        setGradient();
+        setBackgroundState();
+        return this;
+    }
+
+    public RBaseHelper setGradientOrientation(GradientDrawable.Orientation orientation) {
+        this.mGradientOrientation = orientation;
+        setGradient();
+        setBackgroundState();
+        return this;
+    }
+
+    private void setGradient() {
+        mBackgroundNormal.setOrientation(mGradientOrientation);
+        mBackgroundNormal.setGradientType(mGradientType);
+        mBackgroundNormal.setGradientRadius(mGradientRadius);
+        mBackgroundNormal.setGradientCenter(mGradientCenterX, mGradientCenterY);
+        mBackgroundPressed.setOrientation(mGradientOrientation);
+        mBackgroundPressed.setGradientType(mGradientType);
+        mBackgroundPressed.setGradientRadius(mGradientRadius);
+        mBackgroundPressed.setGradientCenter(mGradientCenterX, mGradientCenterY);
+        mBackgroundUnable.setOrientation(mGradientOrientation);
+        mBackgroundUnable.setGradientType(mGradientType);
+        mBackgroundUnable.setGradientRadius(mGradientRadius);
+        mBackgroundUnable.setGradientCenter(mGradientCenterX, mGradientCenterY);
+    }
+
+    /**
+     * 设置View大小变化监听,用来更新渐变半径
+     */
+    private void addOnGlobalLayoutListener() {
+        if (mView == null) return;
+        mView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                mView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                if (mGradientRadius <= 0) {
+                    int width = mView.getWidth();
+                    int height = mView.getHeight();
+                    float radius = Math.min(width, height) / 2f;
+                    setGradientRadius(radius);
+                }
+            }
+        });
+    }
 
     /*********************
      * BackgroundColor
@@ -218,12 +427,45 @@ public class RBaseHelper<T extends View> {
         mBackgroundNormal.setColor(mBackgroundColorNormal);
         mBackgroundPressed.setColor(mBackgroundColorPressed);
         mBackgroundUnable.setColor(mBackgroundColorUnable);
-        setBackgroundState(false);
+        setBackgroundState();
+        return this;
+    }
+
+    public RBaseHelper setStateBackgroundColorArray(int[] normalArray, int[] pressedArray, int[] unableArray) {
+        mBackgroundColorNormalArray = normalArray;
+        mBackgroundColorPressedArray = pressedArray;
+        mBackgroundColorUnableArray = unableArray;
+        mHasPressedBgColor = true;
+        mHasUnableBgColor = true;
+        mBackgroundNormal.setColors(mBackgroundColorNormalArray);
+        mBackgroundPressed.setColors(mBackgroundColorPressedArray);
+        mBackgroundUnable.setColors(mBackgroundColorUnableArray);
+        setBackgroundState();
         return this;
     }
 
     public int getBackgroundColorNormal() {
         return mBackgroundColorNormal;
+    }
+
+    public int getBackgroundColorPressed() {
+        return mBackgroundColorPressed;
+    }
+
+    public int getBackgroundColorUnable() {
+        return mBackgroundColorUnable;
+    }
+
+    public int[] getBackgroundColorNormalArray() {
+        return mBackgroundColorNormalArray;
+    }
+
+    public int[] getBackgroundColorPressedArray() {
+        return mBackgroundColorPressedArray;
+    }
+
+    public int[] getBackgroundColorUnableArray() {
+        return mBackgroundColorUnableArray;
     }
 
     public RBaseHelper setBackgroundColorNormal(int colorNormal) {
@@ -240,48 +482,88 @@ public class RBaseHelper<T extends View> {
             mBackgroundUnable.setColor(mBackgroundColorUnable);
         }
         mBackgroundNormal.setColor(mBackgroundColorNormal);
-        setBackgroundState(false);
+        setBackgroundState();
         return this;
     }
 
-    public int getBackgroundColorPressed() {
-        return mBackgroundColorPressed;
+    public RBaseHelper setBackgroundColorNormalArray(int[] colorNormalArray) {
+        this.mBackgroundColorNormalArray = colorNormalArray;
+        /**
+         * 设置背景默认值
+         */
+        if (!mHasPressedBgColor) {
+            mBackgroundColorPressedArray = mBackgroundColorNormalArray;
+            mBackgroundPressed.setColors(mBackgroundColorPressedArray);
+        }
+        if (!mHasUnableBgColor) {
+            mBackgroundColorUnableArray = mBackgroundColorNormalArray;
+            mBackgroundUnable.setColors(mBackgroundColorUnableArray);
+        }
+        mBackgroundNormal.setColors(mBackgroundColorNormalArray);
+        setBackgroundState();
+        return this;
     }
 
     public RBaseHelper setBackgroundColorPressed(int colorPressed) {
         this.mBackgroundColorPressed = colorPressed;
         this.mHasPressedBgColor = true;
         mBackgroundPressed.setColor(mBackgroundColorPressed);
-        setBackgroundState(false);
+        setBackgroundState();
         return this;
     }
 
-    public int getBackgroundColorUnable() {
-        return mBackgroundColorUnable;
+    public RBaseHelper setBackgroundColorPressedArray(int[] colorPressedArray) {
+        this.mBackgroundColorPressedArray = colorPressedArray;
+        this.mHasPressedBgColor = true;
+        mBackgroundPressed.setColors(mBackgroundColorPressedArray);
+        setBackgroundState();
+        return this;
     }
 
     public RBaseHelper setBackgroundColorUnable(int colorUnable) {
         this.mBackgroundColorUnable = colorUnable;
         this.mHasUnableBgColor = true;
         mBackgroundUnable.setColor(mBackgroundColorUnable);
-        setBackgroundState(false);
+        setBackgroundState();
         return this;
     }
 
-    private void setBackgroundState(boolean unset) {
+    public RBaseHelper setBackgroundColorUnableArray(int[] colorUnableArray) {
+        this.mBackgroundColorUnableArray = colorUnableArray;
+        this.mHasUnableBgColor = true;
+        mBackgroundUnable.setColors(mBackgroundColorUnableArray);
+        setBackgroundState();
+        return this;
+    }
 
-        //未设置自定义属性,并且设置背景颜色时
+    private void setBackgroundState() {
+
+        boolean hasCustom;//是否存在自定义
+        boolean unHasBgColor = mBackgroundColorNormal == 0 && mBackgroundColorUnable == 0 && mBackgroundColorPressed == 0;
+        boolean unHasBgColorArray = mBackgroundColorNormalArray == null && mBackgroundColorUnableArray == null && mBackgroundColorPressedArray == null;
+
+        if (unHasBgColor && unHasBgColorArray) {//未设置自定义背景色
+            hasCustom = false;
+        } else {
+            hasCustom = true;
+        }
+
+        /**
+         * 未设置自定义属性,获取原生背景并且设置
+         */
         Drawable drawable = mView.getBackground();
-        if (unset && drawable instanceof ColorDrawable) {
+        if (!hasCustom && drawable instanceof ColorDrawable) {
             int color = ((ColorDrawable) drawable).getColor();
             setStateBackgroundColor(color, color, color);//获取背景颜色值设置 StateListDrawable
         }
 
-        //设置背景资源
+        /**
+         * 存在自定义属性，使用自定义属性设置
+         */
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-            mView.setBackgroundDrawable(unset ? drawable : mStateBackground);
+            mView.setBackgroundDrawable(hasCustom ? mStateBackground : drawable);
         } else {
-            mView.setBackground(unset ? drawable : mStateBackground);
+            mView.setBackground(hasCustom ? mStateBackground : drawable);
         }
     }
 
@@ -416,22 +698,22 @@ public class RBaseHelper<T extends View> {
         mBackgroundNormal.setStroke(mBorderWidthNormal, mBorderColorNormal, mBorderDashWidth, mBorderDashGap);
         mBackgroundPressed.setStroke(mBorderWidthPressed, mBorderColorPressed, mBorderDashWidth, mBorderDashGap);
         mBackgroundUnable.setStroke(mBorderWidthUnable, mBorderColorUnable, mBorderDashWidth, mBorderDashGap);
-        setBackgroundState(false);
+        setBackgroundState();
     }
 
     private void setBorderNormal() {
         mBackgroundNormal.setStroke(mBorderWidthNormal, mBorderColorNormal, mBorderDashWidth, mBorderDashGap);
-        setBackgroundState(false);
+        setBackgroundState();
     }
 
     private void setBorderPressed() {
         mBackgroundPressed.setStroke(mBorderWidthPressed, mBorderColorPressed, mBorderDashWidth, mBorderDashGap);
-        setBackgroundState(false);
+        setBackgroundState();
     }
 
     private void setBorderUnable() {
         mBackgroundUnable.setStroke(mBorderWidthUnable, mBorderColorUnable, mBorderDashWidth, mBorderDashGap);
-        setBackgroundState(false);
+        setBackgroundState();
     }
 
 
@@ -505,7 +787,7 @@ public class RBaseHelper<T extends View> {
         mBackgroundNormal.setCornerRadii(mBorderRadii);
         mBackgroundPressed.setCornerRadii(mBorderRadii);
         mBackgroundUnable.setCornerRadii(mBorderRadii);
-        setBackgroundState(false);
+        setBackgroundState();
     }
 
     private void setRadius() {

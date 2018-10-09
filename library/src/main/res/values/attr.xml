@@ -25,9 +25,29 @@
     <attr name="border_color_unable" format="color" />
 
     <!--背景颜色-->
-    <attr name="background_normal" format="color" />
+    <attr name="background_normal" format="color|reference" />
     <attr name="background_pressed" format="color" />
     <attr name="background_unable" format="color" />
+
+    <!--Gradient相关-->
+    <attr name="gradient_orientation">
+        <enum name="TOP_BOTTOM" value="0" />
+        <enum name="TR_BL" value="1" />
+        <enum name="RIGHT_LEFT" value="2" />
+        <enum name="BR_TL" value="3" />
+        <enum name="BOTTOM_TOP" value="4" />
+        <enum name="BL_TR" value="5" />
+        <enum name="LEFT_RIGHT" value="6" />
+        <enum name="TL_BR" value="7" />
+    </attr>
+    <attr name="gradient_type">
+        <enum name="linear" value="0" />
+        <enum name="radial" value="1" />
+        <enum name="sweep" value="2" />
+    </attr>
+    <attr name="gradient_radius" format="dimension" />
+    <attr name="gradient_centerX" format="float" />
+    <attr name="gradient_centerY" format="float" />
 
     <!-- TextView相关属性 -->
 
@@ -83,6 +103,13 @@
         <attr name="background_pressed" />
         <attr name="background_unable" />
 
+        <!--Gradient相关-->
+        <attr name="gradient_orientation" />
+        <attr name="gradient_type" />
+        <attr name="gradient_radius" />
+        <attr name="gradient_centerX" />
+        <attr name="gradient_centerY" />
+
     </declare-styleable>
 
     <!-- TextView -->
@@ -113,6 +140,13 @@
         <attr name="background_normal" />
         <attr name="background_pressed" />
         <attr name="background_unable" />
+
+        <!--Gradient相关-->
+        <attr name="gradient_orientation" />
+        <attr name="gradient_type" />
+        <attr name="gradient_radius" />
+        <attr name="gradient_centerX" />
+        <attr name="gradient_centerY" />
 
         <!--文本颜色-->
         <attr name="text_color_normal" />
@@ -162,6 +196,13 @@
         <attr name="background_normal" />
         <attr name="background_pressed" />
         <attr name="background_unable" />
+
+        <!--Gradient相关-->
+        <attr name="gradient_orientation" />
+        <attr name="gradient_type" />
+        <attr name="gradient_radius" />
+        <attr name="gradient_centerX" />
+        <attr name="gradient_centerY" />
 
         <!--文本颜色-->
         <attr name="text_color_normal" />
@@ -235,6 +276,13 @@
         <attr name="background_normal" />
         <attr name="background_pressed" />
         <attr name="background_unable" />
+
+        <!--Gradient相关-->
+        <attr name="gradient_orientation" />
+        <attr name="gradient_type" />
+        <attr name="gradient_radius" />
+        <attr name="gradient_centerX" />
+        <attr name="gradient_centerY" />
     </declare-styleable>
 
     <!-- RRelativeLayout -->
@@ -265,6 +313,13 @@
         <attr name="background_normal" />
         <attr name="background_pressed" />
         <attr name="background_unable" />
+
+        <!--Gradient相关-->
+        <attr name="gradient_orientation" />
+        <attr name="gradient_type" />
+        <attr name="gradient_radius" />
+        <attr name="gradient_centerX" />
+        <attr name="gradient_centerY" />
     </declare-styleable>
 
     <!-- RView -->
@@ -295,6 +350,13 @@
         <attr name="background_normal" />
         <attr name="background_pressed" />
         <attr name="background_unable" />
+
+        <!--Gradient相关-->
+        <attr name="gradient_orientation" />
+        <attr name="gradient_type" />
+        <attr name="gradient_radius" />
+        <attr name="gradient_centerX" />
+        <attr name="gradient_centerY" />
     </declare-styleable>
 
 </resources>
