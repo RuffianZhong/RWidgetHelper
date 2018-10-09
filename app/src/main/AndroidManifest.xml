@@ -23,6 +23,7 @@
         <activity android:name=".RImageViewActivity" />
         <activity android:name=".RViewGroupActivity" />
         <activity android:name=".RViewActivity" />
+        <activity android:name=".GradientActivity" />
     </application>
 
 </manifest>

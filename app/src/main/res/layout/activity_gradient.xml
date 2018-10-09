@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <com.ruffian.library.widget.RTextView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="下到上"
+            android:textColor="@android:color/white"
+            android:textSize="11sp"
+            app:background_normal="@array/array_b_t"
+            app:background_pressed="@array/array_l_r"
+            app:corner_radius="10dp"
+            app:gradient_orientation="BOTTOM_TOP" />
+
+        <com.ruffian.library.widget.RTextView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:text="左到右"
+            android:textColor="@android:color/white"
+            android:textSize="11sp"
+            app:background_normal="@array/array_l_r"
+            app:corner_radius="10dp"
+            app:gradient_orientation="LEFT_RIGHT" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <com.ruffian.library.widget.RTextView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:gravity="center"
+            android:text="左下到右上"
+            android:textColor="@android:color/white"
+            android:textSize="11sp"
+            app:background_normal="@array/array_bl_tr"
+            app:corner_radius="10dp"
+            app:gradient_orientation="BL_TR" />
+
+        <com.ruffian.library.widget.RTextView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:text="右上到左下"
+            android:textColor="@android:color/white"
+            android:textSize="11sp"
+            app:background_normal="@array/array_tr_bl"
+            app:corner_radius="10dp"
+            app:gradient_orientation="TR_BL" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <com.ruffian.library.widget.RTextView
+            android:id="@+id/RTextView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:gravity="center"
+            android:text="sweep"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            app:background_normal="@array/rainbow_color"
+            app:corner_radius="50dp"
+            app:gradient_type="sweep" />
+
+        <com.ruffian.library.widget.RTextView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:text="radial"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:background_normal="@array/rainbow_color"
+            app:corner_radius="50dp"
+            app:gradient_type="sweep" />
+
+        <RelativeLayout
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp">
+
+            <com.ruffian.library.widget.RTextView
+                android:id="@+id/view1"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:gravity="center_horizontal"
+                android:paddingTop="20dp"
+                android:text="radial"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                app:background_normal="@array/rainbow_color"
+                app:corner_radius="50dp"
+                app:gradient_type="radial" />
+
+            <View
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:background="@android:color/white" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

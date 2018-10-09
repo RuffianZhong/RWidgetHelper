@@ -1,6 +1,7 @@
 package com.ruffian.library.demo;
 
 import android.content.Intent;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -16,6 +17,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.et).setOnClickListener(this);
         findViewById(R.id.view_group).setOnClickListener(this);
         findViewById(R.id.view).setOnClickListener(this);
+        findViewById(R.id.gradient).setOnClickListener(this);
     }
 
 
@@ -37,6 +39,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.view:
                 intent = new Intent(this, RViewActivity.class);
+                break;
+            case R.id.gradient:
+                intent = new Intent(this, GradientActivity.class);
                 break;
         }
         if (intent != null) {

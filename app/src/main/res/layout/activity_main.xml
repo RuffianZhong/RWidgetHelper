@@ -55,5 +55,14 @@
         app:background_pressed="@color/colorPrimaryDark"
         app:corner_radius="6dp" />
 
+    <com.ruffian.library.widget.RTextView
+        android:id="@+id/gradient"
+        style="@style/itemMain"
+        android:layout_marginTop="12dp"
+        android:text="Gradient"
+        app:background_normal="@color/colorPrimary"
+        app:background_pressed="@color/colorPrimaryDark"
+        app:corner_radius="6dp" />
+
 
 </LinearLayout>

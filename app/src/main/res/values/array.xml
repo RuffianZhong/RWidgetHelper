@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    <!--彩虹颜色值-->
+    <array name="rainbow_color">
+        <item>@color/purple</item>
+        <item>@color/blue</item>
+        <item>@color/navy</item>
+        <item>@color/green</item>
+        <item>@color/yellow</item>
+        <item>@color/orange</item>
+        <item>@color/red</item>
+    </array>
+
+    <!--左下到右上-->
+    <array name="array_bl_tr">
+        <item>#FA8BFF</item>
+        <item>#2BD2FF</item>
+        <item>#2BFF88</item>
+    </array>
+
+    <!--左到右-->
+    <array name="array_l_r">
+        <item>#74EBD5</item>
+        <item>#9FACE6</item>
+    </array>
+
+    <!--下到上-->
+    <array name="array_b_t">
+        <item>#D9AFD9</item>
+        <item>#97D9E1</item>
+    </array>
+
+    <!--右上到左下-->
+    <array name="array_tr_bl">
+        <item>#FF3CAC</item>
+        <item>#784BA0</item>
+        <item>#2B86C5</item>
+    </array>
+
+</resources>
