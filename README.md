@@ -30,7 +30,7 @@
 
 > 示例效果图，不限于如此，更多使用详细参考相关属性
 
-![](picture/RWidgetHelper.gif) 
+![](picture/RWidgetHelper.gif)  ![](picture/Gradient.png)
 
 ### 通用属性
 
