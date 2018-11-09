@@ -538,15 +538,33 @@ public class RBaseHelper<T extends View> {
 
     private void setBackgroundState() {
 
-        boolean hasCustom;//是否存在自定义
+        boolean hasCustom=false;//是否存在自定义
+        boolean hasCusBg, hasCusBorder=false, hasCusCorner=false;//存在自定义相关属性
         boolean unHasBgColor = mBackgroundColorNormal == 0 && mBackgroundColorUnable == 0 && mBackgroundColorPressed == 0;
         boolean unHasBgColorArray = mBackgroundColorNormalArray == null && mBackgroundColorUnableArray == null && mBackgroundColorPressedArray == null;
 
+        //是否自定义了背景
         if (unHasBgColor && unHasBgColorArray) {//未设置自定义背景色
-            hasCustom = false;
+            hasCusBg = false;
         } else {
+            hasCusBg = true;
+        }
+
+        //是否自定义了边框
+        if (mBorderDashWidth != 0 || mBorderDashGap != 0 || mBorderWidthNormal != 0 || mBorderWidthPressed != 0 || mBorderWidthUnable != 0
+                || mBorderColorNormal != 0 || mBorderColorPressed != 0 || mBorderColorUnable != 0) {
+            hasCusBorder = true;
+        }
+
+        //是否自定义了圆角
+        if (mCornerRadius != 0 || mCornerRadiusTopLeft != 0 || mCornerRadiusTopRight != 0 || mCornerRadiusBottomLeft != 0 || mCornerRadiusBottomRight != 0) {
+            hasCusCorner = true;
+        }
+
+        if (hasCusBg || hasCusCorner || hasCusBorder) {
             hasCustom = true;
         }
+
 
         /**
          * 未设置自定义属性,获取原生背景并且设置
