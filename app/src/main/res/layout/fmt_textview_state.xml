@@ -152,19 +152,5 @@
             android:text="原生背景图片"
             android:textColor="#ff23dd" />
 
-        <com.ruffian.library.widget.RTextView
-            android:id="@+id/text8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="10dp"
-            android:background="@android:color/holo_blue_dark"
-            android:clickable="true"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="原生背景颜色"
-            android:textColor="@android:color/white"
-            rtv:corner_radius="20dp" />
-
     </LinearLayout>
 </LinearLayout>

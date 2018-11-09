@@ -10,7 +10,7 @@
     <com.ruffian.library.widget.RLinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:background="#fff"
+        app:background_normal="#fff"
         app:corner_radius="4dp">
 
         <com.ruffian.library.widget.RView
@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginTop="10dp"
-        android:background="#fff"
+        app:background_normal="#fff"
         app:corner_radius="4dp">
 
         <com.ruffian.library.widget.RView
@@ -42,7 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginTop="10dp"
-        android:background="#fff"
+        app:background_normal="#fff"
         app:corner_radius="4dp">
 
         <com.ruffian.library.widget.RView
@@ -58,7 +58,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginTop="10dp"
-        android:background="#fff"
+        app:background_normal="#fff"
         app:corner_radius="4dp">
 
         <com.ruffian.library.widget.RView
