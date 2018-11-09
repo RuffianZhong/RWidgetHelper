@@ -64,7 +64,7 @@
 ### 使用
 > ###  Gradle （版本号根据更新历史使用最新版）
 
-    compile 'com.ruffian.library:RWidgetHelper:1.0.2'
+    compile 'com.ruffian.library:RWidgetHelper:1.0.3'
 
 ### 1.RTextView
 
@@ -374,7 +374,13 @@
 >##### background_XXX 如果使用array(大于2个颜色值)则有渐变效果；  如果 app:background_normal="#74EBD5" 这类单个颜色值则是默认背景颜色
 
 
+
+>##### 自定义属性对原生属性无效  例如: `app:corner_radius="10dp"` 搭配 `app:background_normal="#74EBD5"` 而不是`background="#74EBD5"`
+
+
 ### 版本历史
+
+**v1.0.3**　`2018.11.09`　Fix Bug [issues#17](https://github.com/RuffianZhong/RWidgetHelper/issues/17 "issues#17")
 
 **v1.0.2**　`2018.10.09`　添加 Gradient 渐变功能
 
