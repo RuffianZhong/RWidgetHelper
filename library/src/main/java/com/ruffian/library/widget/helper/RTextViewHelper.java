@@ -36,6 +36,7 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
     private int mTextColorPressed;
     private int mTextColorUnable;
     private ColorStateList mTextColorStateList;
+    int[][] states = new int[3][];
 
     //Icon
     private Drawable mIcon = null;
@@ -48,6 +49,13 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
 
     //手势检测
     private GestureDetector mGestureDetector;
+
+    /**
+     * 是否设置对应的属性
+     */
+    private boolean mHasPressedTextColor = false;
+    private boolean mHasUnableTextColor = false;
+
 
     public RTextViewHelper(Context context, TextView view, AttributeSet attrs) {
         super(context, view, attrs);
@@ -90,12 +98,15 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
         mIconDirection = a.getInt(R.styleable.RTextView_icon_direction, ICON_DIR_LEFT);
         //text
         mTextColorNormal = a.getColor(R.styleable.RTextView_text_color_normal, mView.getCurrentTextColor());
-        mTextColorPressed = a.getColor(R.styleable.RTextView_text_color_pressed, mView.getCurrentTextColor());
-        mTextColorUnable = a.getColor(R.styleable.RTextView_text_color_unable, mView.getCurrentTextColor());
+        mTextColorPressed = a.getColor(R.styleable.RTextView_text_color_pressed, 0);
+        mTextColorUnable = a.getColor(R.styleable.RTextView_text_color_unable, 0);
         //typeface
         mTypefacePath = a.getString(R.styleable.RTextView_text_typeface);
 
         a.recycle();
+
+        mHasPressedTextColor = mTextColorPressed < 0;
+        mHasUnableTextColor = mTextColorUnable < 0;
 
         //setup
         setup();
@@ -115,6 +126,20 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
         } else {
             mIcon = mIconNormal;
         }
+
+        /**
+         * 设置文字颜色默认值
+         */
+        if (!mHasPressedTextColor) {
+            mTextColorPressed = mTextColorNormal;
+        }
+        if (!mHasUnableTextColor) {
+            mTextColorUnable = mTextColorNormal;
+        }
+        //state_pressed,Normal,Unable
+        states[0] = new int[]{android.R.attr.state_enabled, android.R.attr.state_pressed};
+        states[1] = new int[]{android.R.attr.state_enabled};
+        states[2] = new int[]{-android.R.attr.state_enabled};
 
         //设置文本颜色
         setTextColor();
@@ -262,10 +287,10 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
 
     public RTextViewHelper setTextColorNormal(int textColor) {
         this.mTextColorNormal = textColor;
-        if (mTextColorPressed == 0) {
+        if (!mHasPressedTextColor) {
             mTextColorPressed = mTextColorNormal;
         }
-        if (mTextColorUnable == 0) {
+        if (!mHasUnableTextColor) {
             mTextColorUnable = mTextColorNormal;
         }
         setTextColor();
@@ -278,6 +303,7 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
 
     public RTextViewHelper setPressedTextColor(int textColor) {
         this.mTextColorPressed = textColor;
+        this.mHasPressedTextColor = true;
         setTextColor();
         return this;
     }
@@ -288,6 +314,7 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
 
     public RTextViewHelper setTextColorUnable(int textColor) {
         this.mTextColorUnable = textColor;
+        this.mHasUnableTextColor = true;
         setTextColor();
         return this;
     }
@@ -300,11 +327,14 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
         this.mTextColorNormal = normal;
         this.mTextColorPressed = pressed;
         this.mTextColorUnable = unable;
+        this.mHasPressedTextColor = true;
+        this.mHasUnableTextColor = true;
         setTextColor();
     }
 
     private void setTextColor() {
-        int[] colors = new int[]{mTextColorPressed, mTextColorPressed, mTextColorNormal, mTextColorUnable};
+        //state_pressed,Normal,Unable
+        int[] colors = new int[]{mTextColorPressed, mTextColorNormal, mTextColorUnable};
         mTextColorStateList = new ColorStateList(states, colors);
         mView.setTextColor(mTextColorStateList);
     }

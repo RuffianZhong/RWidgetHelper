@@ -8,11 +8,9 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
-import android.support.annotation.IntDef;
 import android.support.annotation.StyleableRes;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -20,17 +18,16 @@ import android.view.ViewTreeObserver;
 
 import com.ruffian.library.widget.R;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-
-import static android.graphics.drawable.GradientDrawable.RADIAL_GRADIENT;
-
 /**
  * BaseHelper
  *
  * @author ZhongDaFeng
  */
 public class RBaseHelper<T extends View> {
+    /**
+     * 背景类型{1:单一颜色值 2:颜色数组 3:图片}
+     */
+    protected int BG_TYPE_COLOR = 1, BG_TYPE_COLOR_ARRAY = 2, BG_TYPE_IMG = 3;
 
     //corner
     private float mCornerRadius;
@@ -45,31 +42,43 @@ public class RBaseHelper<T extends View> {
     private int mBorderWidthNormal = 0;
     private int mBorderWidthPressed = 0;
     private int mBorderWidthUnable = 0;
+    private int mBorderWidthChecked = 0;
 
     //BorderColor
     private int mBorderColorNormal;
     private int mBorderColorPressed;
     private int mBorderColorUnable;
+    private int mBorderColorChecked;
 
     //Background
     private int mBackgroundColorNormal;
     private int mBackgroundColorPressed;
     private int mBackgroundColorUnable;
+    private int mBackgroundColorChecked;
     //BackgroundColorArray
     private int[] mBackgroundColorNormalArray;
     private int[] mBackgroundColorPressedArray;
     private int[] mBackgroundColorUnableArray;
+    private int[] mBackgroundColorCheckedArray;
     private GradientDrawable mBackgroundNormal;
     private GradientDrawable mBackgroundPressed;
     private GradientDrawable mBackgroundUnable;
-
+    private GradientDrawable mBackgroundChecked;
+    private Drawable mBackgroundNormalBmp;
+    private Drawable mBackgroundPressedBmp;
+    private Drawable mBackgroundUnableBmp;
+    private Drawable mBackgroundCheckedBmp;
+    private int mBgNomalType;
+    private int mBgPressedType;
+    private int mBgUnableType;
+    private int mBgCheckedType;
     //Gradient
     private int mGradientType = 0;
     private float mGradientRadius;
     private float mGradientCenterX, mGradientCenterY;
     private GradientDrawable.Orientation mGradientOrientation = GradientDrawable.Orientation.TOP_BOTTOM;
 
-    protected int[][] states = new int[4][];
+    private int[][] states = new int[6][];
     private StateListDrawable mStateBackground;
     private float mBorderRadii[] = new float[8];
 
@@ -83,11 +92,17 @@ public class RBaseHelper<T extends View> {
      * 是否设置对应的属性
      */
     private boolean mHasPressedBgColor = false;
+    private boolean mHasPressedBgBmp = false;
     private boolean mHasUnableBgColor = false;
+    private boolean mHasUnableBgBmp = false;
+    private boolean mHasCheckedBgColor = false;
+    private boolean mHasCheckedBgBmp = false;
     private boolean mHasPressedBorderColor = false;
     private boolean mHasUnableBorderColor = false;
+    private boolean mHasCheckedBorderColor = false;
     private boolean mHasPressedBorderWidth = false;
     private boolean mHasUnableBorderWidth = false;
+    private boolean mHasCheckedBorderWidth = false;
 
     // view
     protected T mView;
@@ -126,16 +141,36 @@ public class RBaseHelper<T extends View> {
         mBorderWidthNormal = a.getDimensionPixelSize(R.styleable.RBaseView_border_width_normal, 0);
         mBorderWidthPressed = a.getDimensionPixelSize(R.styleable.RBaseView_border_width_pressed, 0);
         mBorderWidthUnable = a.getDimensionPixelSize(R.styleable.RBaseView_border_width_unable, 0);
+        mBorderWidthChecked = a.getDimensionPixelSize(R.styleable.RBaseView_border_width_checked, 0);
         mBorderColorNormal = a.getColor(R.styleable.RBaseView_border_color_normal, Color.TRANSPARENT);
         mBorderColorPressed = a.getColor(R.styleable.RBaseView_border_color_pressed, Color.TRANSPARENT);
         mBorderColorUnable = a.getColor(R.styleable.RBaseView_border_color_unable, Color.TRANSPARENT);
+        mBorderColorChecked = a.getColor(R.styleable.RBaseView_border_color_checked, Color.TRANSPARENT);
         //background
-        mBackgroundColorNormal = (int) getBackgroundColor(a, R.styleable.RBaseView_background_normal)[0];
-        mBackgroundColorNormalArray = (int[]) getBackgroundColor(a, R.styleable.RBaseView_background_normal)[1];
-        mBackgroundColorPressed = (int) getBackgroundColor(a, R.styleable.RBaseView_background_pressed)[0];
-        mBackgroundColorPressedArray = (int[]) getBackgroundColor(a, R.styleable.RBaseView_background_pressed)[1];
-        mBackgroundColorUnable = (int) getBackgroundColor(a, R.styleable.RBaseView_background_unable)[0];
-        mBackgroundColorUnableArray = (int[]) getBackgroundColor(a, R.styleable.RBaseView_background_unable)[1];
+        //normal
+        Object[] bgInfoNormal = getBackgroundInfo(a, R.styleable.RBaseView_background_normal);
+        mBgNomalType = (int) bgInfoNormal[0];
+        mBackgroundColorNormal = (int) bgInfoNormal[1];
+        mBackgroundColorNormalArray = (int[]) bgInfoNormal[2];
+        mBackgroundNormalBmp = (Drawable) bgInfoNormal[3];
+        //pressed
+        Object[] bgInfoPressed = getBackgroundInfo(a, R.styleable.RBaseView_background_pressed);
+        mBgPressedType = (int) bgInfoPressed[0];
+        mBackgroundColorPressed = (int) bgInfoPressed[1];
+        mBackgroundColorPressedArray = (int[]) bgInfoPressed[2];
+        mBackgroundPressedBmp = (Drawable) bgInfoPressed[3];
+        //unable
+        Object[] bgInfoUnable = getBackgroundInfo(a, R.styleable.RBaseView_background_unable);
+        mBgUnableType = (int) bgInfoUnable[0];
+        mBackgroundColorUnable = (int) bgInfoUnable[1];
+        mBackgroundColorUnableArray = (int[]) bgInfoUnable[2];
+        mBackgroundUnableBmp = (Drawable) bgInfoUnable[3];
+        //checked
+        Object[] bgInfoChecked = getBackgroundInfo(a, R.styleable.RBaseView_background_checked);
+        mBgCheckedType = (int) bgInfoChecked[0];
+        mBackgroundColorChecked = (int) bgInfoChecked[1];
+        mBackgroundColorCheckedArray = (int[]) bgInfoChecked[2];
+        mBackgroundCheckedBmp = (Drawable) bgInfoChecked[3];
         //gradient
         mGradientType = a.getInt(R.styleable.RBaseView_gradient_type, 0);
         mGradientOrientation = getGradientOrientation(a);
@@ -147,10 +182,16 @@ public class RBaseHelper<T extends View> {
 
         mHasPressedBgColor = mBackgroundColorPressed < 0 || mBackgroundColorNormalArray != null;
         mHasUnableBgColor = mBackgroundColorUnable < 0 || mBackgroundColorUnableArray != null;
+        mHasCheckedBgColor = mBackgroundColorChecked < 0 || mBackgroundColorCheckedArray != null;
+        mHasPressedBgBmp = mBackgroundPressedBmp != null;
+        mHasUnableBgBmp = mBackgroundUnableBmp != null;
+        mHasCheckedBgBmp = mBackgroundCheckedBmp != null;
         mHasPressedBorderColor = mBorderColorPressed < 0;
         mHasUnableBorderColor = mBorderColorUnable < 0;
+        mHasCheckedBorderColor = mBorderColorChecked < 0;
         mHasPressedBorderWidth = mBorderWidthPressed < 0;
         mHasUnableBorderWidth = mBorderWidthUnable < 0;
+        mHasCheckedBorderWidth = mBorderWidthChecked < 0;
 
         //setup
         setup();
@@ -165,6 +206,7 @@ public class RBaseHelper<T extends View> {
         mBackgroundNormal = new GradientDrawable();
         mBackgroundPressed = new GradientDrawable();
         mBackgroundUnable = new GradientDrawable();
+        mBackgroundChecked = new GradientDrawable();
 
         Drawable drawable = mView.getBackground();
         if (drawable != null && drawable instanceof StateListDrawable) {
@@ -180,11 +222,23 @@ public class RBaseHelper<T extends View> {
             mBackgroundColorPressed = mBackgroundColorNormal;
             mBackgroundColorPressedArray = mBackgroundColorNormalArray;
         }
+        if (!mHasPressedBgBmp) {
+            mBackgroundPressedBmp = mBackgroundNormalBmp;
+        }
         if (!mHasUnableBgColor) {
             mBackgroundColorUnable = mBackgroundColorNormal;
             mBackgroundColorUnableArray = mBackgroundColorNormalArray;
         }
-
+        if (!mHasUnableBgBmp) {
+            mBackgroundUnableBmp = mBackgroundNormalBmp;
+        }
+        if (!mHasCheckedBgColor) {
+            mBackgroundColorChecked = mBackgroundColorNormal;
+            mBackgroundColorCheckedArray = mBackgroundColorNormalArray;
+        }
+        if (!mHasCheckedBgBmp) {
+            mBackgroundCheckedBmp = mBackgroundNormalBmp;
+        }
 
         /**
          * 设置背景颜色（包含渐变）
@@ -204,18 +258,28 @@ public class RBaseHelper<T extends View> {
         } else {
             mBackgroundUnable.setColor(mBackgroundColorUnable);
         }
+        if (mBackgroundColorCheckedArray != null && mBackgroundColorCheckedArray.length > 0) {
+            mBackgroundChecked.setColors(mBackgroundColorCheckedArray);
+        } else {
+            mBackgroundChecked.setColor(mBackgroundColorChecked);
+        }
         //设置渐变相关Gradient
         setGradient();
 
-        //pressed, focused, normal, unable
+        //pressed, focused, normal, unable, checked
         states[0] = new int[]{android.R.attr.state_enabled, android.R.attr.state_pressed};
         states[1] = new int[]{android.R.attr.state_enabled, android.R.attr.state_focused};
-        states[3] = new int[]{-android.R.attr.state_enabled};
         states[2] = new int[]{android.R.attr.state_enabled};
-        mStateBackground.addState(states[0], mBackgroundPressed);
-        mStateBackground.addState(states[1], mBackgroundPressed);
-        mStateBackground.addState(states[3], mBackgroundUnable);
-        mStateBackground.addState(states[2], mBackgroundNormal);
+        states[3] = new int[]{-android.R.attr.state_enabled};
+        states[4] = new int[]{-android.R.attr.state_checked};
+        states[5] = new int[]{android.R.attr.state_checked};
+
+        mStateBackground.addState(states[0], mBackgroundPressedBmp == null ? mBackgroundPressed : mBackgroundPressedBmp);
+        mStateBackground.addState(states[1], mBackgroundPressedBmp == null ? mBackgroundPressed : mBackgroundPressedBmp);
+        mStateBackground.addState(states[3], mBackgroundUnableBmp == null ? mBackgroundUnable : mBackgroundUnableBmp);
+        mStateBackground.addState(states[4], mBackgroundNormalBmp == null ? mBackgroundNormal : mBackgroundNormalBmp);
+        mStateBackground.addState(states[5], mBackgroundCheckedBmp == null ? mBackgroundChecked : mBackgroundCheckedBmp);
+        mStateBackground.addState(states[2], mBackgroundNormalBmp == null ? mBackgroundNormal : mBackgroundNormalBmp);
 
         /**
          * 设置边框默认值
@@ -226,11 +290,17 @@ public class RBaseHelper<T extends View> {
         if (!mHasUnableBorderWidth) {
             mBorderWidthUnable = mBorderWidthNormal;
         }
+        if (!mHasCheckedBorderWidth) {
+            mBorderWidthChecked = mBorderWidthNormal;
+        }
         if (!mHasPressedBorderColor) {
             mBorderColorPressed = mBorderColorNormal;
         }
         if (!mHasUnableBorderColor) {
             mBorderColorUnable = mBorderColorNormal;
+        }
+        if (!mHasCheckedBorderColor) {
+            mBorderColorChecked = mBorderColorNormal;
         }
 
         //设置背景
@@ -246,21 +316,31 @@ public class RBaseHelper<T extends View> {
 
     /**
      * 获取背景颜色
-     * 备注:数组[0]:单一颜色（可能为0）   数组[1]:颜色列表（可能为null）
+     * 备注:
+     * 数组[0]:背景类型(1:单一颜色 2:颜色数组 3:图片资源)
+     * 数组[1]:单一颜色,可能为0
+     * 数组[2]:颜色数组,可能为null
+     * 数组[3]:图片资源drawable,可能为null
      *
      * @param a
      * @param styleableRes
      * @return
      */
-    private Object[] getBackgroundColor(TypedArray a, @StyleableRes int styleableRes) {
+    private Object[] getBackgroundInfo(TypedArray a, @StyleableRes int styleableRes) {
+        int bgType = BG_TYPE_COLOR;//背景类型
         int bgColor = 0;//单一颜色
         int[] bgColorArray = null;//多个颜色
+        Drawable drawable = null;//图片资源
+
+        //resId==0表示直接使用#cccccc这种模式，不为0说明可以获取到资源类型
         int resId = a.getResourceId(styleableRes, 0);
-        if (resId == 0) {//单一颜色
+        if (resId == 0) {//#cccccc
             bgColor = a.getColor(styleableRes, 0);
-        } else {//多个颜色
+            bgType = BG_TYPE_COLOR;
+        } else {//其他资源类型
             String typeName = mContext.getResources().getResourceTypeName(resId);
-            if ("array".equals(typeName)) {//array
+            if ("array".equals(typeName)) {//color-array
+                bgType = BG_TYPE_COLOR_ARRAY;
                 String[] strArray = mContext.getResources().getStringArray(resId);
                 int[] intArray = mContext.getResources().getIntArray(resId);
                 int length = Math.min(intArray.length, strArray.length);
@@ -272,11 +352,15 @@ public class RBaseHelper<T extends View> {
                     intIndex = intArray[i];
                     bgColorArray[i] = !TextUtils.isEmpty(strIndex) ? Color.parseColor(strIndex) : intIndex;
                 }
-            } else {
+            } else if ("color".equals(typeName)) {//color
                 bgColor = a.getColor(styleableRes, 0);
+                bgType = BG_TYPE_COLOR;
+            } else if ("mipmap".equals(typeName) || "drawable".equals(typeName)) {//image
+                bgType = BG_TYPE_IMG;
+                drawable = a.getDrawable(styleableRes);
             }
         }
-        return new Object[]{bgColor, bgColorArray};
+        return new Object[]{bgType, bgColor, bgColorArray, drawable};
     }
 
     /**
@@ -418,28 +502,46 @@ public class RBaseHelper<T extends View> {
      * BackgroundColor
      ********************/
 
-    public RBaseHelper setStateBackgroundColor(int normal, int pressed, int unable) {
+    public RBaseHelper setStateBackgroundColor(int normal, int pressed, int unable, int checked) {
         mBackgroundColorNormal = normal;
         mBackgroundColorPressed = pressed;
         mBackgroundColorUnable = unable;
+        mBackgroundColorChecked = checked;
         mHasPressedBgColor = true;
         mHasUnableBgColor = true;
+        mHasCheckedBgColor = true;
         mBackgroundNormal.setColor(mBackgroundColorNormal);
         mBackgroundPressed.setColor(mBackgroundColorPressed);
         mBackgroundUnable.setColor(mBackgroundColorUnable);
+        mBackgroundChecked.setColor(mBackgroundColorChecked);
         setBackgroundState();
         return this;
     }
 
-    public RBaseHelper setStateBackgroundColorArray(int[] normalArray, int[] pressedArray, int[] unableArray) {
+    public RBaseHelper setStateBackgroundColorArray(int[] normalArray, int[] pressedArray, int[] unableArray, int[] checkedArray) {
         mBackgroundColorNormalArray = normalArray;
         mBackgroundColorPressedArray = pressedArray;
         mBackgroundColorUnableArray = unableArray;
+        mBackgroundColorCheckedArray = checkedArray;
         mHasPressedBgColor = true;
         mHasUnableBgColor = true;
+        mHasCheckedBgColor = true;
         mBackgroundNormal.setColors(mBackgroundColorNormalArray);
         mBackgroundPressed.setColors(mBackgroundColorPressedArray);
         mBackgroundUnable.setColors(mBackgroundColorUnableArray);
+        mBackgroundChecked.setColors(mBackgroundColorCheckedArray);
+        setBackgroundState();
+        return this;
+    }
+
+    public RBaseHelper setStateBackgroundColor(Drawable normal, Drawable pressed, Drawable unable, Drawable checked) {
+        mBackgroundNormalBmp = normal;
+        mBackgroundPressedBmp = pressed;
+        mBackgroundUnableBmp = unable;
+        mBackgroundCheckedBmp = checked;
+        mHasPressedBgBmp = true;
+        mHasUnableBgBmp = true;
+        mHasCheckedBgBmp = true;
         setBackgroundState();
         return this;
     }
@@ -456,6 +558,10 @@ public class RBaseHelper<T extends View> {
         return mBackgroundColorUnable;
     }
 
+    public int getBackgroundColorChecked() {
+        return mBackgroundColorChecked;
+    }
+
     public int[] getBackgroundColorNormalArray() {
         return mBackgroundColorNormalArray;
     }
@@ -466,6 +572,26 @@ public class RBaseHelper<T extends View> {
 
     public int[] getBackgroundColorUnableArray() {
         return mBackgroundColorUnableArray;
+    }
+
+    public int[] getBackgroundColorCheckedArray() {
+        return mBackgroundColorCheckedArray;
+    }
+
+    public Drawable getBackgroundDrawableNormal() {
+        return mBackgroundNormalBmp;
+    }
+
+    public Drawable getBackgroundDrawablePressed() {
+        return mBackgroundPressedBmp;
+    }
+
+    public Drawable getBackgroundDrawableUnable() {
+        return mBackgroundUnableBmp;
+    }
+
+    public Drawable getBackgroundDrawableChecked() {
+        return mBackgroundCheckedBmp;
     }
 
     public RBaseHelper setBackgroundColorNormal(int colorNormal) {
@@ -480,6 +606,10 @@ public class RBaseHelper<T extends View> {
         if (!mHasUnableBgColor) {
             mBackgroundColorUnable = mBackgroundColorNormal;
             mBackgroundUnable.setColor(mBackgroundColorUnable);
+        }
+        if (!mHasCheckedBgColor) {
+            mBackgroundColorChecked = mBackgroundColorNormal;
+            mBackgroundChecked.setColor(mBackgroundColorChecked);
         }
         mBackgroundNormal.setColor(mBackgroundColorNormal);
         setBackgroundState();
@@ -499,7 +629,29 @@ public class RBaseHelper<T extends View> {
             mBackgroundColorUnableArray = mBackgroundColorNormalArray;
             mBackgroundUnable.setColors(mBackgroundColorUnableArray);
         }
+        if (!mHasCheckedBgColor) {
+            mBackgroundColorCheckedArray = mBackgroundColorNormalArray;
+            mBackgroundChecked.setColors(mBackgroundColorCheckedArray);
+        }
         mBackgroundNormal.setColors(mBackgroundColorNormalArray);
+        setBackgroundState();
+        return this;
+    }
+
+    public RBaseHelper setBackgroundDrawableNormal(Drawable drawableNormal) {
+        this.mBackgroundNormalBmp = drawableNormal;
+        /**
+         * 设置背景默认值
+         */
+        if (!mHasPressedBgBmp) {
+            mBackgroundPressedBmp = mBackgroundNormalBmp;
+        }
+        if (!mHasUnableBgBmp) {
+            mBackgroundUnableBmp = mBackgroundNormalBmp;
+        }
+        if (!mHasCheckedBgBmp) {
+            mBackgroundCheckedBmp = mBackgroundNormalBmp;
+        }
         setBackgroundState();
         return this;
     }
@@ -520,10 +672,24 @@ public class RBaseHelper<T extends View> {
         return this;
     }
 
+    public RBaseHelper setBackgroundDrawablePressed(Drawable drawablePressed) {
+        this.mBackgroundPressedBmp = drawablePressed;
+        this.mHasPressedBgBmp = true;
+        setBackgroundState();
+        return this;
+    }
+
     public RBaseHelper setBackgroundColorUnable(int colorUnable) {
         this.mBackgroundColorUnable = colorUnable;
         this.mHasUnableBgColor = true;
         mBackgroundUnable.setColor(mBackgroundColorUnable);
+        setBackgroundState();
+        return this;
+    }
+
+    public RBaseHelper setBackgroundDrawableUnable(Drawable drawableUnable) {
+        this.mBackgroundUnableBmp = drawableUnable;
+        this.mHasUnableBgBmp = true;
         setBackgroundState();
         return this;
     }
@@ -536,23 +702,47 @@ public class RBaseHelper<T extends View> {
         return this;
     }
 
+    public RBaseHelper setBackgroundColorChecked(int colorChecked) {
+        this.mBackgroundColorChecked = colorChecked;
+        this.mHasCheckedBgColor = true;
+        mBackgroundChecked.setColor(mBackgroundColorChecked);
+        setBackgroundState();
+        return this;
+    }
+
+    public RBaseHelper setBackgroundColorCheckedArray(int[] colorCheckedArray) {
+        this.mBackgroundColorCheckedArray = colorCheckedArray;
+        this.mHasCheckedBgColor = true;
+        mBackgroundChecked.setColors(mBackgroundColorCheckedArray);
+        setBackgroundState();
+        return this;
+    }
+
+    public RBaseHelper setBackgroundDrawableChecked(Drawable drawableChecked) {
+        this.mBackgroundCheckedBmp = drawableChecked;
+        this.mHasCheckedBgBmp = true;
+        setBackgroundState();
+        return this;
+    }
+
     private void setBackgroundState() {
 
-        boolean hasCustom=false;//是否存在自定义
-        boolean hasCusBg, hasCusBorder=false, hasCusCorner=false;//存在自定义相关属性
-        boolean unHasBgColor = mBackgroundColorNormal == 0 && mBackgroundColorUnable == 0 && mBackgroundColorPressed == 0;
-        boolean unHasBgColorArray = mBackgroundColorNormalArray == null && mBackgroundColorUnableArray == null && mBackgroundColorPressedArray == null;
+        boolean hasCustom = false;//是否存在自定义
+        boolean hasCusBg, hasCusBorder = false, hasCusCorner = false;//存在自定义相关属性
+        boolean unHasBgColor = mBackgroundColorNormal == 0 && mBackgroundColorUnable == 0 && mBackgroundColorPressed == 0 && mBackgroundColorChecked == 0;
+        boolean unHasBgColorArray = mBackgroundColorNormalArray == null && mBackgroundColorUnableArray == null && mBackgroundColorPressedArray == null && mBackgroundColorCheckedArray == null;
+        boolean unHasBgDrawable = mBackgroundNormalBmp == null && mBackgroundPressedBmp == null && mBackgroundUnableBmp == null && mBackgroundCheckedBmp == null;
 
         //是否自定义了背景
-        if (unHasBgColor && unHasBgColorArray) {//未设置自定义背景色
+        if (unHasBgColor && unHasBgColorArray && unHasBgDrawable) {//未设置自定义背景
             hasCusBg = false;
         } else {
             hasCusBg = true;
         }
 
         //是否自定义了边框
-        if (mBorderDashWidth != 0 || mBorderDashGap != 0 || mBorderWidthNormal != 0 || mBorderWidthPressed != 0 || mBorderWidthUnable != 0
-                || mBorderColorNormal != 0 || mBorderColorPressed != 0 || mBorderColorUnable != 0) {
+        if (mBorderDashWidth != 0 || mBorderDashGap != 0 || mBorderWidthNormal != 0 || mBorderWidthPressed != 0 || mBorderWidthUnable != 0 || mBorderWidthChecked != 0
+                || mBorderColorNormal != 0 || mBorderColorPressed != 0 || mBorderColorUnable != 0 || mBorderColorChecked != 0) {
             hasCusBorder = true;
         }
 
@@ -572,7 +762,7 @@ public class RBaseHelper<T extends View> {
         Drawable drawable = mView.getBackground();
         if (!hasCustom && drawable instanceof ColorDrawable) {
             int color = ((ColorDrawable) drawable).getColor();
-            setStateBackgroundColor(color, color, color);//获取背景颜色值设置 StateListDrawable
+            setStateBackgroundColor(color, color, color, color);//获取背景颜色值设置 StateListDrawable
         }
 
         /**
@@ -600,6 +790,10 @@ public class RBaseHelper<T extends View> {
             mBorderWidthUnable = mBorderWidthNormal;
             setBorderUnable();
         }
+        if (!mHasCheckedBorderWidth) {
+            mBorderWidthChecked = mBorderWidthNormal;
+            setBorderChecked();
+        }
         setBorderNormal();
         return this;
     }
@@ -617,6 +811,10 @@ public class RBaseHelper<T extends View> {
         if (!mHasUnableBorderColor) {
             mBorderColorUnable = mBorderColorNormal;
             setBorderUnable();
+        }
+        if (!mHasCheckedBorderColor) {
+            mBorderColorChecked = mBorderColorNormal;
+            setBorderChecked();
         }
         setBorderNormal();
         return this;
@@ -648,6 +846,28 @@ public class RBaseHelper<T extends View> {
         return mBorderColorPressed;
     }
 
+    public RBaseHelper setBorderColorChecked(int color) {
+        this.mBorderColorChecked = color;
+        this.mHasCheckedBorderColor = true;
+        setBorderChecked();
+        return this;
+    }
+
+    public int getBorderColorChecked() {
+        return mBorderColorChecked;
+    }
+
+    public RBaseHelper setBorderWidthChecked(int width) {
+        this.mBorderWidthChecked = width;
+        this.mHasCheckedBorderWidth = true;
+        setBorderChecked();
+        return this;
+    }
+
+    public int getBorderWidthChecked() {
+        return mBorderWidthChecked;
+    }
+
     public RBaseHelper setBorderWidthUnable(int width) {
         this.mBorderWidthUnable = width;
         this.mHasUnableBorderWidth = true;
@@ -670,21 +890,25 @@ public class RBaseHelper<T extends View> {
         return mBorderColorUnable;
     }
 
-    public void setBorderWidth(int normal, int pressed, int unable) {
+    public void setBorderWidth(int normal, int pressed, int unable, int checked) {
         this.mBorderWidthNormal = normal;
         this.mBorderWidthPressed = pressed;
         this.mBorderWidthUnable = unable;
+        this.mBorderWidthChecked = checked;
         this.mHasPressedBorderWidth = true;
         this.mHasUnableBorderWidth = true;
+        this.mHasCheckedBorderWidth = true;
         setBorder();
     }
 
-    public void setBorderColor(int normal, int pressed, int unable) {
+    public void setBorderColor(int normal, int pressed, int unable, int checked) {
         this.mBorderColorNormal = normal;
         this.mBorderColorPressed = pressed;
         this.mBorderColorUnable = unable;
+        this.mBorderColorChecked = checked;
         this.mHasPressedBorderColor = true;
         this.mHasUnableBorderColor = true;
+        this.mHasCheckedBorderColor = true;
         setBorder();
     }
 
@@ -716,6 +940,7 @@ public class RBaseHelper<T extends View> {
         mBackgroundNormal.setStroke(mBorderWidthNormal, mBorderColorNormal, mBorderDashWidth, mBorderDashGap);
         mBackgroundPressed.setStroke(mBorderWidthPressed, mBorderColorPressed, mBorderDashWidth, mBorderDashGap);
         mBackgroundUnable.setStroke(mBorderWidthUnable, mBorderColorUnable, mBorderDashWidth, mBorderDashGap);
+        mBackgroundUnable.setStroke(mBorderWidthChecked, mBorderColorChecked, mBorderDashWidth, mBorderDashGap);
         setBackgroundState();
     }
 
@@ -734,6 +959,10 @@ public class RBaseHelper<T extends View> {
         setBackgroundState();
     }
 
+    private void setBorderChecked() {
+        mBackgroundUnable.setStroke(mBorderWidthChecked, mBorderColorChecked, mBorderDashWidth, mBorderDashGap);
+        setBackgroundState();
+    }
 
     /*********************
      * radius
