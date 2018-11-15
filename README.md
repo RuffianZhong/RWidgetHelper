@@ -64,7 +64,7 @@
 ### 使用
 > ###  Gradle （版本号根据更新历史使用最新版）
 
-    compile 'com.ruffian.library:RWidgetHelper:1.0.3'
+    compile 'com.ruffian.library:RWidgetHelper:1.0.4'
 
 ### 1.RTextView
 
@@ -243,6 +243,23 @@
 ![](picture/RViewGroup.png)  ![](picture/RView.png)
 
 
+###  RRadioButton  / RCheckBox  
+
+> RRadioButton
+> 
+> RCheckBox 
+> 
+> 具备所有基础属性
+> 
+> 额外添加选择属性 checked 
+
+| 属性			|说明			 |
+| ------------- |  :-------------|
+| border_width_checked 			|   边框宽度 	选中 	|
+| border_color_checked 			|   边框颜色 	选中		|
+| background_checked 			|   背景		 	选中 	|
+| text_color_checked       		|   文字颜色 	选中 	|
+
 
 ### 4. RImageView
 
@@ -371,7 +388,7 @@
 		</resources>	
 ```
 
->##### background_XXX 如果使用array(大于2个颜色值)则有渐变效果；  如果 app:background_normal="#74EBD5" 这类单个颜色值则是默认背景颜色
+>##### background_XXX 如果使用array(大于2个颜色值)则有渐变效果；  如果 app:background_normal="#74EBD5" 这类单个颜色值则是默认背景颜色； background_XXX="@mipmap/@drawable" 使用mipmap/drawable类型
 
 
 
@@ -379,6 +396,8 @@
 
 
 ### 版本历史
+
+**v1.0.4**　`2018.11.15`　**1.背景支持图片类型** 2.添加 `selector->checked`状态  添加 `RCheckBox` 和 `RRadioButton`
 
 **v1.0.3**　`2018.11.09`　Fix Bug [issues#17](https://github.com/RuffianZhong/RWidgetHelper/issues/17 "issues#17")
 
