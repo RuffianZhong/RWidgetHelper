@@ -78,6 +78,9 @@
     <!--字体样式-->
     <attr name="text_typeface" format="string" />
 
+    <!--drawable和text居中-->
+    <attr name="icon_with_text" format="boolean" />
+
     <!--RBaseView 通用-->
     <declare-styleable name="RBaseView">
 
@@ -173,6 +176,9 @@
         <!--字体样式-->
         <attr name="text_typeface" />
 
+        <!--drawable和Text居中-->
+        <attr name="icon_with_text" />
+
     </declare-styleable>
 
     <!-- REditText -->
@@ -229,6 +235,8 @@
         <!--字体样式-->
         <attr name="text_typeface" />
 
+        <!--drawable和Text居中-->
+        <attr name="icon_with_text" />
     </declare-styleable>
 
     <!-- ImageView -->

@@ -8,13 +8,17 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v7.content.res.AppCompatResources;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.ruffian.library.widget.R;
+import com.ruffian.library.widget.utils.TextViewUtils;
 
 /**
  * TextView-Helper
@@ -47,6 +51,9 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
     //typeface
     private String mTypefacePath;
 
+    //drawable和Text居中
+    private boolean mDrawableWithText = false;
+
     //手势检测
     private GestureDetector mGestureDetector;
 
@@ -55,12 +62,54 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
      */
     private boolean mHasPressedTextColor = false;
     private boolean mHasUnableTextColor = false;
+    //TextView本身设置的padding
+    protected int mPaddingLeft, mPaddingRight, mPaddingTop, mPaddingBottom;
 
 
     public RTextViewHelper(Context context, TextView view, AttributeSet attrs) {
         super(context, view, attrs);
         mGestureDetector = new GestureDetector(context, new SimpleOnGesture());
         initAttributeSet(context, attrs);
+        //监听View改变
+        addOnViewChangeListener();
+    }
+
+    /**
+     * 设置View变化监听
+     */
+    private void addOnViewChangeListener() {
+        if (mView == null) return;
+        if (!mDrawableWithText) return;
+        //大小变化
+        mView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                mView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                mPaddingLeft = mView.getPaddingLeft();
+                mPaddingRight = mView.getPaddingRight();
+                mPaddingTop = mView.getPaddingTop();
+                mPaddingBottom = mView.getPaddingBottom();
+                setIcon();
+            }
+        });
+        //文本改变
+        mView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                setIcon();
+            }
+        });
+
     }
 
     /**
@@ -102,6 +151,8 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
         mTextColorUnable = a.getColor(R.styleable.RTextView_text_color_unable, 0);
         //typeface
         mTypefacePath = a.getString(R.styleable.RTextView_text_typeface);
+        //drawableWithText
+        mDrawableWithText = a.getBoolean(R.styleable.RTextView_icon_with_text, false);
 
         a.recycle();
 
@@ -259,26 +310,54 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
         setIcon(mIcon, mIconWidth, mIconHeight, mIconDirection);
     }
 
-    private void setIcon(Drawable drawable, int width, int height, int direction) {
+    private void setIcon(Drawable drawable, int drawableWidth, int drawableHeight, int direction) {
         if (drawable != null) {
-            if (width != 0 && height != 0) {
-                drawable.setBounds(0, 0, width, height);
+            if (drawableWidth != 0 && drawableHeight != 0) {
+                drawable.setBounds(0, 0, drawableWidth, drawableHeight);
             }
             switch (direction) {
                 case ICON_DIR_LEFT:
+                    drawableHeight = 0;
                     mView.setCompoundDrawables(drawable, null, null, null);
                     break;
                 case ICON_DIR_TOP:
+                    drawableWidth = 0;
                     mView.setCompoundDrawables(null, drawable, null, null);
                     break;
                 case ICON_DIR_RIGHT:
+                    drawableHeight = 0;
                     mView.setCompoundDrawables(null, null, drawable, null);
                     break;
                 case ICON_DIR_BOTTOM:
+                    drawableWidth = 0;
                     mView.setCompoundDrawables(null, null, null, drawable);
                     break;
             }
+
+            if (mView.getWidth() == 0 || mView.getHeight() == 0) return;
+            if (!mDrawableWithText) return;
+
+            int drawablePadding = mView.getCompoundDrawablePadding();
+            //水平防线计算
+            float textWidth = TextViewUtils.get().getTextWidth(mView, drawableWidth, mPaddingLeft, mPaddingRight);
+            float bodyWidth = textWidth + drawableWidth + drawablePadding;//内容宽度
+            float actualWidth = mView.getWidth() - (mPaddingLeft + mPaddingRight);//实际可用宽度
+            int translateX = (int) (actualWidth - bodyWidth) / 2;//两边使用
+            if (translateX < 0) translateX = 0;
+
+            //垂直方向计算
+            float textHeight = TextViewUtils.get().getTextHeight(mView, drawableHeight, mPaddingTop, mPaddingBottom);
+            float bodyHeight = textHeight + drawableHeight + drawablePadding;//内容高度
+            float actualHeight = mView.getHeight() - (mPaddingTop + mPaddingBottom);//实际可用高度
+            int translateY = (int) (actualHeight - bodyHeight) / 2;
+            if (translateY < 0) translateY = 0;
+
+            //关键技术点
+            mView.setPadding(translateX + mPaddingLeft, translateY + mPaddingTop, translateX + mPaddingRight, translateY + mPaddingBottom);
+
         }
+
+
     }
 
     /************************
