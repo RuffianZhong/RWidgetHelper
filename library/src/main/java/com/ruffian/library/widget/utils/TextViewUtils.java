@@ -34,13 +34,14 @@ public class TextViewUtils {
      * 获取Text实际宽度
      * 备注:单行最大宽度
      *
-     * @param view          view
-     * @param drawableWidth drawable宽度
-     * @param paddingLeft   内边距-左
-     * @param paddingRight  内边距-右
+     * @param view                      view
+     * @param drawableWidth             drawable宽度
+     * @param paddingLeft               内边距-左
+     * @param paddingRight              内边距-右
+     * @param drawablePaddingHorizontal 水平方向上drawable间距
      * @return
      */
-    public float getTextWidth(TextView view, int drawableWidth, int paddingLeft, int paddingRight) {
+    public float getTextWidth(TextView view, int drawableWidth, int paddingLeft, int paddingRight, int drawablePaddingHorizontal) {
         if (view == null) return 0;
 
         float textWidth;
@@ -64,7 +65,7 @@ public class TextViewUtils {
         }
 
         //计算自动换行临界值，不允许超过换行临界值
-        int maxWidth = view.getWidth() - drawableWidth - paddingLeft - paddingRight - view.getCompoundDrawablePadding();
+        int maxWidth = view.getWidth() - drawableWidth - paddingLeft - paddingRight - drawablePaddingHorizontal;
         if (textWidth > maxWidth) {
             textWidth = maxWidth;
         }
@@ -75,13 +76,14 @@ public class TextViewUtils {
      * 获取Text实际高度
      * 备注:多行最大高度
      *
-     * @param view           view
-     * @param drawableHeight drawable高度
-     * @param paddingTop     内边距-左
-     * @param paddingBottom  内边距-右
+     * @param view                    view
+     * @param drawableHeight          drawable高度
+     * @param paddingTop              内边距-左
+     * @param paddingBottom           内边距-右
+     * @param drawablePaddingVertical 垂直方向上drawable间距
      * @return
      */
-    public float getTextHeight(TextView view, int drawableHeight, int paddingTop, int paddingBottom) {
+    public float getTextHeight(TextView view, int drawableHeight, int paddingTop, int paddingBottom, int drawablePaddingVertical) {
         if (view == null) return 0;
 
         /**
@@ -93,7 +95,7 @@ public class TextViewUtils {
         float textHeight = singleLineHeight * view.getLineCount();
 
         //最大高度临界值，不允许超过最大高度临界值
-        int maxHeight = view.getWidth() - drawableHeight - paddingTop - paddingBottom - view.getCompoundDrawablePadding();//最大允许的宽度
+        int maxHeight = view.getHeight() - drawableHeight - paddingTop - paddingBottom - drawablePaddingVertical;//最大允许的宽度
         if (textHeight > maxHeight) {
             textHeight = maxHeight;
         }

@@ -172,7 +172,7 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
         /**
          * icon
          */
-        if (mView.isEnabled() == false) {
+        if (!mView.isEnabled()) {
             mIcon = mIconUnable;
         } else {
             mIcon = mIconNormal;
@@ -315,49 +315,64 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
             if (drawableWidth != 0 && drawableHeight != 0) {
                 drawable.setBounds(0, 0, drawableWidth, drawableHeight);
             }
+            //drawable间距
+            int drawablePadding = mView.getCompoundDrawablePadding();
+            int drawablePaddingHorizontal = drawablePadding;//水平方向上drawable间距
+            int drawablePaddingVertical = drawablePadding;//垂直方向上drawable间距
             switch (direction) {
                 case ICON_DIR_LEFT:
                     drawableHeight = 0;
+                    drawablePaddingVertical = 0;
                     mView.setCompoundDrawables(drawable, null, null, null);
                     break;
                 case ICON_DIR_TOP:
                     drawableWidth = 0;
+                    drawablePaddingHorizontal = 0;
                     mView.setCompoundDrawables(null, drawable, null, null);
                     break;
                 case ICON_DIR_RIGHT:
                     drawableHeight = 0;
+                    drawablePaddingVertical = 0;
                     mView.setCompoundDrawables(null, null, drawable, null);
                     break;
                 case ICON_DIR_BOTTOM:
                     drawableWidth = 0;
+                    drawablePaddingHorizontal = 0;
                     mView.setCompoundDrawables(null, null, null, drawable);
                     break;
             }
 
-            if (mView.getWidth() == 0 || mView.getHeight() == 0) return;
             if (!mDrawableWithText) return;
+            if (mView.getWidth() == 0 || mView.getHeight() == 0) return;
 
-            int drawablePadding = mView.getCompoundDrawablePadding();
-            //水平防线计算
-            float textWidth = TextViewUtils.get().getTextWidth(mView, drawableWidth, mPaddingLeft, mPaddingRight);
-            float bodyWidth = textWidth + drawableWidth + drawablePadding;//内容宽度
-            float actualWidth = mView.getWidth() - (mPaddingLeft + mPaddingRight);//实际可用宽度
-            int translateX = (int) (actualWidth - bodyWidth) / 2;//两边使用
-            if (translateX < 0) translateX = 0;
+            final int drawableWidthFinal = drawableWidth;
+            final int drawableHeightFinal = drawableHeight;
+            final int drawablePaddingVerticalFinal = drawablePaddingVertical;
+            final int drawablePaddingHorizontalFinal = drawablePaddingHorizontal;
+            //view.getLineCount() need post
+            mView.post(new Runnable() {
+                @Override
+                public void run() {
 
-            //垂直方向计算
-            float textHeight = TextViewUtils.get().getTextHeight(mView, drawableHeight, mPaddingTop, mPaddingBottom);
-            float bodyHeight = textHeight + drawableHeight + drawablePadding;//内容高度
-            float actualHeight = mView.getHeight() - (mPaddingTop + mPaddingBottom);//实际可用高度
-            int translateY = (int) (actualHeight - bodyHeight) / 2;
-            if (translateY < 0) translateY = 0;
+                    //水平方向计算
+                    float textWidth = TextViewUtils.get().getTextWidth(mView, drawableWidthFinal, mPaddingLeft, mPaddingRight, drawablePaddingHorizontalFinal);
+                    float bodyWidth = textWidth + drawableWidthFinal + drawablePaddingHorizontalFinal;//内容宽度
+                    float actualWidth = mView.getWidth() - (mPaddingLeft + mPaddingRight);//实际可用宽度
+                    int translateX = (int) (actualWidth - bodyWidth) / 2;//两边使用
+                    if (translateX < 0) translateX = 0;
 
-            //关键技术点
-            mView.setPadding(translateX + mPaddingLeft, translateY + mPaddingTop, translateX + mPaddingRight, translateY + mPaddingBottom);
+                    //垂直方向计算
+                    float textHeight = TextViewUtils.get().getTextHeight(mView, drawableHeightFinal, mPaddingTop, mPaddingBottom, drawablePaddingVerticalFinal);
+                    float bodyHeight = textHeight + drawableHeightFinal + drawablePaddingVerticalFinal;//内容高度
+                    float actualHeight = mView.getHeight() - (mPaddingTop + mPaddingBottom);//实际可用高度
+                    int translateY = (int) (actualHeight - bodyHeight) / 2;
+                    if (translateY < 0) translateY = 0;
 
+                    //关键技术点
+                    mView.setPadding(translateX + mPaddingLeft, translateY + mPaddingTop, translateX + mPaddingRight, translateY + mPaddingBottom);
+                }
+            });
         }
-
-
     }
 
     /************************
