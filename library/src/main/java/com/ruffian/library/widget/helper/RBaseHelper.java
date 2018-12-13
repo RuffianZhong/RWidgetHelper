@@ -107,6 +107,9 @@ public class RBaseHelper<T extends View> {
     // view
     protected T mView;
 
+    //EmptyStateListDrawable
+    private StateListDrawable emptyStateListDrawable = new StateListDrawable();
+
     public RBaseHelper(Context context, T view, AttributeSet attrs) {
         mView = view;
         mContext = context;
@@ -542,6 +545,7 @@ public class RBaseHelper<T extends View> {
         mHasPressedBgBmp = true;
         mHasUnableBgBmp = true;
         mHasCheckedBgBmp = true;
+        refreshStateListDrawable();
         setBackgroundState();
         return this;
     }
@@ -652,6 +656,7 @@ public class RBaseHelper<T extends View> {
         if (!mHasCheckedBgBmp) {
             mBackgroundCheckedBmp = mBackgroundNormalBmp;
         }
+        refreshStateListDrawable();
         setBackgroundState();
         return this;
     }
@@ -675,6 +680,7 @@ public class RBaseHelper<T extends View> {
     public RBaseHelper setBackgroundDrawablePressed(Drawable drawablePressed) {
         this.mBackgroundPressedBmp = drawablePressed;
         this.mHasPressedBgBmp = true;
+        refreshStateListDrawable();
         setBackgroundState();
         return this;
     }
@@ -690,6 +696,7 @@ public class RBaseHelper<T extends View> {
     public RBaseHelper setBackgroundDrawableUnable(Drawable drawableUnable) {
         this.mBackgroundUnableBmp = drawableUnable;
         this.mHasUnableBgBmp = true;
+        refreshStateListDrawable();
         setBackgroundState();
         return this;
     }
@@ -721,8 +728,23 @@ public class RBaseHelper<T extends View> {
     public RBaseHelper setBackgroundDrawableChecked(Drawable drawableChecked) {
         this.mBackgroundCheckedBmp = drawableChecked;
         this.mHasCheckedBgBmp = true;
+        refreshStateListDrawable();
         setBackgroundState();
         return this;
+    }
+
+    /**
+     * 刷新StateListDrawable状态
+     * 更新drawable背景时时候刷新
+     */
+    private void refreshStateListDrawable() {
+        mStateBackground = emptyStateListDrawable;
+        mStateBackground.addState(states[0], mBackgroundPressedBmp == null ? mBackgroundPressed : mBackgroundPressedBmp);
+        mStateBackground.addState(states[1], mBackgroundPressedBmp == null ? mBackgroundPressed : mBackgroundPressedBmp);
+        mStateBackground.addState(states[3], mBackgroundUnableBmp == null ? mBackgroundUnable : mBackgroundUnableBmp);
+        mStateBackground.addState(states[4], mBackgroundNormalBmp == null ? mBackgroundNormal : mBackgroundNormalBmp);
+        mStateBackground.addState(states[5], mBackgroundCheckedBmp == null ? mBackgroundChecked : mBackgroundCheckedBmp);
+        mStateBackground.addState(states[2], mBackgroundNormalBmp == null ? mBackgroundNormal : mBackgroundNormalBmp);
     }
 
     private void setBackgroundState() {
