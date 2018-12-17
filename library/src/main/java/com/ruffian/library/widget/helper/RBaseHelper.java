@@ -480,6 +480,10 @@ public class RBaseHelper<T extends View> {
         mBackgroundUnable.setGradientType(mGradientType);
         mBackgroundUnable.setGradientRadius(mGradientRadius);
         mBackgroundUnable.setGradientCenter(mGradientCenterX, mGradientCenterY);
+        mBackgroundChecked.setOrientation(mGradientOrientation);
+        mBackgroundChecked.setGradientType(mGradientType);
+        mBackgroundChecked.setGradientRadius(mGradientRadius);
+        mBackgroundChecked.setGradientCenter(mGradientCenterX, mGradientCenterY);
     }
 
     /**
@@ -962,7 +966,7 @@ public class RBaseHelper<T extends View> {
         mBackgroundNormal.setStroke(mBorderWidthNormal, mBorderColorNormal, mBorderDashWidth, mBorderDashGap);
         mBackgroundPressed.setStroke(mBorderWidthPressed, mBorderColorPressed, mBorderDashWidth, mBorderDashGap);
         mBackgroundUnable.setStroke(mBorderWidthUnable, mBorderColorUnable, mBorderDashWidth, mBorderDashGap);
-        mBackgroundUnable.setStroke(mBorderWidthChecked, mBorderColorChecked, mBorderDashWidth, mBorderDashGap);
+        mBackgroundChecked.setStroke(mBorderWidthChecked, mBorderColorChecked, mBorderDashWidth, mBorderDashGap);
         setBackgroundState();
     }
 
@@ -982,7 +986,7 @@ public class RBaseHelper<T extends View> {
     }
 
     private void setBorderChecked() {
-        mBackgroundUnable.setStroke(mBorderWidthChecked, mBorderColorChecked, mBorderDashWidth, mBorderDashGap);
+        mBackgroundChecked.setStroke(mBorderWidthChecked, mBorderColorChecked, mBorderDashWidth, mBorderDashGap);
         setBackgroundState();
     }
 
@@ -1056,6 +1060,7 @@ public class RBaseHelper<T extends View> {
         mBackgroundNormal.setCornerRadii(mBorderRadii);
         mBackgroundPressed.setCornerRadii(mBorderRadii);
         mBackgroundUnable.setCornerRadii(mBorderRadii);
+        mBackgroundChecked.setCornerRadii(mBorderRadii);
         setBackgroundState();
     }
 
