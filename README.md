@@ -64,7 +64,7 @@
 ### 使用
 > ###  Gradle （版本号根据更新历史使用最新版）
 
-    compile 'com.ruffian.library:RWidgetHelper:1.0.4'
+    compile 'com.ruffian.library:RWidgetHelper:1.0.5'
 
 ### 1.RTextView
 
@@ -396,6 +396,8 @@
 
 
 ### 版本历史
+
+**v1.0.5**　`2018.12.18`　1.DrawableWithText 图片和文本一起居中  2.fix bug
 
 **v1.0.4**　`2018.11.15`　**1.背景支持图片类型** 2.添加 `selector->checked`状态  添加 `RCheckBox` 和 `RRadioButton`
 
