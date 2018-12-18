@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_horizontal_margin">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RRadioButton" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.ruffian.library.widget.RRadioButton
+            android:id="@+id/btn1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:gravity="center"
+            android:text="IOS"
+            app:background_checked="@array/array_l_r"
+            app:background_normal="#74EBD5"
+            app:corner_radius_bottom_left="10dp"
+            app:corner_radius_top_left="10dp"
+            app:text_color_checked="@color/colorAccent" />
+
+        <com.ruffian.library.widget.RRadioButton
+            android:id="@+id/btn2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:text="Android"
+            app:background_checked="@array/array_l_r"
+            app:background_normal="#74EBD5"
+            app:text_color_checked="@color/colorAccent" />
+
+        <com.ruffian.library.widget.RRadioButton
+            android:id="@+id/btn3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:gravity="center"
+            android:text="Html"
+            app:background_checked="@array/array_l_r"
+            app:background_normal="#74EBD5"
+            app:corner_radius_bottom_right="10dp"
+            app:corner_radius_top_right="10dp"
+            app:text_color_checked="@color/colorAccent" />
+
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="RCheckBox" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+
+        android:orientation="horizontal">
+
+        <com.ruffian.library.widget.RCheckBox
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:gravity="center"
+            android:text="IOS"
+            app:border_color_checked="@color/purple"
+            app:border_color_normal="@color/colorAccent"
+            app:border_width_normal="2dp"
+            app:text_color_checked="@color/purple" />
+
+        <com.ruffian.library.widget.RCheckBox
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_weight="1"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:text="Android"
+            app:border_color_checked="@color/purple"
+            app:border_color_normal="@color/colorAccent"
+            app:border_width_normal="2dp"
+            app:text_color_checked="@color/purple" />
+
+        <com.ruffian.library.widget.RCheckBox
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:gravity="center"
+            android:text="Html"
+            app:border_color_checked="@color/purple"
+            app:border_color_normal="@color/colorAccent"
+            app:border_width_normal="2dp"
+            app:text_color_checked="@color/purple" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

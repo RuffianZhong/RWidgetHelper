@@ -153,4 +153,22 @@
             android:textColor="#ff23dd" />
 
     </LinearLayout>
+
+    <com.ruffian.library.widget.RTextView
+        android:id="@+id/text8"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:drawablePadding="6dp"
+        android:gravity="center"
+        android:text="图片文本一起居中"
+        android:textColor="@color/colorPrimary"
+        rtv:border_color_normal="@color/colorPrimary"
+        rtv:border_width_normal="2dp"
+        rtv:icon_direction="left"
+        rtv:icon_height="20dp"
+        rtv:icon_src_normal="@mipmap/icon_phone_pressed"
+        rtv:icon_width="20dp"
+        rtv:icon_with_text="true" />
 </LinearLayout>

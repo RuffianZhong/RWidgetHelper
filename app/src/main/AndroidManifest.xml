@@ -11,7 +11,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,6 +26,7 @@
         <activity android:name=".RViewGroupActivity" />
         <activity android:name=".RViewActivity" />
         <activity android:name=".GradientActivity" />
+        <activity android:name=".CheckedActivity" />
     </application>
 
 </manifest>

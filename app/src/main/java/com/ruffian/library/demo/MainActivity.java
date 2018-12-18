@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.view_group).setOnClickListener(this);
         findViewById(R.id.view).setOnClickListener(this);
         findViewById(R.id.gradient).setOnClickListener(this);
+        findViewById(R.id.checked).setOnClickListener(this);
     }
 
 
@@ -42,6 +43,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.gradient:
                 intent = new Intent(this, GradientActivity.class);
+                break;
+            case R.id.checked:
+                intent = new Intent(this, CheckedActivity.class);
                 break;
         }
         if (intent != null) {
