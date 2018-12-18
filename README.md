@@ -3,106 +3,40 @@
 
 ## 欢迎使用 RWidgetHelper 
 
+### 宗旨：专治原生控件各种不服
+
+### 目标：Android UI 快速开发
+
 ### 说明
 
-> 在Android开发中经常需要实现，基础控件的：圆角，边框，Gradient渐变，State各个状态的UI样式
+> 需求：Android UI 开发常用：圆角，边框，Gradient背景渐变，控件State各个状态UI样式
 > 
-> 基于快速开发，优化代码，简化使用的目的推出一套基于基础控件的封装
-
-### 优点
-
-> 1.不再编写大量的 selector 实现圆角效果，不再低声下气恳求美术切图
->     
-> 2.不在代码中各种 if else 判断 State 状态，改变UI样式
->    
-> 3.所有控件继承原生控件，添加 Helper 实现，基础API通用，代码包大小几乎忽略不计
->    
-> 4.一套 RWidgetHelper 控件几乎可以实现基础开发所有需求，不再到处找控件
->   
-> 5....太多了自己发掘吧~~
-
-### 缺点
-
-> 我写的东西怎么可能优缺点？？？  非要说一个，只能是现在的版本功能相对简单，后续版本迭代中不断添加常用功能
-
-
-### 效果图一览
-
-> 示例效果图，不限于如此，更多使用详细参考相关属性
-
-![](picture/RWidgetHelper.gif)  ![](picture/Gradient.png)
-
-### 通用属性
-
-> 1. corner_radius       指定四周圆角 
->    
-> 2. corner_radius_xx    指定某一方向圆角
->    
-> 3. border_color_xx     各个state状态边框颜色 
->    
-> 4. border_width_xx     各个state状态边框宽度
->    
-> 5. border_dash_width   虚线边框 宽度
->   
-> 6. border_dash_gap     虚线边框 间隔
->   
-> 7. background_xx       各个state状态背景颜色
+> 普通解决方案缺点：代码冗余，复用性差，自由度低
 > 
-> 8. gradient_orientation       渐变的方向
->
-> 9. gradient_type       渐变的样式
+> RWidgetHelper优点：优化代码，简化使用，快速开发
 > 
-> 10. gradient_radius       渐变半径
-> 
-> 11. gradient_centerX       渐变中心点X坐标（0.0-1.0）
-> 
-> 12. gradient_centerY       渐变中心点Y坐标（0.0-1.0）
+
+### 简介
+
+    通过继承原生控件，设置自定义属性，解决常用 Selector，Gradient，Shape 等功能
+	
+	原生控件都可实现 **基础功能** ，针对具体控件还有 **个性功能**
 
 
+## 基础功能
 
+| 功能			| 属性值			 				| 可用State状态			| 特性				 |
+| ------------- | -------------  				| ------------- 		| -------------		 |
+| 圆角 			| 颜色  			 				| 默认/按下/不可用 		| 四周圆角/单个方向圆角 |
+| 边框宽度 		| 数值  			 				| 默认/按下/不可用 		| 实线/虚线边框		 |
+| 边框颜色 		| 颜色  			 				| 默认/按下/不可用 		| 实线/虚线边框		 |
+| 背景			| 颜色/颜色数组/drawable  		| 默认/按下/不可用 		| 纯色/渐变/Drawable	 |
 
-### 使用
-> ###  Gradle （版本号根据更新历史使用最新版）
-
-    compile 'com.ruffian.library:RWidgetHelper:1.0.5'
-
-### 1.RTextView
-
-### 1.特点
-
-> 1. RTextView 让你从此不再编写和管理大量 selector 文件（这个太可恨了）
->    
-> 2. RTextView 改造了 drawableLeft/drawableXXX 图片的大小，从此你不在需要使用 LinearLayout + ImageView + TextView 就能够直接实现文字带图片的功能，关键还能设置icon大小
->   
-> 3. RTextView 能够直接设置各种圆角效果： 四周圆角，某一方向圆角，甚至椭圆，圆形都简单实现。 边框效果，虚线边框都是一个属性搞定
->   
-> 4. RTextView 不仅能够定义默认状态的背景，边框，连按下/点击状态通通一起搞定
->   
-> 5. RTextView 按下变色支持：背景色，边框，文字，drawableLeft/xxx （这个赞啊）
->   
-> 6. RTextView 支持指定字体样式
-> 
-> 7. RTextView 图片和文本一起居中
-
-
-
-### 2.效果图
-
-> 示例效果图，不限于如此，更多使用详细参考相关属性
-
-![](picture/RTextView_corner.png)   ![](picture/RTextView_state.gif)
-
-![](picture/RTextView_typeface.png)
-
-### 3.属性说明
-
-> 开发者根据实际需要选择使用对应的功能属性
-
-
+#### 属性介绍
 
 | 属性			|说明			 |
 | ------------- |  :-------------|
-| corner_radius      			|	圆角		四周		|
+| corner_radius      			|	圆角		四周		>=正方形宽度/2实现圆形|
 | corner_radius_top_left        |   圆角		左上		|
 | corner_radius_top_right 		|	圆角		右上		|
 | corner_radius_bottom_left 	|   圆角		左下		|
@@ -112,12 +46,104 @@
 | border_width_normal 			|   边框宽度 	默认 	|
 | border_width_pressed 			|   边框宽度 	按下 	|
 | border_width_unable 			|   边框宽度 	不可点击 |
+| border_width_checked 			|   边框宽度 	选中		|
 | border_color_normal 			|   边框颜色 	默认		|
 | border_color_pressed 			|   边框颜色 	按下 	|
 | border_color_unable 			|   边框颜色 	不可点击 |
-| background_normal 			|   背景颜色 	默认 	|
-| background_pressed 			|   背景颜色 	按下 	|
-| background_unable 			|   背景颜色  	不可点击 |
+| border_color_checked 			|   边框颜色 	选中		|
+| background_normal 			|   背景   	 	默认 	|
+| background_pressed 			|   背景		 	按下 	|
+| background_unable 			|   背景		  	不可点击 |
+| background_checked 			|   背景		  	选中		|
+| gradient_orientation 			|	渐变的方向	参考 GradientDrawable.Orientation:TOP_BOTTOM，TR_BL...	|
+| gradient_type     			|   渐变的样式	linear线性，radial径向，sweep扫描式	默认：linear|
+| gradient_radius 				|	渐变半径	 默认:（宽或高最小值）/ 2 |
+| gradient_centerX 				|   渐变中心点X坐标（0.0-1.0）	0.5表示中间	默认:0.5 |
+| gradient_centerY 				|   渐变中心点Y坐标（0.0-1.0）	0.5表示中间	默认:0.5 |
+
+> 	 1.background_xxx         纯色   渐变   drawable
+> 	 纯色:   颜色值               app:background_normal="#74EBD5"
+> 	 渐变:   颜色数组 >=2个       app:background_normal="@array/@colorArray"
+> 	 drawable: 资源图片          app:background_normal="@mipmap/@drawable"
+> 	 
+> 	 2.自定义属性对原生属性无效
+> 	   例如: `app:corner_radius="10dp"` 搭配 `app:background_normal="#74EBD5"` 而不是`background="#74EBD5"`
+
+
+#### 示例xml
+```
+        <com.ruffian.library.widget.RView
+			xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+
+	        //背景各个状态，支持：纯颜色   渐变   drawable
+	        app:background_normal="#3F51B5"
+	        app:background_pressed="@array/color_array"
+	        app:background_unable="@mipmap/icon_unable"
+	        app:background_checked="@mipmap/icon_checked"
+
+	        //边框颜色
+	        app:border_color_normal="#FF4081"
+	        app:border_color_pressed="#3F51B5"
+	        app:border_color_unable="#c3c3c3"
+	        app:border_color_checked="#c3c3c3"
+
+	        //边框宽度
+	        app:border_width_normal="3dp"
+	        app:border_width_pressed="3dp"
+	        app:border_width_unable="3dp"
+	        app:border_width_checked="3dp"
+
+	        //虚线边框 1.虚线边框宽度 2.虚线间隔
+	        app:border_dash_width="10dp"
+	        app:border_dash_gap="4dp"
+
+	        //圆角度数 超过1/2为圆形 1.四周统一值 2.四个方向各个值
+	        app:corner_radius="10dp"
+	        app:corner_radius_top_left="10dp"
+	        app:corner_radius_bottom_left="15dp"
+	        app:corner_radius_bottom_right="20dp"
+	        app:corner_radius_top_right="25dp"
+
+	        //渐变设置  background_xx 设置为颜色数组时有效(@array/array_color)
+	        app:gradient_radius="100dp"
+	        app:gradient_centerX="0.5"
+	        app:gradient_centerY="0.5"
+	        app:gradient_type="linear"
+	        app:gradient_orientation="LEFT_RIGHT"
+        	/>
+```
+
+#### 示例java
+
+```
+	        RView view = (RView) findViewById(R.id.view);
+	        //获取Helper
+	        RBaseHelper helper = view.getHelper();
+	        helper.setBackgroundColorNormal(getResources().getColor(R.color.blue))
+	                .setBorderColorNormal(getResources().getColor(R.color.red))
+	                .setBorderWidthNormal(12)
+	                .setCornerRadius(25);
+```
+
+#### 效果图
+![](picture/all.gif)  ![](picture/part5.png)
+![](picture/part1.png) ![](picture/part2.png)
+![](picture/part3.png) ![](picture/part4.png)
+
+## 个性功能
+
+#### RTextView
+
+- [x] `drawableLeft/Right/Top/Bottom icon大小`
+- [x] `drawableLeft/Right/Top/Bottom icon状态`
+- [x] `drawableLeft 和 text 一起居中`
+- [x] `文字根据状态变色    默认/按下/不可点击`
+- [x] `设置字体样式`
+
+| 属性			|说明			 |
+| ------------- |  :-------------|
 | text_color_normal 			|   文字颜色 	默认 	|
 | text_color_pressed      		|   文字颜色 	按下 	|
 | text_color_unable      		| 	文字颜色 	不可点击 |
@@ -127,135 +153,22 @@
 | icon_height      				| 	drawable icon 	高 			|
 | icon_width      				|   drawable icon 	宽 			|
 | icon_direction      			|   drawable icon 	位置{left,top,right,bottom} |
-| text_typeface      			|   字体样式 |
 | icon_with_text      			|   图片和文本一起居中 true/false |
+| text_typeface      			|   字体样式 |
 
+#### REditText
 
-### 4.使用
+> REditText 使用方法跟 RTextView 一致
 
-> ### 4.1 XML使用
+#### RLinearLayout  /  RRelativeLayout  /  RFrameLayout  /  RView
 
-    <com.ruffian.library.widget.RTextView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:gravity="center"
-        android:text="文本控件"
+> 查看基础功能
 
-        //背景颜色 对应三个状态
-        rtv:background_normal="#3F51B5"
-        rtv:background_pressed="#FF450F21"
-        rtv:background_unable="#c3c3c3"
+#### RRadioButton  / RCheckBox  
 
-        //边框颜色 对应三个状态
-        rtv:border_color_normal="#FF4081"
-        rtv:border_color_pressed="#3F51B5"
-        rtv:border_color_unable="#c3c3c3"
-
-        //边框宽度 对应三个状态 一般设置相同值
-        rtv:border_width_normal="3dp"
-        rtv:border_width_pressed="4dp"
-        rtv:border_width_unable="5dp"
-
-        //虚线边框 1.虚线边框宽度 2.虚线间隔
-        rtv:border_dash_width="10dp"
-        rtv:border_dash_gap="4dp"
-
-        //圆角度数 1.四周统一值 2.四个方向各个值
-        //xml:  通过xml 设置了 corner_radius ，则 corner_radius_xxx 不起作用
-        //java: 通过java代码设置 corner_radius_xxx ，则 corner_radius 不起作用
-        rtv:corner_radius="10dp"
-        rtv:corner_radius_top_left="10dp"
-        rtv:corner_radius_bottom_left="15dp"
-        rtv:corner_radius_bottom_right="20dp"
-        rtv:corner_radius_top_right="25dp"
-
-        //drawableXXX icon 对应三个状态
-        rtv:icon_src_normal="@mipmap/icon_phone_normal"
-        rtv:icon_src_pressed="@mipmap/icon_phone_pressed"
-        rtv:icon_src_unable="@mipmap/icon_phone_unable"
-
-        //drawableXXX icon 方向 {上,下,左,右}
-        rtv:icon_direction="top"
-
-        //drawableXXX icon 宽/高
-        rtv:icon_height="30dp"
-        rtv:icon_width="30dp"
-
-        //文字颜色 对应三个状态
-        rtv:text_color_normal="#c3c3c3"
-        rtv:text_color_pressed="#3F51B5"
-        rtv:text_color_unable="#FF4081"
-
-        //字体样式
-        rtv:text_typeface="fonts/RobotoMono-Thin.ttf"
-        />
-
-
-> ### 4.2 以上属性均提供Java代码 get/set 方法
-
-        RTextView textView = (RTextView) findViewById(R.id.text1);
-        //获取Helper
-        RTextViewHelper tvHelper = textView.getHelper();
-        tvHelper.setIconNormal(getDrawable(R.mipmap.ic_launcher))
-                 .setIconHeight(10)
-                 .setIconWidth(20)
-                 .setIconDirection(RTextViewHelper.ICON_DIR_TOP);
-
-
-> ### 4.3 备注
-
-	1. 圆角边框，圆角背景等属性需要配合 `background_xxx` 自定义背景属性使用，原生 `background` 没有效果
-
-### 2.REditText
-
-> REditText 使用方法跟 RTextView 完全一致
-
-![](picture/REditText.png)
-
-
-
-### 3. RLinearLayout  / RRelativeLayout  /  RView
-
-> RLinearLayout
-> 
-> RRelativeLayout 
-> 
-> RView 
-> 
-> 这三个控件只支持基本属性
-
-| 属性			|说明			 |
-| ------------- |  :-------------|
-| corner_radius      			|	圆角		四周		|
-| corner_radius_top_left        |   圆角		左上		|
-| corner_radius_top_right 		|	圆角		右上		|
-| corner_radius_bottom_left 	|   圆角		左下		|
-| corner_radius_bottom_right 	|   圆角		右下 	|
-| border_dash_width 			|   虚线边框 	宽度 	|
-| border_dash_gap 				|   虚线边框 	间隔 	|
-| border_width_normal 			|   边框宽度 	默认 	|
-| border_width_pressed 			|   边框宽度 	按下 	|
-| border_width_unable 			|   边框宽度 	不可点击 |
-| border_color_normal 			|   边框颜色 	默认		|
-| border_color_pressed 			|   边框颜色 	按下 	|
-| border_color_unable 			|   边框颜色 	不可点击 |
-| background_normal 			|   背景颜色 	默认 	|
-| background_pressed 			|   背景颜色 	按下 	|
-| background_unable 			|   背景颜色  	不可点击 |
-
-
-![](picture/RViewGroup.png)  ![](picture/RView.png)
-
-
-###  RRadioButton  / RCheckBox  
-
-> RRadioButton
-> 
-> RCheckBox 
-> 
-> 具备所有基础属性
-> 
-> 额外添加选择属性 checked 
+> 查看基础功能
+>
+> 常使用选择属性 checked 
 
 | 属性			|说明			 |
 | ------------- |  :-------------|
@@ -264,10 +177,9 @@
 | background_checked 			|   背景		 	选中 	|
 | text_color_checked       		|   文字颜色 	选中 	|
 
+#### RImageView
 
-### 4. RImageView
-
-> RImageView 不再提供背景各个state背景颜色,提供了各个state的icon
+> RImageView 不再提供背景各个state背景颜色
 >   
 > 1.圆形图片
 >   
@@ -279,10 +191,6 @@
 >    
 > 5.各个state状态的图片 默认/按下/不可点击
 >   
-
-![](picture/RImageView.png)
-
-> ### 属性说明
 
 | 属性			|说明			 |
 | ------------- |  :-------------|
@@ -298,112 +206,20 @@
 | icon_src_unable      			| 	icon 	不可点击 	|
 | is_circle	      				| 	是否圆形图片 			|
 
-> ### xml使用
 
-    <com.ruffian.library.widget.RImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginLeft="10dp"
-				//边框	
-                app:border_color="@color/colorAccent"
-                app:border_width="2dp"
-				//圆角相关
-                app:corner_radius="10dp"
-                app:corner_radius_bottom_left="10dp"
-                app:corner_radius_bottom_right="10dp"
-                app:corner_radius_top_left="10dp"
-                app:corner_radius_top_right="10dp"
-				//state状态资源
-                app:icon_src_normal="@mipmap/icon_man"
-                app:icon_src_pressed="@mipmap/icon_man_pressed"
-				app:icon_src_unable="@mipmap/icon_man_pressed"
-				//是否圆形
-                app:is_circle="true" />
+### 使用
+> ###  Gradle （版本号根据更新历史使用最新版）
 
-> ### Java代码使用
-    
-        RImageView imageView = (RImageView) findViewById(R.id.iv);
-        //获取Helper
-        RImageViewHelper ivHelper=imageView.getHelper();
-        ivHelper.setIconNormal(getDrawable(R.mipmap.icon_man))
-                .setIconPressed(getDrawable(R.mipmap.icon_man_pressed));
-
-
-### 5. Gradient 渐变使用
-
-> Gradient 渐变作用于所有View，是通用属性
->   
-> 
-> 1. gradient_orientation       渐变的方向
->
-> 2. gradient_type       渐变的样式
-> 
-> 3. gradient_radius       渐变半径
-> 
-> 4. gradient_centerX       渐变中心点X坐标（0.0-1.0）
-> 
-> 5. gradient_centerY       渐变中心点Y坐标（0.0-1.0）
->   
-
-![](picture/Gradient.png)
-
-> ### 属性说明
-
-| 属性			|说明			 |
-| ------------- |  :-------------|
-| gradient_orientation |渐变的方向	参考 GradientDrawable.Orientation:TOP_BOTTOM，TR_BL...	|
-| gradient_type     |   渐变的样式	linear线性，radial径向，sweep扫描式	默认：linear|
-| gradient_radius 	|	渐变半径	 默认:（宽或高最小值）/ 2 |
-| gradient_centerX 	|   渐变中心点X坐标（0.0-1.0）	0.5表示中间	默认:0.5 |
-| gradient_centerY 	|   渐变中心点Y坐标（0.0-1.0）	0.5表示中间	默认:0.5 |
-| background_xxx 	|   渐变颜色值，大于2个颜色值则有渐变效果，否则默认背景颜色 	|
-
-> ### xml使用
-
-```
-        <com.ruffian.library.widget.RTextView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginLeft="10dp"
-            android:gravity="center"
-            android:text="左到右"
-            android:textColor="@android:color/white"
-            android:textSize="11sp"
-            app:background_normal="@array/array_l_r"
-            app:background_pressed="#74EBD5"
-            app:corner_radius="10dp"
-            app:gradient_radius="100dp"
-            app:gradient_centerX="0.5"
-            app:gradient_centerY="0.5"
-            app:gradient_type="linear"
-            app:gradient_orientation="LEFT_RIGHT" />
-
-
-		array.xml
-		<?xml version="1.0" encoding="utf-8"?>
-		<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-		
-		    <!--左到右-->
-		    <array name="array_l_r">
-		        <item>#74EBD5</item>
-		        <item>#9FACE6</item>
-		    </array>
-		
-		</resources>	
-```
-
->##### background_XXX 如果使用array(大于2个颜色值)则有渐变效果；  如果 app:background_normal="#74EBD5" 这类单个颜色值则是默认背景颜色； background_XXX="@mipmap/@drawable" 使用mipmap/drawable类型
-
-
-
->##### 自定义属性对原生属性无效  例如: `app:corner_radius="10dp"` 搭配 `app:background_normal="#74EBD5"` 而不是`background="#74EBD5"`
+    compile 'com.ruffian.library:RWidgetHelper:1.0.6'
 
 
 ### 版本历史
 
+**v1.0.6**　`2018.12.18`　版本兼容，优化代码，`RFrameLayout`
+
 **v1.0.5**　`2018.12.18`　1.DrawableWithText 图片和文本一起居中  2.fix bug
 
-**v1.0.4**　`2018.11.15`　**1.背景支持图片类型** 2.添加 `selector->checked`状态  添加 `RCheckBox` 和 `RRadioButton`
+**v1.0.4**　`2018.11.15`　1.背景支持图片类型 2.添加 `selector->checked`状态  添加 `RCheckBox` 和 `RRadioButton`
 
 **v1.0.3**　`2018.11.09`　Fix Bug [issues#17](https://github.com/RuffianZhong/RWidgetHelper/issues/17 "issues#17")
 
@@ -413,29 +229,12 @@
 
 **v1.0.0**　`2018.04.26`　发布第一版本
 
+
 ## License
 
 ```
 MIT License
 
 Copyright (c) 2018 Ruffian-痞子
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
 ```
 
