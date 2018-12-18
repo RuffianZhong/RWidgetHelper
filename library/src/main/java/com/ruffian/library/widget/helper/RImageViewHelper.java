@@ -457,18 +457,20 @@ public class RImageViewHelper {
         return mBorderWidth;
     }
 
-    public void setBorderWidth(int borderWidth) {
+    public RImageViewHelper setBorderWidth(int borderWidth) {
         this.mBorderWidth = borderWidth;
         invalidate();
+        return this;
     }
 
     public int getBorderColor() {
         return mBorderColor;
     }
 
-    public void setBorderColor(int borderColor) {
+    public RImageViewHelper setBorderColor(int borderColor) {
         this.mBorderColor = borderColor;
         invalidate();
+        return this;
     }
 
     /************************
@@ -478,57 +480,62 @@ public class RImageViewHelper {
         return mCorner;
     }
 
-    public void setCorner(float corner) {
+    public RImageViewHelper setCorner(float corner) {
         this.mCorner = corner;
         init();
         invalidate();
+        return this;
     }
 
     public float getCornerTopLeft() {
         return mCornerTopLeft;
     }
 
-    public void setCornerTopLeft(float cornerTopLeft) {
+    public RImageViewHelper setCornerTopLeft(float cornerTopLeft) {
         this.mCorner = -1;
         this.mCornerTopLeft = cornerTopLeft;
         init();
         invalidate();
+        return this;
     }
 
     public float getCornerTopRight() {
         return mCornerTopRight;
     }
 
-    public void setCornerTopRight(float cornerTopRight) {
+    public RImageViewHelper setCornerTopRight(float cornerTopRight) {
         this.mCorner = -1;
         this.mCornerTopRight = cornerTopRight;
         init();
         invalidate();
+        return this;
     }
 
     public float getCornerBottomLeft() {
         return mCornerBottomLeft;
     }
 
-    public void setCornerBottomLeft(float cornerBottomLeft) {
+    public RImageViewHelper setCornerBottomLeft(float cornerBottomLeft) {
         this.mCorner = -1;
         this.mCornerBottomLeft = cornerBottomLeft;
         init();
         invalidate();
+        return this;
     }
 
     public float getCornerBottomRight() {
         return mCornerBottomRight;
     }
 
-    public void setCornerBottomRight(float cornerBottomRight) {
+    public RImageViewHelper setCornerBottomRight(float cornerBottomRight) {
         this.mCorner = -1;
         this.mCornerBottomRight = cornerBottomRight;
         init();
         invalidate();
+        return this;
     }
 
-    public void setCorner(float topLeft, float topRight, float bottomRight, float bottomLeft) {
+    public RImageViewHelper setCorner(float topLeft, float topRight, float bottomRight, float bottomLeft) {
         this.mCorner = -1;
         this.mCornerTopLeft = topLeft;
         this.mCornerTopRight = topRight;
@@ -536,6 +543,7 @@ public class RImageViewHelper {
         this.mCornerBottomLeft = bottomLeft;
         init();
         invalidate();
+        return this;
     }
 
     /**

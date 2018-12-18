@@ -192,7 +192,7 @@ public class RCheckHelper extends RBaseHelper<CompoundButton> {
         return mTextColorChecked;
     }
 
-    public void setTextColor(int normal, int pressed, int unable, int checked) {
+    public RCheckHelper setTextColor(int normal, int pressed, int unable, int checked) {
         this.mTextColorNormal = normal;
         this.mTextColorPressed = pressed;
         this.mTextColorUnable = unable;
@@ -201,6 +201,7 @@ public class RCheckHelper extends RBaseHelper<CompoundButton> {
         this.mHasUnableTextColor = true;
         this.mHasCheckedTextColor = true;
         setTextColor();
+        return this;
     }
 
     private void setTextColor() {

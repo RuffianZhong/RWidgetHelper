@@ -247,22 +247,22 @@ public class RBaseHelper<T extends View> {
          * 设置背景颜色（包含渐变）
          */
         if (mBackgroundColorNormalArray != null && mBackgroundColorNormalArray.length > 0) {
-            mBackgroundNormal.setColors(mBackgroundColorNormalArray);
+            mBackgroundNormal = setColors(mBackgroundNormal, mBackgroundColorNormalArray);
         } else {
             mBackgroundNormal.setColor(mBackgroundColorNormal);
         }
         if (mBackgroundColorPressedArray != null && mBackgroundColorPressedArray.length > 0) {
-            mBackgroundPressed.setColors(mBackgroundColorPressedArray);
+            mBackgroundPressed = setColors(mBackgroundPressed, mBackgroundColorPressedArray);
         } else {
             mBackgroundPressed.setColor(mBackgroundColorPressed);
         }
         if (mBackgroundColorUnableArray != null && mBackgroundColorUnableArray.length > 0) {
-            mBackgroundUnable.setColors(mBackgroundColorUnableArray);
+            mBackgroundUnable = setColors(mBackgroundUnable, mBackgroundColorUnableArray);
         } else {
             mBackgroundUnable.setColor(mBackgroundColorUnable);
         }
         if (mBackgroundColorCheckedArray != null && mBackgroundColorCheckedArray.length > 0) {
-            mBackgroundChecked.setColors(mBackgroundColorCheckedArray);
+            mBackgroundChecked = setColors(mBackgroundChecked, mBackgroundColorCheckedArray);
         } else {
             mBackgroundChecked.setColor(mBackgroundColorChecked);
         }
@@ -313,96 +313,10 @@ public class RBaseHelper<T extends View> {
         setBorder();
 
         //设置圆角
-        setRadius();
+        setRadiusValue();
 
     }
 
-    /**
-     * 获取背景颜色
-     * 备注:
-     * 数组[0]:背景类型(1:单一颜色 2:颜色数组 3:图片资源)
-     * 数组[1]:单一颜色,可能为0
-     * 数组[2]:颜色数组,可能为null
-     * 数组[3]:图片资源drawable,可能为null
-     *
-     * @param a
-     * @param styleableRes
-     * @return
-     */
-    private Object[] getBackgroundInfo(TypedArray a, @StyleableRes int styleableRes) {
-        int bgType = BG_TYPE_COLOR;//背景类型
-        int bgColor = 0;//单一颜色
-        int[] bgColorArray = null;//多个颜色
-        Drawable drawable = null;//图片资源
-
-        //resId==0表示直接使用#cccccc这种模式，不为0说明可以获取到资源类型
-        int resId = a.getResourceId(styleableRes, 0);
-        if (resId == 0) {//#cccccc
-            bgColor = a.getColor(styleableRes, 0);
-            bgType = BG_TYPE_COLOR;
-        } else {//其他资源类型
-            String typeName = mContext.getResources().getResourceTypeName(resId);
-            if ("array".equals(typeName)) {//color-array
-                bgType = BG_TYPE_COLOR_ARRAY;
-                String[] strArray = mContext.getResources().getStringArray(resId);
-                int[] intArray = mContext.getResources().getIntArray(resId);
-                int length = Math.min(intArray.length, strArray.length);
-                bgColorArray = new int[length];
-                String strIndex;
-                int intIndex;
-                for (int i = 0; i < length; i++) {
-                    strIndex = strArray[i];
-                    intIndex = intArray[i];
-                    bgColorArray[i] = !TextUtils.isEmpty(strIndex) ? Color.parseColor(strIndex) : intIndex;
-                }
-            } else if ("color".equals(typeName)) {//color
-                bgColor = a.getColor(styleableRes, 0);
-                bgType = BG_TYPE_COLOR;
-            } else if ("mipmap".equals(typeName) || "drawable".equals(typeName)) {//image
-                bgType = BG_TYPE_IMG;
-                drawable = a.getDrawable(styleableRes);
-            }
-        }
-        return new Object[]{bgType, bgColor, bgColorArray, drawable};
-    }
-
-    /**
-     * 获取渐变方向
-     *
-     * @param a
-     * @return
-     */
-    private GradientDrawable.Orientation getGradientOrientation(TypedArray a) {
-        GradientDrawable.Orientation orientation = GradientDrawable.Orientation.BL_TR;
-        int gradientOrientation = a.getInt(R.styleable.RBaseView_gradient_orientation, 0);
-        switch (gradientOrientation) {
-            case 0:
-                orientation = GradientDrawable.Orientation.TOP_BOTTOM;
-                break;
-            case 1:
-                orientation = GradientDrawable.Orientation.TR_BL;
-                break;
-            case 2:
-                orientation = GradientDrawable.Orientation.RIGHT_LEFT;
-                break;
-            case 3:
-                orientation = GradientDrawable.Orientation.BR_TL;
-                break;
-            case 4:
-                orientation = GradientDrawable.Orientation.BOTTOM_TOP;
-                break;
-            case 5:
-                orientation = GradientDrawable.Orientation.BL_TR;
-                break;
-            case 6:
-                orientation = GradientDrawable.Orientation.LEFT_RIGHT;
-                break;
-            case 7:
-                orientation = GradientDrawable.Orientation.TL_BR;
-                break;
-        }
-        return orientation;
-    }
 
     /*********************
      * Gradient
@@ -468,41 +382,18 @@ public class RBaseHelper<T extends View> {
     }
 
     private void setGradient() {
-        mBackgroundNormal.setOrientation(mGradientOrientation);
         mBackgroundNormal.setGradientType(mGradientType);
         mBackgroundNormal.setGradientRadius(mGradientRadius);
         mBackgroundNormal.setGradientCenter(mGradientCenterX, mGradientCenterY);
-        mBackgroundPressed.setOrientation(mGradientOrientation);
         mBackgroundPressed.setGradientType(mGradientType);
         mBackgroundPressed.setGradientRadius(mGradientRadius);
         mBackgroundPressed.setGradientCenter(mGradientCenterX, mGradientCenterY);
-        mBackgroundUnable.setOrientation(mGradientOrientation);
         mBackgroundUnable.setGradientType(mGradientType);
         mBackgroundUnable.setGradientRadius(mGradientRadius);
         mBackgroundUnable.setGradientCenter(mGradientCenterX, mGradientCenterY);
-        mBackgroundChecked.setOrientation(mGradientOrientation);
         mBackgroundChecked.setGradientType(mGradientType);
         mBackgroundChecked.setGradientRadius(mGradientRadius);
         mBackgroundChecked.setGradientCenter(mGradientCenterX, mGradientCenterY);
-    }
-
-    /**
-     * 设置View大小变化监听,用来更新渐变半径
-     */
-    private void addOnGlobalLayoutListener() {
-        if (mView == null) return;
-        mView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                mView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                if (mGradientRadius <= 0) {
-                    int width = mView.getWidth();
-                    int height = mView.getHeight();
-                    float radius = Math.min(width, height) / 2f;
-                    setGradientRadius(radius);
-                }
-            }
-        });
     }
 
     /*********************
@@ -533,10 +424,13 @@ public class RBaseHelper<T extends View> {
         mHasPressedBgColor = true;
         mHasUnableBgColor = true;
         mHasCheckedBgColor = true;
-        mBackgroundNormal.setColors(mBackgroundColorNormalArray);
-        mBackgroundPressed.setColors(mBackgroundColorPressedArray);
-        mBackgroundUnable.setColors(mBackgroundColorUnableArray);
-        mBackgroundChecked.setColors(mBackgroundColorCheckedArray);
+        mBackgroundNormal = setColors(mBackgroundNormal, mBackgroundColorNormalArray);
+        mBackgroundPressed = setColors(mBackgroundPressed, mBackgroundColorPressedArray);
+        mBackgroundUnable = setColors(mBackgroundUnable, mBackgroundColorUnableArray);
+        mBackgroundChecked = setColors(mBackgroundChecked, mBackgroundColorCheckedArray);
+        setBorder();
+        setRadiusUI();
+        setGradient();
         setBackgroundState();
         return this;
     }
@@ -631,17 +525,21 @@ public class RBaseHelper<T extends View> {
          */
         if (!mHasPressedBgColor) {
             mBackgroundColorPressedArray = mBackgroundColorNormalArray;
-            mBackgroundPressed.setColors(mBackgroundColorPressedArray);
+            mBackgroundPressed = setColors(mBackgroundPressed, mBackgroundColorPressedArray);
         }
         if (!mHasUnableBgColor) {
             mBackgroundColorUnableArray = mBackgroundColorNormalArray;
-            mBackgroundUnable.setColors(mBackgroundColorUnableArray);
+            mBackgroundUnable = setColors(mBackgroundUnable, mBackgroundColorUnableArray);
         }
         if (!mHasCheckedBgColor) {
             mBackgroundColorCheckedArray = mBackgroundColorNormalArray;
-            mBackgroundChecked.setColors(mBackgroundColorCheckedArray);
+            mBackgroundChecked = setColors(mBackgroundChecked, mBackgroundColorCheckedArray);
         }
-        mBackgroundNormal.setColors(mBackgroundColorNormalArray);
+        mBackgroundNormal = setColors(mBackgroundNormal, mBackgroundColorNormalArray);
+
+        setBorder();
+        setRadiusUI();
+        setGradient();
         setBackgroundState();
         return this;
     }
@@ -676,7 +574,10 @@ public class RBaseHelper<T extends View> {
     public RBaseHelper setBackgroundColorPressedArray(int[] colorPressedArray) {
         this.mBackgroundColorPressedArray = colorPressedArray;
         this.mHasPressedBgColor = true;
-        mBackgroundPressed.setColors(mBackgroundColorPressedArray);
+        mBackgroundPressed = setColors(mBackgroundPressed, mBackgroundColorPressedArray);
+        setBorder();
+        setRadiusUI();
+        setGradient();
         setBackgroundState();
         return this;
     }
@@ -708,7 +609,10 @@ public class RBaseHelper<T extends View> {
     public RBaseHelper setBackgroundColorUnableArray(int[] colorUnableArray) {
         this.mBackgroundColorUnableArray = colorUnableArray;
         this.mHasUnableBgColor = true;
-        mBackgroundUnable.setColors(mBackgroundColorUnableArray);
+        mBackgroundUnable = setColors(mBackgroundUnable, mBackgroundColorUnableArray);
+        setBorder();
+        setRadiusUI();
+        setGradient();
         setBackgroundState();
         return this;
     }
@@ -724,7 +628,10 @@ public class RBaseHelper<T extends View> {
     public RBaseHelper setBackgroundColorCheckedArray(int[] colorCheckedArray) {
         this.mBackgroundColorCheckedArray = colorCheckedArray;
         this.mHasCheckedBgColor = true;
-        mBackgroundChecked.setColors(mBackgroundColorCheckedArray);
+        mBackgroundChecked = setColors(mBackgroundChecked, mBackgroundColorCheckedArray);
+        setBorder();
+        setRadiusUI();
+        setGradient();
         setBackgroundState();
         return this;
     }
@@ -916,7 +823,7 @@ public class RBaseHelper<T extends View> {
         return mBorderColorUnable;
     }
 
-    public void setBorderWidth(int normal, int pressed, int unable, int checked) {
+    public RBaseHelper setBorderWidth(int normal, int pressed, int unable, int checked) {
         this.mBorderWidthNormal = normal;
         this.mBorderWidthPressed = pressed;
         this.mBorderWidthUnable = unable;
@@ -925,9 +832,10 @@ public class RBaseHelper<T extends View> {
         this.mHasUnableBorderWidth = true;
         this.mHasCheckedBorderWidth = true;
         setBorder();
+        return this;
     }
 
-    public void setBorderColor(int normal, int pressed, int unable, int checked) {
+    public RBaseHelper setBorderColor(int normal, int pressed, int unable, int checked) {
         this.mBorderColorNormal = normal;
         this.mBorderColorPressed = pressed;
         this.mBorderColorUnable = unable;
@@ -936,30 +844,34 @@ public class RBaseHelper<T extends View> {
         this.mHasUnableBorderColor = true;
         this.mHasCheckedBorderColor = true;
         setBorder();
+        return this;
     }
 
-    public void setBorderDashWidth(float dashWidth) {
+    public RBaseHelper setBorderDashWidth(float dashWidth) {
         this.mBorderDashWidth = dashWidth;
         setBorder();
+        return this;
     }
 
     public float getBorderDashWidth() {
         return mBorderDashWidth;
     }
 
-    public void setBorderDashGap(float dashGap) {
+    public RBaseHelper setBorderDashGap(float dashGap) {
         this.mBorderDashGap = dashGap;
         setBorder();
+        return this;
     }
 
     public float getBorderDashGap() {
         return mBorderDashGap;
     }
 
-    public void setBorderDash(float dashWidth, float dashGap) {
+    public RBaseHelper setBorderDash(float dashWidth, float dashGap) {
         this.mBorderDashWidth = dashWidth;
         this.mBorderDashGap = dashGap;
         setBorder();
+        return this;
     }
 
     private void setBorder() {
@@ -996,7 +908,7 @@ public class RBaseHelper<T extends View> {
 
     public void setCornerRadius(float radius) {
         this.mCornerRadius = radius;
-        setRadius();
+        setRadiusValue();
     }
 
     public float getCornerRadius() {
@@ -1006,7 +918,7 @@ public class RBaseHelper<T extends View> {
     public RBaseHelper setCornerRadiusTopLeft(float topLeft) {
         this.mCornerRadius = -1;
         this.mCornerRadiusTopLeft = topLeft;
-        setRadius();
+        setRadiusValue();
         return this;
     }
 
@@ -1017,7 +929,7 @@ public class RBaseHelper<T extends View> {
     public RBaseHelper setCornerRadiusTopRight(float topRight) {
         this.mCornerRadius = -1;
         this.mCornerRadiusTopRight = topRight;
-        setRadius();
+        setRadiusValue();
         return this;
     }
 
@@ -1028,7 +940,7 @@ public class RBaseHelper<T extends View> {
     public RBaseHelper setCornerRadiusBottomRight(float bottomRight) {
         this.mCornerRadius = -1;
         this.mCornerRadiusBottomRight = bottomRight;
-        setRadius();
+        setRadiusValue();
         return this;
     }
 
@@ -1039,7 +951,7 @@ public class RBaseHelper<T extends View> {
     public RBaseHelper setCornerRadiusBottomLeft(float bottomLeft) {
         this.mCornerRadius = -1;
         this.mCornerRadiusBottomLeft = bottomLeft;
-        setRadius();
+        setRadiusValue();
         return this;
     }
 
@@ -1047,16 +959,20 @@ public class RBaseHelper<T extends View> {
         return mCornerRadiusBottomLeft;
     }
 
-    public void setCornerRadius(float topLeft, float topRight, float bottomRight, float bottomLeft) {
+    public RBaseHelper setCornerRadius(float topLeft, float topRight, float bottomRight, float bottomLeft) {
         this.mCornerRadius = -1;
         this.mCornerRadiusTopLeft = topLeft;
         this.mCornerRadiusTopRight = topRight;
         this.mCornerRadiusBottomRight = bottomRight;
         this.mCornerRadiusBottomLeft = bottomLeft;
-        setRadius();
+        setRadiusValue();
+        return this;
     }
 
-    private void setRadiusRadii() {
+    /**
+     * 设置圆角UI
+     */
+    private void setRadiusUI() {
         mBackgroundNormal.setCornerRadii(mBorderRadii);
         mBackgroundPressed.setCornerRadii(mBorderRadii);
         mBackgroundUnable.setCornerRadii(mBorderRadii);
@@ -1064,7 +980,10 @@ public class RBaseHelper<T extends View> {
         setBackgroundState();
     }
 
-    private void setRadius() {
+    /**
+     * 设置圆角数值
+     */
+    private void setRadiusValue() {
         if (mCornerRadius >= 0) {
             mBorderRadii[0] = mCornerRadius;
             mBorderRadii[1] = mCornerRadius;
@@ -1074,7 +993,7 @@ public class RBaseHelper<T extends View> {
             mBorderRadii[5] = mCornerRadius;
             mBorderRadii[6] = mCornerRadius;
             mBorderRadii[7] = mCornerRadius;
-            setRadiusRadii();
+            setRadiusUI();
             return;
         }
 
@@ -1087,9 +1006,134 @@ public class RBaseHelper<T extends View> {
             mBorderRadii[5] = mCornerRadiusBottomRight;
             mBorderRadii[6] = mCornerRadiusBottomLeft;
             mBorderRadii[7] = mCornerRadiusBottomLeft;
-            setRadiusRadii();
+            setRadiusUI();
             return;
         }
+    }
+
+    /**
+     * 设置View大小变化监听,用来更新渐变半径
+     */
+    private void addOnGlobalLayoutListener() {
+        if (mView == null) return;
+        mView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                mView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                if (mGradientRadius <= 0) {
+                    int width = mView.getWidth();
+                    int height = mView.getHeight();
+                    float radius = Math.min(width, height) / 2f;
+                    setGradientRadius(radius);
+                }
+            }
+        });
+    }
+
+    /**
+     * 获取背景颜色
+     * 备注:
+     * 数组[0]:背景类型(1:单一颜色 2:颜色数组 3:图片资源)
+     * 数组[1]:单一颜色,可能为0
+     * 数组[2]:颜色数组,可能为null
+     * 数组[3]:图片资源drawable,可能为null
+     *
+     * @param a
+     * @param styleableRes
+     * @return
+     */
+    private Object[] getBackgroundInfo(TypedArray a, @StyleableRes int styleableRes) {
+        int bgType = BG_TYPE_COLOR;//背景类型
+        int bgColor = 0;//单一颜色
+        int[] bgColorArray = null;//多个颜色
+        Drawable drawable = null;//图片资源
+
+        //resId==0表示直接使用#cccccc这种模式，不为0说明可以获取到资源类型
+        int resId = a.getResourceId(styleableRes, 0);
+        if (resId == 0) {//#cccccc
+            bgColor = a.getColor(styleableRes, 0);
+            bgType = BG_TYPE_COLOR;
+        } else {//其他资源类型
+            String typeName = mContext.getResources().getResourceTypeName(resId);
+            if ("array".equals(typeName)) {//color-array
+                bgType = BG_TYPE_COLOR_ARRAY;
+                String[] strArray = mContext.getResources().getStringArray(resId);
+                int[] intArray = mContext.getResources().getIntArray(resId);
+                int length = Math.min(intArray.length, strArray.length);
+                bgColorArray = new int[length];
+                String strIndex;
+                int intIndex;
+                for (int i = 0; i < length; i++) {
+                    strIndex = strArray[i];
+                    intIndex = intArray[i];
+                    bgColorArray[i] = !TextUtils.isEmpty(strIndex) ? Color.parseColor(strIndex) : intIndex;
+                }
+            } else if ("color".equals(typeName)) {//color
+                bgColor = a.getColor(styleableRes, 0);
+                bgType = BG_TYPE_COLOR;
+            } else if ("mipmap".equals(typeName) || "drawable".equals(typeName)) {//image
+                bgType = BG_TYPE_IMG;
+                drawable = a.getDrawable(styleableRes);
+            }
+        }
+        return new Object[]{bgType, bgColor, bgColorArray, drawable};
+    }
+
+    /**
+     * 获取渐变方向
+     *
+     * @param a
+     * @return
+     */
+    private GradientDrawable.Orientation getGradientOrientation(TypedArray a) {
+        GradientDrawable.Orientation orientation = GradientDrawable.Orientation.BL_TR;
+        int gradientOrientation = a.getInt(R.styleable.RBaseView_gradient_orientation, 0);
+        switch (gradientOrientation) {
+            case 0:
+                orientation = GradientDrawable.Orientation.TOP_BOTTOM;
+                break;
+            case 1:
+                orientation = GradientDrawable.Orientation.TR_BL;
+                break;
+            case 2:
+                orientation = GradientDrawable.Orientation.RIGHT_LEFT;
+                break;
+            case 3:
+                orientation = GradientDrawable.Orientation.BR_TL;
+                break;
+            case 4:
+                orientation = GradientDrawable.Orientation.BOTTOM_TOP;
+                break;
+            case 5:
+                orientation = GradientDrawable.Orientation.BL_TR;
+                break;
+            case 6:
+                orientation = GradientDrawable.Orientation.LEFT_RIGHT;
+                break;
+            case 7:
+                orientation = GradientDrawable.Orientation.TL_BR;
+                break;
+        }
+        return orientation;
+    }
+
+    /**
+     * 设置GradientDrawable颜色数组,兼容版本
+     *
+     * @param drawable GradientDrawable
+     * @param colors   颜色数组
+     * @return
+     */
+    private GradientDrawable setColors(GradientDrawable drawable, int[] colors) {
+        if (drawable == null) drawable = new GradientDrawable();
+        //版本兼容
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {//>=16
+            drawable.setOrientation(mGradientOrientation);
+            drawable.setColors(colors);
+        } else {//<16
+            drawable = new GradientDrawable(mGradientOrientation, colors);
+        }
+        return drawable;
     }
 
     /**
@@ -1110,7 +1154,13 @@ public class RBaseHelper<T extends View> {
         return flag;
     }
 
-    private float dp2px(int dp) {
+    /**
+     * 单位转换dp2px
+     *
+     * @param dp dp
+     * @return
+     */
+    protected float dp2px(int dp) {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, mContext.getResources().getDisplayMetrics());
     }
 

@@ -417,13 +417,14 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
         return mTextColorUnable;
     }
 
-    public void setTextColor(int normal, int pressed, int unable) {
+    public RTextViewHelper setTextColor(int normal, int pressed, int unable) {
         this.mTextColorNormal = normal;
         this.mTextColorPressed = pressed;
         this.mTextColorUnable = unable;
         this.mHasPressedTextColor = true;
         this.mHasUnableTextColor = true;
         setTextColor();
+        return this;
     }
 
     private void setTextColor() {
