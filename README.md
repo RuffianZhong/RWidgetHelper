@@ -81,6 +81,8 @@
 > 5. RTextView 按下变色支持：背景色，边框，文字，drawableLeft/xxx （这个赞啊）
 >   
 > 6. RTextView 支持指定字体样式
+> 
+> 7. RTextView 图片和文本一起居中
 
 
 
@@ -126,6 +128,8 @@
 | icon_width      				|   drawable icon 	宽 			|
 | icon_direction      			|   drawable icon 	位置{left,top,right,bottom} |
 | text_typeface      			|   字体样式 |
+| icon_with_text      			|   图片和文本一起居中 true/false |
+
 
 ### 4.使用
 
