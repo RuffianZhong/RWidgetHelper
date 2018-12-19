@@ -13,6 +13,7 @@ import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
+import android.support.annotation.ColorInt;
 import android.support.v7.content.res.AppCompatResources;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -467,7 +468,7 @@ public class RImageViewHelper {
         return mBorderColor;
     }
 
-    public RImageViewHelper setBorderColor(int borderColor) {
+    public RImageViewHelper setBorderColor(@ColorInt int borderColor) {
         this.mBorderColor = borderColor;
         invalidate();
         return this;

@@ -7,6 +7,7 @@ import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.ColorInt;
 import android.support.v7.content.res.AppCompatResources;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -156,8 +157,8 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
 
         a.recycle();
 
-        mHasPressedTextColor = mTextColorPressed < 0;
-        mHasUnableTextColor = mTextColorUnable < 0;
+        mHasPressedTextColor = mTextColorPressed != 0;
+        mHasUnableTextColor = mTextColorUnable != 0;
 
         //setup
         setup();
@@ -379,7 +380,7 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
      * text color
      ************************/
 
-    public RTextViewHelper setTextColorNormal(int textColor) {
+    public RTextViewHelper setTextColorNormal(@ColorInt int textColor) {
         this.mTextColorNormal = textColor;
         if (!mHasPressedTextColor) {
             mTextColorPressed = mTextColorNormal;
@@ -395,7 +396,7 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
         return mTextColorNormal;
     }
 
-    public RTextViewHelper setPressedTextColor(int textColor) {
+    public RTextViewHelper setPressedTextColor(@ColorInt int textColor) {
         this.mTextColorPressed = textColor;
         this.mHasPressedTextColor = true;
         setTextColor();
@@ -406,7 +407,7 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
         return mTextColorPressed;
     }
 
-    public RTextViewHelper setTextColorUnable(int textColor) {
+    public RTextViewHelper setTextColorUnable(@ColorInt int textColor) {
         this.mTextColorUnable = textColor;
         this.mHasUnableTextColor = true;
         setTextColor();
@@ -417,7 +418,7 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
         return mTextColorUnable;
     }
 
-    public RTextViewHelper setTextColor(int normal, int pressed, int unable) {
+    public RTextViewHelper setTextColor(@ColorInt int normal, @ColorInt int pressed, @ColorInt int unable) {
         this.mTextColorNormal = normal;
         this.mTextColorPressed = pressed;
         this.mTextColorUnable = unable;

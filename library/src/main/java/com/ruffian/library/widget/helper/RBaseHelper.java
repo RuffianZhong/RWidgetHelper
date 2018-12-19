@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
+import android.support.annotation.ColorInt;
 import android.support.annotation.StyleableRes;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -183,18 +184,18 @@ public class RBaseHelper<T extends View> {
 
         a.recycle();
 
-        mHasPressedBgColor = mBackgroundColorPressed < 0 || mBackgroundColorNormalArray != null;
-        mHasUnableBgColor = mBackgroundColorUnable < 0 || mBackgroundColorUnableArray != null;
-        mHasCheckedBgColor = mBackgroundColorChecked < 0 || mBackgroundColorCheckedArray != null;
+        mHasPressedBgColor = mBackgroundColorPressed != 0 || mBackgroundColorNormalArray != null;
+        mHasUnableBgColor = mBackgroundColorUnable != 0 || mBackgroundColorUnableArray != null;
+        mHasCheckedBgColor = mBackgroundColorChecked != 0 || mBackgroundColorCheckedArray != null;
         mHasPressedBgBmp = mBackgroundPressedBmp != null;
         mHasUnableBgBmp = mBackgroundUnableBmp != null;
         mHasCheckedBgBmp = mBackgroundCheckedBmp != null;
-        mHasPressedBorderColor = mBorderColorPressed < 0;
-        mHasUnableBorderColor = mBorderColorUnable < 0;
-        mHasCheckedBorderColor = mBorderColorChecked < 0;
-        mHasPressedBorderWidth = mBorderWidthPressed < 0;
-        mHasUnableBorderWidth = mBorderWidthUnable < 0;
-        mHasCheckedBorderWidth = mBorderWidthChecked < 0;
+        mHasPressedBorderColor = mBorderColorPressed != 0;
+        mHasUnableBorderColor = mBorderColorUnable != 0;
+        mHasCheckedBorderColor = mBorderColorChecked != 0;
+        mHasPressedBorderWidth = mBorderWidthPressed != 0;
+        mHasUnableBorderWidth = mBorderWidthUnable != 0;
+        mHasCheckedBorderWidth = mBorderWidthChecked != 0;
 
         //setup
         setup();
@@ -400,7 +401,7 @@ public class RBaseHelper<T extends View> {
      * BackgroundColor
      ********************/
 
-    public RBaseHelper setStateBackgroundColor(int normal, int pressed, int unable, int checked) {
+    public RBaseHelper setStateBackgroundColor(@ColorInt int normal, @ColorInt int pressed, @ColorInt int unable, @ColorInt int checked) {
         mBackgroundColorNormal = normal;
         mBackgroundColorPressed = pressed;
         mBackgroundColorUnable = unable;
@@ -496,7 +497,7 @@ public class RBaseHelper<T extends View> {
         return mBackgroundCheckedBmp;
     }
 
-    public RBaseHelper setBackgroundColorNormal(int colorNormal) {
+    public RBaseHelper setBackgroundColorNormal(@ColorInt int colorNormal) {
         this.mBackgroundColorNormal = colorNormal;
         /**
          * 设置背景默认值
@@ -563,7 +564,7 @@ public class RBaseHelper<T extends View> {
         return this;
     }
 
-    public RBaseHelper setBackgroundColorPressed(int colorPressed) {
+    public RBaseHelper setBackgroundColorPressed(@ColorInt int colorPressed) {
         this.mBackgroundColorPressed = colorPressed;
         this.mHasPressedBgColor = true;
         mBackgroundPressed.setColor(mBackgroundColorPressed);
@@ -590,7 +591,7 @@ public class RBaseHelper<T extends View> {
         return this;
     }
 
-    public RBaseHelper setBackgroundColorUnable(int colorUnable) {
+    public RBaseHelper setBackgroundColorUnable(@ColorInt int colorUnable) {
         this.mBackgroundColorUnable = colorUnable;
         this.mHasUnableBgColor = true;
         mBackgroundUnable.setColor(mBackgroundColorUnable);
@@ -617,7 +618,7 @@ public class RBaseHelper<T extends View> {
         return this;
     }
 
-    public RBaseHelper setBackgroundColorChecked(int colorChecked) {
+    public RBaseHelper setBackgroundColorChecked(@ColorInt int colorChecked) {
         this.mBackgroundColorChecked = colorChecked;
         this.mHasCheckedBgColor = true;
         mBackgroundChecked.setColor(mBackgroundColorChecked);
@@ -735,7 +736,7 @@ public class RBaseHelper<T extends View> {
         return mBorderWidthNormal;
     }
 
-    public RBaseHelper setBorderColorNormal(int color) {
+    public RBaseHelper setBorderColorNormal(@ColorInt int color) {
         this.mBorderColorNormal = color;
         if (!mHasPressedBorderColor) {
             mBorderColorPressed = mBorderColorNormal;
@@ -768,7 +769,7 @@ public class RBaseHelper<T extends View> {
         return mBorderWidthPressed;
     }
 
-    public RBaseHelper setBorderColorPressed(int color) {
+    public RBaseHelper setBorderColorPressed(@ColorInt int color) {
         this.mBorderColorPressed = color;
         this.mHasPressedBorderColor = true;
         setBorderPressed();
@@ -779,7 +780,7 @@ public class RBaseHelper<T extends View> {
         return mBorderColorPressed;
     }
 
-    public RBaseHelper setBorderColorChecked(int color) {
+    public RBaseHelper setBorderColorChecked(@ColorInt int color) {
         this.mBorderColorChecked = color;
         this.mHasCheckedBorderColor = true;
         setBorderChecked();
@@ -812,7 +813,7 @@ public class RBaseHelper<T extends View> {
         return mBorderWidthUnable;
     }
 
-    public RBaseHelper setBorderColorUnable(int color) {
+    public RBaseHelper setBorderColorUnable(@ColorInt int color) {
         this.mBorderColorUnable = color;
         this.mHasUnableBorderColor = true;
         setBorderUnable();
@@ -835,7 +836,7 @@ public class RBaseHelper<T extends View> {
         return this;
     }
 
-    public RBaseHelper setBorderColor(int normal, int pressed, int unable, int checked) {
+    public RBaseHelper setBorderColor(@ColorInt int normal, @ColorInt int pressed, @ColorInt int unable, @ColorInt int checked) {
         this.mBorderColorNormal = normal;
         this.mBorderColorPressed = pressed;
         this.mBorderColorUnable = unable;

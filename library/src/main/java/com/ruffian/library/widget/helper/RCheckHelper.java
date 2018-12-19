@@ -5,15 +5,10 @@ import android.content.res.AssetManager;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
-import android.support.v7.content.res.AppCompatResources;
+import android.support.annotation.ColorInt;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.widget.CompoundButton;
-import android.widget.TextView;
 
 import com.ruffian.library.widget.R;
 
@@ -73,9 +68,9 @@ public class RCheckHelper extends RBaseHelper<CompoundButton> {
 
         a.recycle();
 
-        mHasPressedTextColor = mTextColorPressed < 0;
-        mHasUnableTextColor = mTextColorUnable < 0;
-        mHasCheckedTextColor = mTextColorChecked < 0;
+        mHasPressedTextColor = mTextColorPressed != 0;
+        mHasUnableTextColor = mTextColorUnable != 0;
+        mHasCheckedTextColor = mTextColorChecked != 0;
 
         //setup
         setup();
@@ -140,7 +135,7 @@ public class RCheckHelper extends RBaseHelper<CompoundButton> {
      * text color
      ************************/
 
-    public RCheckHelper setTextColorNormal(int textColor) {
+    public RCheckHelper setTextColorNormal(@ColorInt int textColor) {
         this.mTextColorNormal = textColor;
         if (!mHasPressedTextColor) {
             mTextColorPressed = mTextColorNormal;
@@ -159,7 +154,7 @@ public class RCheckHelper extends RBaseHelper<CompoundButton> {
         return mTextColorNormal;
     }
 
-    public RCheckHelper setPressedTextColor(int textColor) {
+    public RCheckHelper setPressedTextColor(@ColorInt int textColor) {
         this.mTextColorPressed = textColor;
         this.mHasPressedTextColor = true;
         setTextColor();
@@ -170,7 +165,7 @@ public class RCheckHelper extends RBaseHelper<CompoundButton> {
         return mTextColorPressed;
     }
 
-    public RCheckHelper setTextColorUnable(int textColor) {
+    public RCheckHelper setTextColorUnable(@ColorInt int textColor) {
         this.mTextColorUnable = textColor;
         this.mHasUnableTextColor = true;
         setTextColor();
@@ -181,7 +176,7 @@ public class RCheckHelper extends RBaseHelper<CompoundButton> {
         return mTextColorUnable;
     }
 
-    public RCheckHelper setTextColorChecked(int textColor) {
+    public RCheckHelper setTextColorChecked(@ColorInt int textColor) {
         this.mTextColorChecked = textColor;
         this.mHasCheckedTextColor = true;
         setTextColor();
@@ -192,7 +187,7 @@ public class RCheckHelper extends RBaseHelper<CompoundButton> {
         return mTextColorChecked;
     }
 
-    public RCheckHelper setTextColor(int normal, int pressed, int unable, int checked) {
+    public RCheckHelper setTextColor(@ColorInt int normal, @ColorInt int pressed, @ColorInt int unable, @ColorInt int checked) {
         this.mTextColorNormal = normal;
         this.mTextColorPressed = pressed;
         this.mTextColorUnable = unable;
