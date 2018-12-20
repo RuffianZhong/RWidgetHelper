@@ -210,10 +210,12 @@
 ### 使用
 > ###  Gradle （版本号根据更新历史使用最新版）
 
-    compile 'com.ruffian.library:RWidgetHelper:1.0.6'
+    compile 'com.ruffian.library:RWidgetHelper:1.0.7'
 
 
 ### 版本历史
+
+**v1.0.7**　`2018.12.20`　优化代码，fix bug
 
 **v1.0.6**　`2018.12.18`　版本兼容，优化代码，`RFrameLayout`
 
