@@ -16,7 +16,6 @@ import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.v7.content.res.AppCompatResources;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.ruffian.library.widget.R;
@@ -110,6 +109,10 @@ public class RImageViewHelper {
 
         a.recycle();
 
+        //未使用自定义属性容错处理
+        if (mIconNormal == null) mIconNormal = mView.getDrawable();
+
+        //init
         init();
 
         //setup
