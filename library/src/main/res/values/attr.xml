@@ -81,6 +81,9 @@
     <!--drawable和text居中-->
     <attr name="icon_with_text" format="boolean" />
 
+    <!--ViewGroup是否可用-->
+    <attr name="enabled" format="boolean" />
+
     <!--RBaseView 通用-->
     <declare-styleable name="RBaseView">
 
@@ -120,6 +123,8 @@
         <attr name="gradient_centerX" />
         <attr name="gradient_centerY" />
 
+        <!--是否可用-->
+        <attr name="enabled" />
     </declare-styleable>
 
     <!-- TextView -->
@@ -179,6 +184,8 @@
         <!--drawable和Text居中-->
         <attr name="icon_with_text" />
 
+        <!--是否可用-->
+        <attr name="enabled" />
     </declare-styleable>
 
     <!-- REditText -->
@@ -237,6 +244,9 @@
 
         <!--drawable和Text居中-->
         <attr name="icon_with_text" />
+
+        <!--是否可用-->
+        <attr name="enabled" />
     </declare-styleable>
 
     <!-- ImageView -->
@@ -261,6 +271,8 @@
         <!--是否圆形-->
         <attr name="is_circle" format="boolean" />
 
+        <!--是否可用-->
+        <attr name="enabled" />
     </declare-styleable>
 
     <!-- RLinearLayout -->
@@ -298,6 +310,9 @@
         <attr name="gradient_radius" />
         <attr name="gradient_centerX" />
         <attr name="gradient_centerY" />
+
+        <!--是否可用-->
+        <attr name="enabled" />
     </declare-styleable>
 
     <!-- RRelativeLayout -->
@@ -335,6 +350,9 @@
         <attr name="gradient_radius" />
         <attr name="gradient_centerX" />
         <attr name="gradient_centerY" />
+
+        <!--是否可用-->
+        <attr name="enabled" />
     </declare-styleable>
 
     <!-- RFrameLayout -->
@@ -372,6 +390,9 @@
         <attr name="gradient_radius" />
         <attr name="gradient_centerX" />
         <attr name="gradient_centerY" />
+
+        <!--是否可用-->
+        <attr name="enabled" />
     </declare-styleable>
 
     <!-- RView -->
@@ -409,6 +430,9 @@
         <attr name="gradient_radius" />
         <attr name="gradient_centerX" />
         <attr name="gradient_centerY" />
+
+        <!--是否可用-->
+        <attr name="enabled" />
     </declare-styleable>
 
     <!-- RRadioButton -->
@@ -458,6 +482,9 @@
 
         <!--字体样式-->
         <attr name="text_typeface" />
+
+        <!--是否可用-->
+        <attr name="enabled" />
     </declare-styleable>
 
     <!-- RCheckBox -->
@@ -507,6 +534,9 @@
 
         <!--字体样式-->
         <attr name="text_typeface" />
+
+        <!--是否可用-->
+        <attr name="enabled" />
     </declare-styleable>
 
 </resources>

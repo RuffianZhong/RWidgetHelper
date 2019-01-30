@@ -79,6 +79,9 @@ public class RBaseHelper<T extends View> {
     private float mGradientCenterX, mGradientCenterY;
     private GradientDrawable.Orientation mGradientOrientation = GradientDrawable.Orientation.TOP_BOTTOM;
 
+    //View/ViewGroup是否可用
+    private boolean mIsEnabled = true;
+
     private int[][] states = new int[6][];
     private StateListDrawable mStateBackground;
     private float mBorderRadii[] = new float[8];
@@ -181,6 +184,8 @@ public class RBaseHelper<T extends View> {
         mGradientRadius = a.getDimensionPixelSize(R.styleable.RBaseView_gradient_radius, -1);
         mGradientCenterX = a.getFloat(R.styleable.RBaseView_gradient_centerX, 0.5f);
         mGradientCenterY = a.getFloat(R.styleable.RBaseView_gradient_centerY, 0.5f);
+        //enabled
+        mIsEnabled = a.getBoolean(R.styleable.RBaseView_enabled, true);
 
         a.recycle();
 
@@ -206,6 +211,14 @@ public class RBaseHelper<T extends View> {
      * 设置
      */
     private void setup() {
+
+        /**
+         * 如果本身为true，则由自定义属性决定
+         * 如果本身为false，则由原生属性决定
+         * ViewGroup Always true
+         */
+        boolean isEnabled = mView.isEnabled();
+        if (isEnabled) mView.setEnabled(mIsEnabled);
 
         mBackgroundNormal = new GradientDrawable();
         mBackgroundPressed = new GradientDrawable();
