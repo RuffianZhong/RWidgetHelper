@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
@@ -222,15 +223,150 @@ public class RImageViewHelper {
             //setLayerType(View.LAYER_TYPE_SOFTWARE, mBitmapPaint);//禁止硬件加速
             int layerId = canvas.saveLayer(0, 0, getWidth(), getHeight(), mBitmapPaint, Canvas.ALL_SAVE_FLAG);//离屏绘制
 
-            //绘制圆形,圆角图片
-            Bitmap dst = makeDst(getWidth(), getHeight());
-            Bitmap src = makeSrc(mView.getDrawable(), getWidth(), getHeight());
-            canvas.drawBitmap(dst, 0, 0, mBitmapPaint);
+            //drawable
+            Drawable drawable = mView.getDrawable();
+            int bmpW = drawable.getIntrinsicWidth();
+            int bmpH = drawable.getIntrinsicHeight();
+            //matrix
+            Matrix matrix = mView.getMatrix();
+            //ScaleType
+            ImageView.ScaleType scaleType = mView.getScaleType();
+
+            //图形轮廓
+            Bitmap dst = makeDst(getWidth(), getHeight());//创建
+            canvas.drawBitmap(dst, 0, 0, mBitmapPaint);//绘制
+
+            //设置混合模型
             mBitmapPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-            canvas.drawBitmap(src, 0, 0, mBitmapPaint);
+
+            //绘制展示图
+            drawBitmapSrc(canvas, drawable, matrix, scaleType, bmpW, bmpH, getWidth(), getHeight());
 
             mBitmapPaint.setXfermode(null);
             canvas.restoreToCount(layerId); //离屏绘制
+        }
+    }
+
+
+    /**
+     * 绘制图片
+     * 参考源码 configureBounds()
+     *
+     * @param canvas
+     * @param drawable
+     * @param matrix
+     * @param scaleType
+     * @param bmpW      图片宽
+     * @param bmpH      图片高
+     * @param w         控件宽
+     * @param h         控件高
+     */
+    private void drawBitmapSrc(Canvas canvas, Drawable drawable, Matrix matrix, ImageView.ScaleType scaleType, int bmpW, int bmpH, int w, int h) {
+
+        /**
+         * 支持padding 考虑边框宽度
+         */
+        int paddingLeft = mView.getPaddingLeft() + mBorderWidth;
+        int paddingTop = mView.getPaddingTop() + mBorderWidth;
+        int paddingRight = mView.getPaddingRight() + mBorderWidth;
+        int paddingBottom = mView.getPaddingBottom() + mBorderWidth;
+
+        /**
+         * 实际宽高
+         */
+        float actualW = w - paddingLeft - paddingRight;
+        float actualH = h - paddingTop - paddingBottom;
+
+        /**
+         * 宽高缩放比例
+         */
+        float scaleW = actualW / w;
+        float scaleH = actualH / h;
+
+        Bitmap viewBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);//根据view大小创建bitmap
+        Canvas viewCanvas = new Canvas(viewBitmap);//根据 viewBitmap 大小创建 canvas 画布
+        viewCanvas.translate(paddingLeft, paddingTop);//移动画布,必须先于缩放，避免误差
+        viewCanvas.scale(scaleW, scaleH);//缩放画布
+
+        /**
+         * 根据 scaleType 处理图片 参考 ImageView 源码 configureBounds()
+         */
+        float scale;
+        float dx = 0, dy = 0;
+        switch (scaleType) {
+            default:
+            case CENTER:
+
+                matrix.setTranslate(Math.round((w - bmpW) * 0.5f), Math.round((h - bmpH) * 0.5f));
+                break;
+            case FIT_START:
+            case FIT_END:
+            case FIT_CENTER:
+
+                RectF mTempSrc = new RectF(0, 0, bmpW, bmpH);
+                RectF mTempDst = new RectF(0, 0, w, h);
+                matrix.setRectToRect(mTempSrc, mTempDst, scaleTypeToScaleToFit(scaleType));
+                break;
+            case FIT_XY:
+
+                drawable.setBounds(0, 0, w, h);
+                matrix = null;
+                break;
+            case CENTER_CROP:
+
+                if (bmpW * h > w * bmpH) {
+                    scale = (float) h / (float) bmpH;
+                    dx = (w - bmpW * scale) * 0.5f;
+                } else {
+                    scale = (float) w / (float) bmpW;
+                    dy = (h - bmpH * scale) * 0.5f;
+                }
+
+                matrix.setScale(scale, scale);
+                matrix.postTranslate(Math.round(dx), Math.round(dy));
+                break;
+            case CENTER_INSIDE:
+
+                if (bmpW <= w && bmpH <= h) {
+                    scale = 1.0f;
+                } else {
+                    scale = Math.min((float) w / (float) bmpW, (float) h / (float) bmpH);
+                }
+
+                dx = Math.round((w - bmpW * scale) * 0.5f);
+                dy = Math.round((h - bmpH * scale) * 0.5f);
+
+                matrix.setScale(scale, scale);
+                matrix.postTranslate(dx, dy);
+                break;
+            case MATRIX:
+
+                if (matrix.isIdentity()) {
+                    matrix = null;
+                }
+                break;
+        }
+
+        viewCanvas.concat(matrix);//设置变化矩阵
+        drawable.draw(viewCanvas);//绘制drawable
+        canvas.drawBitmap(viewBitmap, 0, 0, mBitmapPaint);
+    }
+
+
+    private static Matrix.ScaleToFit scaleTypeToScaleToFit(ImageView.ScaleType st) {
+        /**
+         * 根据源码改造  sS2FArray[st.nativeInt - 1]
+         */
+        switch (st) {
+            case FIT_XY:
+                return Matrix.ScaleToFit.FILL;
+            case FIT_START:
+                return Matrix.ScaleToFit.START;
+            case FIT_END:
+                return Matrix.ScaleToFit.END;
+            case FIT_CENTER:
+            default:
+                return Matrix.ScaleToFit.CENTER;
         }
     }
 
@@ -255,28 +391,6 @@ public class RImageViewHelper {
                 canvas.drawPath(path, mBorderPaint);
             }
         }
-    }
-
-    /**
-     * 创建源图像(展示图)
-     *
-     * @param drawable
-     * @param w
-     * @param h
-     * @return
-     */
-    private Bitmap makeSrc(Drawable drawable, int w, int h) {
-
-        Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-        Canvas drawCanvas = new Canvas(bitmap);
-
-        int dWidth = drawable.getIntrinsicWidth();
-        int dHeight = drawable.getIntrinsicHeight();
-        float scale = Math.max(getWidth() * 1.0f / dWidth, getHeight() * 1.0f / dHeight);
-        drawable.setBounds(0, 0, (int) (scale * dWidth), (int) (scale * dHeight));
-        drawable.draw(drawCanvas);
-
-        return bitmap;
     }
 
     /**
@@ -310,7 +424,6 @@ public class RImageViewHelper {
         Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);//抗锯齿
-        paint.setColor(Color.GREEN);
         canvas.drawCircle(getWidth() / 2, getHeight() / 2, Math.min(rect.width() / 2, rect.width() / 2), paint);
         return bitmap;
     }

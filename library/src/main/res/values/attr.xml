@@ -273,6 +273,9 @@
 
         <!--是否可用-->
         <attr name="enabled" />
+
+        <!--图片展示类型-->
+        <attr name="android:scaleType" />
     </declare-styleable>
 
     <!-- RLinearLayout -->
