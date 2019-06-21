@@ -215,6 +215,8 @@
 
 ### 版本历史
 
+**v1.0.9**　`2019.06.21`　RImageView支持ScaleType
+
 **v1.0.8**　`2019.01.30`　Fix bug [issues#25](https://github.com/RuffianZhong/RWidgetHelper/issues/25) and [issues#26](https://github.com/RuffianZhong/RWidgetHelper/issues/26)
 
 **v1.0.7**　`2018.12.20`　优化代码，Fix bug
