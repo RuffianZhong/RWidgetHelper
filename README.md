@@ -210,10 +210,12 @@
 ### 使用
 > ###  Gradle （版本号根据更新历史使用最新版）
 
-    compile 'com.ruffian.library:RWidgetHelper:1.0.8'
+    compile 'com.ruffian.library:RWidgetHelper:1.0.10'
 
 
 ### 版本历史
+
+**v1.0.10**　`2019.06.26`　Fix bug [issues#33](https://github.com/RuffianZhong/RWidgetHelper/issues/33)
 
 **v1.0.9**　`2019.06.21`　RImageView支持ScaleType
 
