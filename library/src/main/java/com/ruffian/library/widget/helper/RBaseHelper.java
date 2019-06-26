@@ -189,7 +189,7 @@ public class RBaseHelper<T extends View> {
 
         a.recycle();
 
-        mHasPressedBgColor = mBackgroundColorPressed != 0 || mBackgroundColorNormalArray != null;
+        mHasPressedBgColor = mBackgroundColorPressed != 0 || mBackgroundColorPressedArray != null;
         mHasUnableBgColor = mBackgroundColorUnable != 0 || mBackgroundColorUnableArray != null;
         mHasCheckedBgColor = mBackgroundColorChecked != 0 || mBackgroundColorCheckedArray != null;
         mHasPressedBgBmp = mBackgroundPressedBmp != null;
