@@ -180,6 +180,9 @@
 | border_color_checked 			|   边框颜色 	选中		|
 | background_checked 			|   背景		 	选中 	|
 | text_color_checked       		|   文字颜色 	选中 	|
+| icon_src_normal       		|   图标 	未选中 	|
+| icon_src_checked       		|   图标 	选中 	|
+
 
 #### RImageView
 
