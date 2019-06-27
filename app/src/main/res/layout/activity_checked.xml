@@ -61,6 +61,65 @@
 
     </RadioGroup>
 
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.ruffian.library.widget.RRadioButton
+            android:id="@+id/btn1_1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:button="@null"
+            android:gravity="center"
+            android:text="左图"
+            app:background_checked="@array/array_l_r"
+            app:background_normal="#FFC107"
+            app:corner_radius_bottom_left="10dp"
+            app:corner_radius_top_left="10dp"
+            app:icon_src_checked="@mipmap/icon_rb_green_selected"
+            app:icon_src_normal="@mipmap/icon_rb_green_default"
+            app:icon_with_text="true" />
+
+        <com.ruffian.library.widget.RRadioButton
+            android:id="@+id/btn2_2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:checked="true"
+            android:drawablePadding="4dp"
+            android:gravity="center"
+            android:text="图文居中"
+            app:background_checked="@array/array_l_r"
+            app:background_normal="#FFC107"
+            app:icon_src_checked="@mipmap/icon_rb_green_selected"
+            app:icon_src_normal="@mipmap/icon_rb_green_default"
+            app:icon_with_text="true" />
+
+        <com.ruffian.library.widget.RRadioButton
+            android:id="@+id/btn3_3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:gravity="center"
+            android:text="右图"
+            app:background_checked="@array/array_l_r"
+            app:background_normal="#FFC107"
+            app:corner_radius_bottom_right="10dp"
+            app:corner_radius_top_right="10dp"
+            app:icon_direction="right"
+            app:icon_src_checked="@mipmap/icon_rb_green_selected"
+            app:icon_src_normal="@mipmap/icon_rb_green_default"
+            app:icon_with_text="true" />
+
+    </RadioGroup>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -114,5 +173,61 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <com.ruffian.library.widget.RCheckBox
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:gravity="center"
+            android:text="IOS"
+            app:border_color_checked="@color/purple"
+            app:border_color_normal="@color/colorAccent"
+            app:border_width_normal="2dp"
+            app:icon_src_checked="@mipmap/icon_rb_green_selected"
+            app:icon_src_normal="@mipmap/icon_rb_green_default"
+            app:icon_with_text="true"
+            app:text_color_checked="@color/purple" />
+
+        <com.ruffian.library.widget.RCheckBox
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_weight="1"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:text="Android"
+            app:border_color_checked="@color/purple"
+            app:border_color_normal="@color/colorAccent"
+            app:border_width_normal="2dp"
+            app:icon_src_checked="@mipmap/icon_rb_green_selected"
+            app:icon_src_normal="@mipmap/icon_rb_green_default"
+            app:icon_with_text="true"
+            app:text_color_checked="@color/purple" />
+
+        <com.ruffian.library.widget.RCheckBox
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:text="Html"
+            app:border_color_checked="@color/purple"
+            app:border_color_normal="@color/colorAccent"
+            app:border_width_normal="2dp"
+            app:icon_src_checked="@mipmap/icon_rb_green_selected"
+            app:icon_src_normal="@mipmap/icon_rb_green_default"
+            app:icon_with_text="true"
+            app:text_color_checked="@color/purple" />
+
+    </LinearLayout>
 
 </LinearLayout>
