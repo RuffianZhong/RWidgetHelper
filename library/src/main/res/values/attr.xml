@@ -64,6 +64,7 @@
     <attr name="icon_src_normal" format="reference" />
     <attr name="icon_src_pressed" format="reference" />
     <attr name="icon_src_unable" format="reference" />
+    <attr name="icon_src_checked" format="reference" />
 
     <!--图标、大小、位置-->
     <attr name="icon_height" format="dimension" />
@@ -488,6 +489,21 @@
 
         <!--是否可用-->
         <attr name="enabled" />
+
+        <!--图标资源-->
+        <attr name="icon_src_normal" />
+        <attr name="icon_src_pressed" />
+        <attr name="icon_src_unable" />
+        <attr name="icon_src_checked" />
+
+        <!--图标、大小、位置-->
+        <attr name="icon_height" />
+        <attr name="icon_width" />
+        <attr name="icon_direction" />
+
+        <!--drawable和Text居中-->
+        <attr name="icon_with_text" />
+
     </declare-styleable>
 
     <!-- RCheckBox -->
@@ -540,6 +556,20 @@
 
         <!--是否可用-->
         <attr name="enabled" />
+
+        <!--图标资源-->
+        <attr name="icon_src_normal" />
+        <attr name="icon_src_pressed" />
+        <attr name="icon_src_unable" />
+        <attr name="icon_src_checked" />
+
+        <!--图标、大小、位置-->
+        <attr name="icon_height" />
+        <attr name="icon_width" />
+        <attr name="icon_direction" />
+
+        <!--drawable和Text居中-->
+        <attr name="icon_with_text" />
     </declare-styleable>
 
 </resources>

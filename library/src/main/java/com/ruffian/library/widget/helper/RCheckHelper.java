@@ -1,13 +1,15 @@
 package com.ruffian.library.widget.helper;
 
 import android.content.Context;
-import android.content.res.AssetManager;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
-import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.annotation.ColorInt;
-import android.text.TextUtils;
+import android.support.v7.content.res.AppCompatResources;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.widget.CompoundButton;
 
 import com.ruffian.library.widget.R;
@@ -17,27 +19,18 @@ import com.ruffian.library.widget.R;
  *
  * @author ZhongDaFeng
  */
-public class RCheckHelper extends RBaseHelper<CompoundButton> {
-
-    int[][] states = new int[4][];
+public class RCheckHelper extends RTextViewHelper {
 
     // Text
-    private int mTextColorNormal;
-    private int mTextColorPressed;
-    private int mTextColorUnable;
     private int mTextColorChecked;
-    private ColorStateList mTextColorStateList;
-    private int currentTextColor;//默认原生字体颜色
-
-    //typeface
-    private String mTypefacePath;
-
-    /**
-     * 是否设置对应的属性
-     */
-    private boolean mHasPressedTextColor = false;
-    private boolean mHasUnableTextColor = false;
     private boolean mHasCheckedTextColor = false;
+    //Icon
+    private Drawable mIconChecked;
+
+    {
+        //先于构造函数重置
+        states = new int[4][];
+    }
 
 
     public RCheckHelper(Context context, CompoundButton view, AttributeSet attrs) {
@@ -58,18 +51,20 @@ public class RCheckHelper extends RBaseHelper<CompoundButton> {
         }
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RRadioButton);
         //text
-        currentTextColor = mView.getCurrentTextColor();
-        mTextColorNormal = a.getColor(R.styleable.RRadioButton_text_color_normal, currentTextColor);
-        mTextColorPressed = a.getColor(R.styleable.RRadioButton_text_color_pressed, 0);
-        mTextColorUnable = a.getColor(R.styleable.RRadioButton_text_color_unable, 0);
         mTextColorChecked = a.getColor(R.styleable.RRadioButton_text_color_checked, 0);
-        //typeface
-        mTypefacePath = a.getString(R.styleable.RRadioButton_text_typeface);
+
+        //icon
+        //Vector兼容处理
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mIconChecked = a.getDrawable(R.styleable.RRadioButton_icon_src_checked);
+        } else {
+            int checkedId = a.getResourceId(R.styleable.RRadioButton_icon_src_checked, -1);
+            if (checkedId != -1)
+                mIconChecked = AppCompatResources.getDrawable(context, checkedId);
+        }
 
         a.recycle();
 
-        mHasPressedTextColor = mTextColorPressed != 0;
-        mHasUnableTextColor = mTextColorUnable != 0;
         mHasCheckedTextColor = mTextColorChecked != 0;
 
         //setup
@@ -83,14 +78,15 @@ public class RCheckHelper extends RBaseHelper<CompoundButton> {
     private void setup() {
 
         /**
+         * icon
+         */
+        if (isChecked()) {
+            setIcon(mIconChecked);
+        }
+
+        /**
          * 设置文字颜色默认值
          */
-        if (!mHasPressedTextColor) {
-            mTextColorPressed = mTextColorNormal;
-        }
-        if (!mHasUnableTextColor) {
-            mTextColorUnable = mTextColorNormal;
-        }
         if (!mHasCheckedTextColor) {
             mTextColorChecked = mTextColorNormal;
         }
@@ -103,31 +99,15 @@ public class RCheckHelper extends RBaseHelper<CompoundButton> {
         //设置文本颜色
         setTextColor();
 
-        //设置文本字体样式
-        setTypeface();
-
-    }
-
-    /************************
-     * Typeface
-     ************************/
-
-    public RCheckHelper setTypeface(String typefacePath) {
-        this.mTypefacePath = typefacePath;
-        setTypeface();
-        return this;
-    }
-
-    public String getTypefacePath() {
-        return mTypefacePath;
-    }
-
-    private void setTypeface() {
-        if (!TextUtils.isEmpty(mTypefacePath)) {
-            AssetManager assetManager = mContext.getAssets();
-            Typeface typeface = Typeface.createFromAsset(assetManager, mTypefacePath);
-            mView.setTypeface(typeface);
-        }
+        ((CompoundButton) mView).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Log.e("tag", "======" + isChecked);
+                if (mView == buttonView) {
+                    setIcon(isChecked ? mIconChecked : getIconNormal());
+                }
+            }
+        });
     }
 
 
@@ -135,45 +115,13 @@ public class RCheckHelper extends RBaseHelper<CompoundButton> {
      * text color
      ************************/
 
+    @Override
     public RCheckHelper setTextColorNormal(@ColorInt int textColor) {
-        this.mTextColorNormal = textColor;
-        if (!mHasPressedTextColor) {
-            mTextColorPressed = mTextColorNormal;
-        }
-        if (!mHasUnableTextColor) {
-            mTextColorUnable = mTextColorNormal;
-        }
         if (!mHasCheckedTextColor) {
-            mTextColorChecked = mTextColorNormal;
+            mTextColorChecked = textColor;
         }
-        setTextColor();
+        super.setTextColorNormal(textColor);
         return this;
-    }
-
-    public int getTextColorNormal() {
-        return mTextColorNormal;
-    }
-
-    public RCheckHelper setPressedTextColor(@ColorInt int textColor) {
-        this.mTextColorPressed = textColor;
-        this.mHasPressedTextColor = true;
-        setTextColor();
-        return this;
-    }
-
-    public int getPressedTextColor() {
-        return mTextColorPressed;
-    }
-
-    public RCheckHelper setTextColorUnable(@ColorInt int textColor) {
-        this.mTextColorUnable = textColor;
-        this.mHasUnableTextColor = true;
-        setTextColor();
-        return this;
-    }
-
-    public int getTextColorUnable() {
-        return mTextColorUnable;
     }
 
     public RCheckHelper setTextColorChecked(@ColorInt int textColor) {
@@ -188,22 +136,45 @@ public class RCheckHelper extends RBaseHelper<CompoundButton> {
     }
 
     public RCheckHelper setTextColor(@ColorInt int normal, @ColorInt int pressed, @ColorInt int unable, @ColorInt int checked) {
-        this.mTextColorNormal = normal;
-        this.mTextColorPressed = pressed;
-        this.mTextColorUnable = unable;
         this.mTextColorChecked = checked;
-        this.mHasPressedTextColor = true;
-        this.mHasUnableTextColor = true;
         this.mHasCheckedTextColor = true;
-        setTextColor();
+        super.setTextColor(normal, pressed, unable);
         return this;
     }
 
-    private void setTextColor() {
+    @Override
+    protected void setTextColor() {
         //state_pressed,state_checked,Unable,Normal
         int[] colors = new int[]{mTextColorPressed, mTextColorChecked, mTextColorUnable, mTextColorNormal};
         mTextColorStateList = new ColorStateList(states, colors);
         mView.setTextColor(mTextColorStateList);
     }
 
+    /************************
+     * icon
+     ************************/
+
+    public RCheckHelper setIconChecked(Drawable icon) {
+        this.mIconChecked = icon;
+        setIcon(icon);
+        return this;
+    }
+
+    public Drawable getIconChecked() {
+        return mIconChecked;
+    }
+
+    @Override
+    public void onTouchEvent(MotionEvent event) {
+        if (!isChecked()) {
+            super.onTouchEvent(event);
+        }
+    }
+
+    public boolean isChecked() {
+        if (mView != null) {
+            return ((CompoundButton) mView).isChecked();
+        }
+        return false;
+    }
 }

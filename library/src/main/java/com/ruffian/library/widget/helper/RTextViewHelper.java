@@ -37,11 +37,11 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
     private int mIconDirection;
 
     // Text
-    private int mTextColorNormal;
-    private int mTextColorPressed;
-    private int mTextColorUnable;
-    private ColorStateList mTextColorStateList;
-    int[][] states = new int[3][];
+    protected int mTextColorNormal;
+    protected int mTextColorPressed;
+    protected int mTextColorUnable;
+    protected ColorStateList mTextColorStateList;
+    protected int[][] states = new int[3][];
 
     //Icon
     private Drawable mIcon = null;
@@ -61,8 +61,8 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
     /**
      * 是否设置对应的属性
      */
-    private boolean mHasPressedTextColor = false;
-    private boolean mHasUnableTextColor = false;
+    protected boolean mHasPressedTextColor = false;
+    protected boolean mHasUnableTextColor = false;
     //TextView本身设置的padding
     protected int mPaddingLeft, mPaddingRight, mPaddingTop, mPaddingBottom;
 
@@ -300,6 +300,17 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
         return mIconDirection;
     }
 
+    /**
+     * 主要用于子类调用
+     *
+     * @param icon
+     */
+    @SuppressWarnings("unchecked")
+    protected void setIcon(Drawable icon) {
+        this.mIcon = icon;
+        setIcon();
+    }
+
     private void setIcon() {
         //未设置图片大小
         if (mIconHeight == 0 && mIconWidth == 0) {
@@ -396,14 +407,14 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
         return mTextColorNormal;
     }
 
-    public RTextViewHelper setPressedTextColor(@ColorInt int textColor) {
+    public RTextViewHelper setTextColorPressed(@ColorInt int textColor) {
         this.mTextColorPressed = textColor;
         this.mHasPressedTextColor = true;
         setTextColor();
         return this;
     }
 
-    public int getPressedTextColor() {
+    public int getTextColorPressed() {
         return mTextColorPressed;
     }
 
@@ -428,7 +439,7 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
         return this;
     }
 
-    private void setTextColor() {
+    protected void setTextColor() {
         //state_pressed,Normal,Unable
         int[] colors = new int[]{mTextColorPressed, mTextColorNormal, mTextColorUnable};
         mTextColorStateList = new ColorStateList(states, colors);
