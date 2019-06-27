@@ -168,7 +168,11 @@
 
 > 查看基础功能
 >
+> 查看 `RTextView` 所有功能
+>
 > 常使用选择属性 checked 
+> 
+> 支持 `RTextView` 的基础功能 自定义各个状态 `drawableLeft` 以及 icon与文本居中等
 
 | 属性			|说明			 |
 | ------------- |  :-------------|
@@ -210,10 +214,12 @@
 ### 使用
 > ###  Gradle （版本号根据更新历史使用最新版）
 
-    compile 'com.ruffian.library:RWidgetHelper:1.0.10'
+    compile 'com.ruffian.library:RWidgetHelper:1.1.0'
 
 
 ### 版本历史
+
+**v1.1.0**　`2019.06.27`　 `RCheckBox` 和 `RRadioButton` 支持选中图片，支持继承 `RTextView` 的基础功能
 
 **v1.0.10**　`2019.06.26`　Fix bug [issues#33](https://github.com/RuffianZhong/RWidgetHelper/issues/33)
 
