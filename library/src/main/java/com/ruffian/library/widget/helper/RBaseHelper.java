@@ -694,7 +694,7 @@ public class RBaseHelper<T extends View> {
         }
 
         //是否自定义了圆角
-        if (mCornerRadius != 0 || mCornerRadiusTopLeft != 0 || mCornerRadiusTopRight != 0 || mCornerRadiusBottomLeft != 0 || mCornerRadiusBottomRight != 0) {
+        if (mCornerRadius != -1 || mCornerRadiusTopLeft != 0 || mCornerRadiusTopRight != 0 || mCornerRadiusBottomLeft != 0 || mCornerRadiusBottomRight != 0) {
             hasCusCorner = true;
         }
 
