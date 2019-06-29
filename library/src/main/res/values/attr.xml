@@ -189,6 +189,67 @@
         <attr name="enabled" />
     </declare-styleable>
 
+    <!-- RButton -->
+    <declare-styleable name="RButton">
+
+        <!--四周圆角度、左上、右上、左下、右下-->
+        <attr name="corner_radius" />
+        <attr name="corner_radius_top_left" />
+        <attr name="corner_radius_top_right" />
+        <attr name="corner_radius_bottom_left" />
+        <attr name="corner_radius_bottom_right" />
+
+        <!--虚线边框宽度/间隔-->
+        <attr name="border_dash_width" />
+        <attr name="border_dash_gap" />
+
+        <!--边框宽度-->
+        <attr name="border_width_normal" />
+        <attr name="border_width_pressed" />
+        <attr name="border_width_unable" />
+
+        <!--边框颜色-->
+        <attr name="border_color_normal" />
+        <attr name="border_color_pressed" />
+        <attr name="border_color_unable" />
+
+        <!--背景颜色-->
+        <attr name="background_normal" />
+        <attr name="background_pressed" />
+        <attr name="background_unable" />
+
+        <!--Gradient相关-->
+        <attr name="gradient_orientation" />
+        <attr name="gradient_type" />
+        <attr name="gradient_radius" />
+        <attr name="gradient_centerX" />
+        <attr name="gradient_centerY" />
+
+        <!--文本颜色-->
+        <attr name="text_color_normal" />
+        <attr name="text_color_pressed" />
+        <attr name="text_color_unable" />
+
+        <!--图标资源-->
+        <attr name="icon_src_normal" />
+        <attr name="icon_src_pressed" />
+        <attr name="icon_src_unable" />
+
+        <!--图标、大小、位置-->
+        <attr name="icon_height" />
+        <attr name="icon_width" />
+        <attr name="icon_direction" />
+
+        <!--字体样式-->
+        <attr name="text_typeface" />
+
+        <!--drawable和Text居中-->
+        <attr name="icon_with_text" />
+
+        <!--是否可用-->
+        <attr name="enabled" />
+    </declare-styleable>
+
     <!-- REditText -->
     <declare-styleable name="REditText">
 

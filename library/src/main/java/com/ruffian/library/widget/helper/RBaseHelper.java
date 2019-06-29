@@ -1,17 +1,24 @@
 package com.ruffian.library.widget.helper;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.RippleDrawable;
+import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.StateListDrawable;
+import android.graphics.drawable.shapes.RoundRectShape;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.StyleableRes;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -712,13 +719,56 @@ public class RBaseHelper<T extends View> {
             setStateBackgroundColor(color, color, color, color);//获取背景颜色值设置 StateListDrawable
         }
 
+
+        Drawable[] drawables;
+        LayerDrawable layerDrawable;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            //ripple颜色
+            ColorStateList colorStateList = new ColorStateList(new int[][]{}, new int[]{Color.parseColor("#FF4081")});
+
+            //计算圆角(待定)
+            float[] borderRadii = new float[8];
+            Log.e("tag", "  size: " + mBorderRadii.length);
+            for (int i = 0; i < mBorderRadii.length; i++) {
+
+                float x = mView.getWidth() - (mBorderWidthNormal * 2f);
+                x = x / mView.getWidth();
+                Log.e("tag", x + "  ");
+
+                float a = mBorderRadii[i] * x - mBorderWidthNormal * x;
+                Log.e("tag", a + "  ");
+                a = (float) Math.ceil(a);
+                borderRadii[i] = a;
+            }
+
+            //范围限制
+            RoundRectShape roundRectShape = new RoundRectShape(borderRadii, null, null);
+            ShapeDrawable maskDrawable = new ShapeDrawable(roundRectShape);
+            maskDrawable.setBounds(mBorderWidthNormal, mBorderWidthNormal, mBorderWidthNormal, mBorderWidthNormal);
+            maskDrawable.getPaint().setColor(Color.parseColor("#000000"));
+            maskDrawable.getPaint().setStyle(Paint.Style.FILL);
+
+            //contentDrawable实际是默认初始化时展示的；maskDrawable 控制了rippleDrawable的范围
+            RippleDrawable rippleDrawable = new RippleDrawable(colorStateList, null, maskDrawable);
+
+            drawables = new Drawable[]{mBackgroundNormal, rippleDrawable};
+            layerDrawable = new LayerDrawable(drawables);
+            layerDrawable.setLayerInset(1, mBorderWidthNormal, mBorderWidthNormal, mBorderWidthNormal, mBorderWidthNormal);
+
+        } else {
+            drawables = new Drawable[]{mBackgroundNormal};
+            layerDrawable = new LayerDrawable(drawables);
+        }
+
         /**
          * 存在自定义属性，使用自定义属性设置
          */
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-            mView.setBackgroundDrawable(hasCustom ? mStateBackground : drawable);
+            mView.setBackgroundDrawable(layerDrawable);
         } else {
-            mView.setBackground(hasCustom ? mStateBackground : drawable);
+            mView.setBackground(layerDrawable);
         }
     }
 
