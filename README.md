@@ -31,7 +31,7 @@
 | 边框宽度 		| 数值  			 				| 默认/按下/不可用 		| 实线/虚线边框		 |
 | 边框颜色 		| 颜色  			 				| 默认/按下/不可用 		| 实线/虚线边框		 |
 | 背景			| 颜色/颜色数组/drawable  		| 默认/按下/不可用 		| 纯色/渐变/Drawable	 |
-
+| 水波纹			| --  							| -- 					| 点击效果水波纹	 	 |
 #### 属性介绍
 
 | 属性			|说明			 |
@@ -60,6 +60,11 @@
 | gradient_radius 				|	渐变半径	 默认:（宽或高最小值）/ 2 |
 | gradient_centerX 				|   渐变中心点X坐标（0.0-1.0）	0.5表示中间	默认:0.5 |
 | gradient_centerY 				|   渐变中心点Y坐标（0.0-1.0）	0.5表示中间	默认:0.5 |
+| ripper 						|   是否开启水波纹效果，true/false |
+| ripper_color	 				|   水波纹效果颜色 |
+| ripper_mask_style	 			|   水波纹效果限制样式，none:无限制 normal:默认跟随控件背景形状 drawable:自定义形状 |
+| ripper_mask 					|   水波纹效果限制自定义drawable |
+
 
 > 	 1.background_xxx         纯色   渐变   drawable
 > 	 纯色:   颜色值               app:background_normal="#74EBD5"
@@ -68,6 +73,8 @@
 > 	 
 > 	 2.自定义属性对原生属性无效
 > 	   例如: `app:corner_radius="10dp"` 搭配 `app:background_normal="#74EBD5"` 而不是`background="#74EBD5"`
+> 	 
+> 	 3.ripper 效果和 pressed/unable/checked 对立，启用 ripper 后，这三种状态无效果
 
 
 #### 示例xml
@@ -131,6 +138,7 @@
 ![](picture/all.gif)  ![](picture/part5.png)
 ![](picture/part1.png) ![](picture/part2.png)
 ![](picture/part3.png) ![](picture/part4.png)
+![](picture/ripper.gif) 
 
 ## 个性功能
 
@@ -217,10 +225,12 @@
 ### 使用
 > ###  Gradle （版本号根据更新历史使用最新版）
 
-    compile 'com.ruffian.library:RWidgetHelper:1.1.0'
+    compile 'com.ruffian.library:RWidgetHelper:1.1.1'
 
 
 ### 版本历史
+
+**v1.1.1**　`2019.08.28`　 5.0 以上版本，支持 RipperDrawable 水波纹效果
 
 **v1.1.0**　`2019.06.27`　 `RCheckBox` 和 `RRadioButton` 支持选中图片，支持继承 `RTextView` 的基础功能
 
