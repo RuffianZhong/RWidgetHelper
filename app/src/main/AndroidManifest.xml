@@ -27,6 +27,7 @@
         <activity android:name=".RViewActivity" />
         <activity android:name=".GradientActivity" />
         <activity android:name=".CheckedActivity" />
+        <activity android:name=".RipperActivity" />
     </application>
 
 </manifest>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_main"
+    android:orientation="vertical">
+
+    <com.ruffian.library.widget.RTextView
+        style="@style/itemRipper"
+        android:layout_margin="10dp"
+        android:clickable="true"
+        android:text="无内容限制，默认mask"
+        app:ripper="true"
+        app:ripper_color="@color/purple"
+        app:ripper_mask_style="normal" />
+
+    <com.ruffian.library.widget.RTextView
+        style="@style/itemMain"
+        android:layout_margin="10dp"
+        android:clickable="true"
+        android:text="有内容限制，默认mask"
+        app:background_normal="#D9AFD9"
+        app:corner_radius="6dp"
+        app:ripper="true"
+        app:ripper_color="@color/purple"
+        app:ripper_mask_style="normal" />
+
+    <com.ruffian.library.widget.RTextView
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        android:clickable="true"
+        android:gravity="center"
+        android:text="自定义drawableMask"
+        app:border_color_normal="@color/purple"
+        app:border_width_normal="1dp"
+        app:corner_radius="10dp"
+        app:ripper="true"
+        app:ripper_color="@color/purple"
+        app:ripper_mask="@mipmap/icon_star"
+        app:ripper_mask_style="drawable" />
+
+    <com.ruffian.library.widget.RTextView
+        style="@style/itemRipper"
+        android:layout_margin="10dp"
+        android:clickable="true"
+        android:text="无内容限制，无mask"
+        app:ripper="true"
+        app:ripper_color="@color/purple"
+        app:ripper_mask_style="none" />
+
+</LinearLayout>
