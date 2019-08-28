@@ -119,6 +119,12 @@
 	        app:gradient_centerY="0.5"
 	        app:gradient_type="linear"
 	        app:gradient_orientation="LEFT_RIGHT"
+			
+			//ripper水波纹
+			app:ripper="true"
+	        app:ripper_color="@color/purple"
+	        app:ripper_mask="@mipmap/icon_star"
+	        app:ripper_mask_style="drawable"
         	/>
 ```
 
