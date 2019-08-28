@@ -85,6 +85,20 @@
     <!--ViewGroup是否可用-->
     <attr name="enabled" format="boolean" />
 
+    <!--Ripper相关-->
+    <!--是否开启ripper-->
+    <attr name="ripper" format="boolean" />
+    <!--ripper颜色-->
+    <attr name="ripper_color" format="color" />
+    <!--ripper波纹限制-->
+    <attr name="ripper_mask" format="reference" />
+    <!--ripper波纹限制-->
+    <attr name="ripper_mask_style">
+        <enum name="none" value="1" />
+        <enum name="normal" value="2" />
+        <enum name="drawable" value="3" />
+    </attr>
+
     <!--RBaseView 通用-->
     <declare-styleable name="RBaseView">
 
@@ -126,6 +140,12 @@
 
         <!--是否可用-->
         <attr name="enabled" />
+
+        <!--ripper-->
+        <attr name="ripper" />
+        <attr name="ripper_color" />
+        <attr name="ripper_mask" />
+        <attr name="ripper_mask_style" />
     </declare-styleable>
 
     <!-- TextView -->
@@ -187,6 +207,12 @@
 
         <!--是否可用-->
         <attr name="enabled" />
+
+        <!--ripper-->
+        <attr name="ripper" />
+        <attr name="ripper_color" />
+        <attr name="ripper_mask" />
+        <attr name="ripper_mask_style" />
     </declare-styleable>
 
     <!-- RButton -->
@@ -248,6 +274,12 @@
 
         <!--是否可用-->
         <attr name="enabled" />
+
+        <!--ripper-->
+        <attr name="ripper" />
+        <attr name="ripper_color" />
+        <attr name="ripper_mask" />
+        <attr name="ripper_mask_style" />
     </declare-styleable>
 
     <!-- REditText -->
@@ -309,6 +341,12 @@
 
         <!--是否可用-->
         <attr name="enabled" />
+
+        <!--ripper-->
+        <attr name="ripper" />
+        <attr name="ripper_color" />
+        <attr name="ripper_mask" />
+        <attr name="ripper_mask_style" />
     </declare-styleable>
 
     <!-- ImageView -->
@@ -338,6 +376,12 @@
 
         <!--图片展示类型-->
         <attr name="android:scaleType" />
+
+        <!--ripper-->
+        <attr name="ripper" />
+        <attr name="ripper_color" />
+        <attr name="ripper_mask" />
+        <attr name="ripper_mask_style" />
     </declare-styleable>
 
     <!-- RLinearLayout -->
@@ -378,6 +422,12 @@
 
         <!--是否可用-->
         <attr name="enabled" />
+
+        <!--ripper-->
+        <attr name="ripper" />
+        <attr name="ripper_color" />
+        <attr name="ripper_mask" />
+        <attr name="ripper_mask_style" />
     </declare-styleable>
 
     <!-- RRelativeLayout -->
@@ -418,6 +468,12 @@
 
         <!--是否可用-->
         <attr name="enabled" />
+
+        <!--ripper-->
+        <attr name="ripper" />
+        <attr name="ripper_color" />
+        <attr name="ripper_mask" />
+        <attr name="ripper_mask_style" />
     </declare-styleable>
 
     <!-- RFrameLayout -->
@@ -458,6 +514,12 @@
 
         <!--是否可用-->
         <attr name="enabled" />
+
+        <!--ripper-->
+        <attr name="ripper" />
+        <attr name="ripper_color" />
+        <attr name="ripper_mask" />
+        <attr name="ripper_mask_style" />
     </declare-styleable>
 
     <!-- RView -->
@@ -498,6 +560,12 @@
 
         <!--是否可用-->
         <attr name="enabled" />
+
+        <!--ripper-->
+        <attr name="ripper" />
+        <attr name="ripper_color" />
+        <attr name="ripper_mask" />
+        <attr name="ripper_mask_style" />
     </declare-styleable>
 
     <!-- RRadioButton -->
@@ -565,6 +633,11 @@
         <!--drawable和Text居中-->
         <attr name="icon_with_text" />
 
+        <!--ripper-->
+        <attr name="ripper" />
+        <attr name="ripper_color" />
+        <attr name="ripper_mask" />
+        <attr name="ripper_mask_style" />
     </declare-styleable>
 
     <!-- RCheckBox -->
@@ -631,6 +704,12 @@
 
         <!--drawable和Text居中-->
         <attr name="icon_with_text" />
+
+        <!--ripper-->
+        <attr name="ripper" />
+        <attr name="ripper_color" />
+        <attr name="ripper_mask" />
+        <attr name="ripper_mask_style" />
     </declare-styleable>
 
 </resources>

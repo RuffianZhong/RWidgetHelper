@@ -4,11 +4,9 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.RippleDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.StateListDrawable;
@@ -18,7 +16,6 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.StyleableRes;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -88,6 +85,17 @@ public class RBaseHelper<T extends View> {
 
     //View/ViewGroup是否可用
     private boolean mIsEnabled = true;
+
+    //ripper
+    private boolean mUseRipper;
+    private int mRipperColor;
+    private Drawable mRipperMaskDrawable;
+    //ripper波纹限制样式{null, normal=控件矩形, drawable=自定义drawable}
+    private int mRipperMaskStyle;
+    //null normal drawable
+    private final int MASK_STYLE_NULL = 1, MASK_STYLE_NORMAL = 2, MASK_STYLE_DRAWABLE = 3;
+
+    private Drawable mBackgroundDrawable;
 
     private int[][] states = new int[6][];
     private StateListDrawable mStateBackground;
@@ -193,6 +201,11 @@ public class RBaseHelper<T extends View> {
         mGradientCenterY = a.getFloat(R.styleable.RBaseView_gradient_centerY, 0.5f);
         //enabled
         mIsEnabled = a.getBoolean(R.styleable.RBaseView_enabled, true);
+        //ripper
+        mUseRipper = a.getBoolean(R.styleable.RBaseView_ripper, false);
+        mRipperColor = a.getColor(R.styleable.RBaseView_ripper_color, Color.RED);
+        mRipperMaskDrawable = a.getDrawable(R.styleable.RBaseView_ripper_mask);
+        mRipperMaskStyle = a.getInt(R.styleable.RBaseView_ripper_mask_style, MASK_STYLE_NORMAL);
 
         a.recycle();
 
@@ -301,9 +314,10 @@ public class RBaseHelper<T extends View> {
         mStateBackground.addState(states[0], mBackgroundPressedBmp == null ? mBackgroundPressed : mBackgroundPressedBmp);
         mStateBackground.addState(states[1], mBackgroundPressedBmp == null ? mBackgroundPressed : mBackgroundPressedBmp);
         mStateBackground.addState(states[3], mBackgroundUnableBmp == null ? mBackgroundUnable : mBackgroundUnableBmp);
-        mStateBackground.addState(states[4], mBackgroundNormalBmp == null ? mBackgroundNormal : mBackgroundNormalBmp);
+        mStateBackground.addState(states[4], mBackgroundNormalBmp == null ? mBackgroundNormal : mBackgroundNormalBmp);//特殊处理
         mStateBackground.addState(states[5], mBackgroundCheckedBmp == null ? mBackgroundChecked : mBackgroundCheckedBmp);
-        mStateBackground.addState(states[2], mBackgroundNormalBmp == null ? mBackgroundNormal : mBackgroundNormalBmp);
+        mStateBackground.addState(states[2], mBackgroundNormalBmp == null ? mBackgroundNormal : mBackgroundNormalBmp);//特殊处理
+
 
         /**
          * 设置边框默认值
@@ -709,7 +723,6 @@ public class RBaseHelper<T extends View> {
             hasCustom = true;
         }
 
-
         /**
          * 未设置自定义属性,获取原生背景并且设置
          */
@@ -719,57 +732,132 @@ public class RBaseHelper<T extends View> {
             setStateBackgroundColor(color, color, color, color);//获取背景颜色值设置 StateListDrawable
         }
 
-
-        Drawable[] drawables;
-        LayerDrawable layerDrawable;
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
-            //ripple颜色
-            ColorStateList colorStateList = new ColorStateList(new int[][]{}, new int[]{Color.parseColor("#FF4081")});
-
-            //计算圆角(待定)
-            float[] borderRadii = new float[8];
-            Log.e("tag", "  size: " + mBorderRadii.length);
-            for (int i = 0; i < mBorderRadii.length; i++) {
-
-                float x = mView.getWidth() - (mBorderWidthNormal * 2f);
-                x = x / mView.getWidth();
-                Log.e("tag", x + "  ");
-
-                float a = mBorderRadii[i] * x - mBorderWidthNormal * x;
-                Log.e("tag", a + "  ");
-                a = (float) Math.ceil(a);
-                borderRadii[i] = a;
-            }
-
-            //范围限制
-            RoundRectShape roundRectShape = new RoundRectShape(borderRadii, null, null);
-            ShapeDrawable maskDrawable = new ShapeDrawable(roundRectShape);
-            maskDrawable.setBounds(mBorderWidthNormal, mBorderWidthNormal, mBorderWidthNormal, mBorderWidthNormal);
-            maskDrawable.getPaint().setColor(Color.parseColor("#000000"));
-            maskDrawable.getPaint().setStyle(Paint.Style.FILL);
-
-            //contentDrawable实际是默认初始化时展示的；maskDrawable 控制了rippleDrawable的范围
-            RippleDrawable rippleDrawable = new RippleDrawable(colorStateList, null, maskDrawable);
-
-            drawables = new Drawable[]{mBackgroundNormal, rippleDrawable};
-            layerDrawable = new LayerDrawable(drawables);
-            layerDrawable.setLayerInset(1, mBorderWidthNormal, mBorderWidthNormal, mBorderWidthNormal, mBorderWidthNormal);
-
-        } else {
-            drawables = new Drawable[]{mBackgroundNormal};
-            layerDrawable = new LayerDrawable(drawables);
-        }
+        //设置水波纹drawable
+        mBackgroundDrawable = getRipperDrawable(hasCustom, mRipperColor);
 
         /**
          * 存在自定义属性，使用自定义属性设置
          */
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-            mView.setBackgroundDrawable(layerDrawable);
+            mView.setBackgroundDrawable(mBackgroundDrawable);
         } else {
-            mView.setBackground(layerDrawable);
+            mView.setBackground(mBackgroundDrawable);
         }
+    }
+
+    /**
+     * 获取RipperDrawable
+     *
+     * @param hasCustom   是否存在自定义背景
+     * @param ripperColor 水波纹颜色
+     */
+    private Drawable getRipperDrawable(boolean hasCustom, int ripperColor) {
+        if (isUseRipper()) {
+            RippleDrawable rippleDrawable = null;//水波纹drawable
+            /**
+             * RippleDrawable -> 内容默认drawable
+             * 1. 存在自定义背景 提取 mBackgroundNormalBmp || mBackgroundNormal
+             * 2. null
+             */
+            Drawable contentDrawable;
+            if (hasCustom) {
+                //存在背景图片，优先使用背景图片，不存在使用默认背景
+                contentDrawable = mBackgroundNormalBmp == null ? mBackgroundNormal : mBackgroundNormalBmp;
+            } else {//null
+                contentDrawable = null;
+            }
+
+            /**
+             * RippleDrawable -> 纹范围限drawable
+             * 1. null 不设置范围
+             * 2. 不设置情况 -> 提取 mBackgroundNormalBmp || mBackgroundNormal
+             * 3. 自定义设置drawable
+             */
+            Drawable maskDrawable = null;
+            switch (mRipperMaskStyle) {
+                case MASK_STYLE_NULL:// null 不设置范围
+                    maskDrawable = null;
+                    break;
+                case MASK_STYLE_NORMAL:// 不设置情况 -> 提取 mBackgroundNormalBmp || mBackgroundNormal || null
+                    if (hasCustom) {
+                        if (mBackgroundNormalBmp != null) {//背景图片
+                            maskDrawable = mBackgroundNormalBmp;
+                        } else {
+                            //允许圆角的shape
+                            RoundRectShape roundShape = new RoundRectShape(mBorderRadii, null, null);
+                            ShapeDrawable shapeDrawable = new ShapeDrawable(roundShape);
+                            maskDrawable = shapeDrawable;
+                        }
+                    } else {//控件默认形状->矩形
+                        maskDrawable = new ShapeDrawable();
+                    }
+                    break;
+                case MASK_STYLE_DRAWABLE:// 自定义设置drawable
+                    maskDrawable = mRipperMaskDrawable;
+                    break;
+            }
+
+            /**
+             * 水波纹颜色值
+             * 可以有多个状态，暂时支持一个
+             */
+            int[][] stateList = new int[][]{
+                    new int[]{android.R.attr.state_pressed},
+                    new int[]{android.R.attr.state_focused},
+                    new int[]{android.R.attr.state_activated},
+                    new int[]{}
+            };
+            int[] stateColorList = new int[]{
+                    ripperColor,
+                    ripperColor,
+                    ripperColor,
+                    ripperColor
+            };
+            ColorStateList colorStateList = new ColorStateList(stateList, stateColorList);
+
+            //水波纹drawable
+            rippleDrawable = new RippleDrawable(colorStateList, contentDrawable, maskDrawable);
+            return rippleDrawable;
+        }
+        return mStateBackground;
+    }
+
+
+    /*********************
+     * Ripper
+     *********************/
+
+    public RBaseHelper setUseRipper(boolean useRipper) {
+        this.mUseRipper = useRipper;
+        setBackgroundState();
+        return this;
+    }
+
+    public boolean useRipper() {
+        return mUseRipper;
+    }
+
+    public RBaseHelper setRipperColor(@ColorInt int ripperColor) {
+        this.mRipperColor = ripperColor;
+        this.mUseRipper = true;
+        setBackgroundState();
+        return this;
+    }
+
+    public int getRipperColor() {
+        return mRipperColor;
+    }
+
+    public RBaseHelper setRipperMaskDrawable(Drawable ripperMaskDrawable) {
+        this.mRipperMaskDrawable = ripperMaskDrawable;
+        this.mUseRipper = true;
+        this.mRipperMaskStyle = MASK_STYLE_DRAWABLE;
+        setBackgroundState();
+        return this;
+    }
+
+    public Drawable getRipperMaskDrawable() {
+        return mRipperMaskDrawable;
     }
 
 
@@ -1226,6 +1314,15 @@ public class RBaseHelper<T extends View> {
      */
     protected float dp2px(int dp) {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, mContext.getResources().getDisplayMetrics());
+    }
+
+    /**
+     * 是否使用ripper
+     *
+     * @return
+     */
+    private boolean isUseRipper() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && mUseRipper;
     }
 
 }
