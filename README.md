@@ -60,10 +60,10 @@
 | gradient_radius 				|	渐变半径	 默认:（宽或高最小值）/ 2 |
 | gradient_centerX 				|   渐变中心点X坐标（0.0-1.0）	0.5表示中间	默认:0.5 |
 | gradient_centerY 				|   渐变中心点Y坐标（0.0-1.0）	0.5表示中间	默认:0.5 |
-| ripper 						|   是否开启水波纹效果，true/false |
-| ripper_color	 				|   水波纹效果颜色 |
-| ripper_mask_style	 			|   水波纹效果限制样式，none:无限制 normal:默认跟随控件背景形状 drawable:自定义形状 |
-| ripper_mask 					|   水波纹效果限制自定义drawable |
+| ripple 						|   是否开启水波纹效果，true/false |
+| ripple_color	 				|   水波纹效果颜色 |
+| ripple_mask_style	 			|   水波纹效果限制样式，none:无限制 normal:默认跟随控件背景形状 drawable:自定义形状 |
+| ripple_mask 					|   水波纹效果限制自定义drawable |
 
 
 > 	 1.background_xxx         纯色   渐变   drawable
@@ -74,7 +74,7 @@
 > 	 2.自定义属性对原生属性无效
 > 	   例如: `app:corner_radius="10dp"` 搭配 `app:background_normal="#74EBD5"` 而不是`background="#74EBD5"`
 > 	 
-> 	 3.ripper 效果和 pressed/unable/checked 对立，启用 ripper 后，这三种状态无效果
+> 	 3.ripple 效果和 pressed 对立，启用 ripple 后，按下效果无效
 
 
 #### 示例xml
@@ -119,12 +119,12 @@
 	        app:gradient_centerY="0.5"
 	        app:gradient_type="linear"
 	        app:gradient_orientation="LEFT_RIGHT"
-			
-			//ripper水波纹
-			app:ripper="true"
-	        app:ripper_color="@color/purple"
-	        app:ripper_mask="@mipmap/icon_star"
-	        app:ripper_mask_style="drawable"
+
+	        //ripple		
+	        app:ripple="true"
+	        app:ripple_color="@color/purple"
+	        app:ripple_mask="@mipmap/icon_star"
+	        app:ripple_mask_style="drawable"
         	/>
 ```
 
@@ -144,7 +144,7 @@
 ![](picture/all.gif)  ![](picture/part5.png)
 ![](picture/part1.png) ![](picture/part2.png)
 ![](picture/part3.png) ![](picture/part4.png)
-![](picture/ripper.gif) 
+![](picture/ripple.gif) 
 
 ## 个性功能
 
@@ -231,12 +231,14 @@
 ### 使用
 > ###  Gradle （版本号根据更新历史使用最新版）
 
-    compile 'com.ruffian.library:RWidgetHelper:1.1.1'
+    compile 'com.ruffian.library:RWidgetHelper:1.1.2'
 
 
 ### 版本历史
 
-**v1.1.1**　`2019.08.28`　 5.0 以上版本，支持 RipperDrawable 水波纹效果
+**v1.1.2**　`2019.08.30`　 RippleDrawable 与 unable / checked 状态兼容，ripper -> ripple (更名:1.1.1版本名称写错了)
+
+**v1.1.1**　`2019.08.28`　 5.0 以上版本，支持 RippleDrawable 水波纹效果
 
 **v1.1.0**　`2019.06.27`　 `RCheckBox` 和 `RRadioButton` 支持选中图片，支持继承 `RTextView` 的基础功能
 
