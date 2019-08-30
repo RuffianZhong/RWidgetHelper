@@ -8,7 +8,6 @@ import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.v7.content.res.AppCompatResources;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.CompoundButton;
 
@@ -102,7 +101,6 @@ public class RCheckHelper extends RTextViewHelper {
         ((CompoundButton) mView).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Log.e("tag", "======" + isChecked);
                 if (mView == buttonView) {
                     setIcon(isChecked ? mIconChecked : getIconNormal());
                 }
