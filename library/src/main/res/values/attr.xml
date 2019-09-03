@@ -99,6 +99,13 @@
         <enum name="drawable" value="3" />
     </attr>
 
+    <!--shadow-->
+    <attr name="shadow_dx" format="dimension" />
+    <attr name="shadow_dy" format="dimension" />
+    <attr name="shadow_color" format="color" />
+    <attr name="shadow_radius" format="dimension" />
+
+
     <!--RBaseView 通用-->
     <declare-styleable name="RBaseView">
 
@@ -146,6 +153,12 @@
         <attr name="ripple_color" />
         <attr name="ripple_mask" />
         <attr name="ripple_mask_style" />
+
+        <!--shadow-->
+        <attr name="shadow_dx" />
+        <attr name="shadow_dy" />
+        <attr name="shadow_color" />
+        <attr name="shadow_radius" />
     </declare-styleable>
 
     <!-- TextView -->
@@ -213,6 +226,12 @@
         <attr name="ripple_color" />
         <attr name="ripple_mask" />
         <attr name="ripple_mask_style" />
+
+        <!--shadow-->
+        <attr name="shadow_dx" />
+        <attr name="shadow_dy" />
+        <attr name="shadow_color" />
+        <attr name="shadow_radius" />
     </declare-styleable>
 
     <!-- RButton -->
@@ -280,6 +299,12 @@
         <attr name="ripple_color" />
         <attr name="ripple_mask" />
         <attr name="ripple_mask_style" />
+
+        <!--shadow-->
+        <attr name="shadow_dx" />
+        <attr name="shadow_dy" />
+        <attr name="shadow_color" />
+        <attr name="shadow_radius" />
     </declare-styleable>
 
     <!-- REditText -->
@@ -347,6 +372,12 @@
         <attr name="ripple_color" />
         <attr name="ripple_mask" />
         <attr name="ripple_mask_style" />
+
+        <!--shadow-->
+        <attr name="shadow_dx" />
+        <attr name="shadow_dy" />
+        <attr name="shadow_color" />
+        <attr name="shadow_radius" />
     </declare-styleable>
 
     <!-- ImageView -->
@@ -378,10 +409,16 @@
         <attr name="android:scaleType" />
 
         <!--ripple-->
-        <attr name="ripple" />
+        <!--<attr name="ripple" />
         <attr name="ripple_color" />
         <attr name="ripple_mask" />
-        <attr name="ripple_mask_style" />
+        <attr name="ripple_mask_style" />-->
+
+        <!--shadow-->
+        <!-- <attr name="shadow_dx" />
+         <attr name="shadow_dy" />
+         <attr name="shadow_color" />
+         <attr name="shadow_radius" />-->
     </declare-styleable>
 
     <!-- RLinearLayout -->
@@ -428,6 +465,12 @@
         <attr name="ripple_color" />
         <attr name="ripple_mask" />
         <attr name="ripple_mask_style" />
+
+        <!--shadow-->
+        <attr name="shadow_dx" />
+        <attr name="shadow_dy" />
+        <attr name="shadow_color" />
+        <attr name="shadow_radius" />
     </declare-styleable>
 
     <!-- RRelativeLayout -->
@@ -474,6 +517,12 @@
         <attr name="ripple_color" />
         <attr name="ripple_mask" />
         <attr name="ripple_mask_style" />
+
+        <!--shadow-->
+        <attr name="shadow_dx" />
+        <attr name="shadow_dy" />
+        <attr name="shadow_color" />
+        <attr name="shadow_radius" />
     </declare-styleable>
 
     <!-- RFrameLayout -->
@@ -520,6 +569,12 @@
         <attr name="ripple_color" />
         <attr name="ripple_mask" />
         <attr name="ripple_mask_style" />
+
+        <!--shadow-->
+        <attr name="shadow_dx" />
+        <attr name="shadow_dy" />
+        <attr name="shadow_color" />
+        <attr name="shadow_radius" />
     </declare-styleable>
 
     <!-- RView -->
@@ -566,6 +621,12 @@
         <attr name="ripple_color" />
         <attr name="ripple_mask" />
         <attr name="ripple_mask_style" />
+
+        <!--shadow-->
+        <attr name="shadow_dx" />
+        <attr name="shadow_dy" />
+        <attr name="shadow_color" />
+        <attr name="shadow_radius" />
     </declare-styleable>
 
     <!-- RRadioButton -->
@@ -638,6 +699,12 @@
         <attr name="ripple_color" />
         <attr name="ripple_mask" />
         <attr name="ripple_mask_style" />
+
+        <!--shadow-->
+        <attr name="shadow_dx" />
+        <attr name="shadow_dy" />
+        <attr name="shadow_color" />
+        <attr name="shadow_radius" />
     </declare-styleable>
 
     <!-- RCheckBox -->
@@ -710,6 +777,12 @@
         <attr name="ripple_color" />
         <attr name="ripple_mask" />
         <attr name="ripple_mask_style" />
+
+        <!--shadow-->
+        <attr name="shadow_dx" />
+        <attr name="shadow_dy" />
+        <attr name="shadow_color" />
+        <attr name="shadow_radius" />
     </declare-styleable>
 
 </resources>

@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.RippleDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.StateListDrawable;
@@ -22,6 +23,7 @@ import android.view.ViewConfiguration;
 import android.view.ViewTreeObserver;
 
 import com.ruffian.library.widget.R;
+import com.ruffian.library.widget.shadow.ShadowDrawable;
 
 /**
  * BaseHelper
@@ -82,6 +84,13 @@ public class RBaseHelper<T extends View> {
     private float mGradientRadius;
     private float mGradientCenterX, mGradientCenterY;
     private GradientDrawable.Orientation mGradientOrientation = GradientDrawable.Orientation.TOP_BOTTOM;
+
+    //shadow
+    private ShadowDrawable mShadowDrawable;
+    private int mShadowDx;
+    private int mShadowDy;
+    private int mShadowColor;
+    private int mShadowRadius;
 
     //View/ViewGroup是否可用
     private boolean mIsEnabled = true;
@@ -206,6 +215,11 @@ public class RBaseHelper<T extends View> {
         mRippleColor = a.getColor(R.styleable.RBaseView_ripple_color, Color.RED);
         mRippleMaskDrawable = a.getDrawable(R.styleable.RBaseView_ripple_mask);
         mRippleMaskStyle = a.getInt(R.styleable.RBaseView_ripple_mask_style, MASK_STYLE_NORMAL);
+        //shadow
+        mShadowDx = a.getDimensionPixelSize(R.styleable.RBaseView_shadow_dx, 0);
+        mShadowDy = a.getDimensionPixelSize(R.styleable.RBaseView_shadow_dy, 0);
+        mShadowColor = a.getColor(R.styleable.RBaseView_shadow_color, Color.GRAY);
+        mShadowRadius = a.getDimensionPixelSize(R.styleable.RBaseView_shadow_radius, -1);
 
         a.recycle();
 
@@ -244,6 +258,7 @@ public class RBaseHelper<T extends View> {
         mBackgroundPressed = new GradientDrawable();
         mBackgroundUnable = new GradientDrawable();
         mBackgroundChecked = new GradientDrawable();
+        if (userShadow()) mShadowDrawable = new ShadowDrawable();
 
         Drawable drawable = mView.getBackground();
         if (drawable != null && drawable instanceof StateListDrawable) {
@@ -732,6 +747,20 @@ public class RBaseHelper<T extends View> {
 
         //设置水波纹drawable
         mBackgroundDrawable = getBackgroundDrawable(hasCustom, mRippleColor);
+        if (userShadow()) {
+            mView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);//禁止硬件加速,must
+            if (mShadowDrawable == null) mShadowDrawable = new ShadowDrawable();
+            mShadowDrawable.updateParameter(mShadowColor, mShadowRadius, mShadowDx, mShadowDy, mBorderRadii);
+            int shadowOffset = (int) mShadowDrawable.getShadowOffsetHalf();
+            int left = shadowOffset + Math.abs(mShadowDx);
+            int right = shadowOffset + Math.abs(mShadowDx);
+            int top = shadowOffset + Math.abs(mShadowDy);
+            int bottom = shadowOffset + Math.abs(mShadowDy);
+
+            LayerDrawable layerDrawable = new LayerDrawable(new Drawable[]{mShadowDrawable, mBackgroundDrawable});
+            layerDrawable.setLayerInset(1, left, top, right, bottom);//设置第二层drawable四周偏移量
+            mBackgroundDrawable = layerDrawable;
+        }
 
         /**
          * 存在自定义属性，使用自定义属性设置
@@ -856,6 +885,55 @@ public class RBaseHelper<T extends View> {
         isMaskNull = contentDrawable == null && maskDrawable == null;
 
         return new Object[]{rippleDrawable, isMaskNull};
+    }
+
+
+    /*********************
+     * Shadow
+     *********************/
+
+    public boolean userShadow() {
+        return mShadowRadius >= 0;
+    }
+
+    public RBaseHelper setShadowRadius(int shadowRadius) {
+        this.mShadowRadius = shadowRadius;
+        setBackgroundState();
+        return this;
+    }
+
+    public int getShadowRadius() {
+        return mShadowRadius;
+    }
+
+    public RBaseHelper setShadowColor(int shadowColor) {
+        this.mShadowColor = shadowColor;
+        setBackgroundState();
+        return this;
+    }
+
+    public int getShadowColor() {
+        return mShadowColor;
+    }
+
+    public RBaseHelper setShadowDx(int shadowDx) {
+        this.mShadowDx = shadowDx;
+        setBackgroundState();
+        return this;
+    }
+
+    public int getShadowDx() {
+        return mShadowDx;
+    }
+
+    public RBaseHelper setShadowDy(int shadowDy) {
+        this.mShadowDy = shadowDy;
+        setBackgroundState();
+        return this;
+    }
+
+    public int getShadowDy() {
+        return mShadowDy;
     }
 
 
