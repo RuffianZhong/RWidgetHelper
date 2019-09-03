@@ -82,4 +82,12 @@
         app:background_pressed="@color/colorPrimaryDark"
         app:corner_radius="6dp" />
 
+    <com.ruffian.library.widget.RTextView
+        android:id="@+id/shadow"
+        style="@style/itemMain"
+        android:layout_marginTop="12dp"
+        android:text="Shadow"
+        app:background_normal="@color/colorPrimary"
+        app:background_pressed="@color/colorPrimaryDark"
+        app:corner_radius="6dp" />
 </LinearLayout>

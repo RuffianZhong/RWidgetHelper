@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.ruffian.library.widget.RLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:orientation="vertical"
+        app:background_normal="@android:color/white"
+        app:corner_radius="10dp"
+        app:shadow_color="#DF23DF"
+        app:shadow_dx="5dp"
+        app:shadow_dy="5dp"
+        app:shadow_radius="20dp">
+
+        <com.ruffian.library.widget.RImageView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginRight="25dp"
+            android:scaleType="fitXY"
+            app:corner_radius_top_left="10dp"
+            app:corner_radius_top_right="10dp"
+            app:icon_src_normal="@mipmap/food" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:gravity="center_vertical"
+            android:padding="2dp"
+            android:text="@string/shadow_tips" />
+
+    </com.ruffian.library.widget.RLinearLayout>
+
+
+    <com.ruffian.library.widget.RTextView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_margin="10dp"
+        android:clickable="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:text="RTextView"
+        app:background_normal="#00cc80"
+        app:background_pressed="#00A366"
+        app:corner_radius="4dp"
+        app:shadow_color="#175250"
+        app:shadow_radius="8dp" />
+
+    <com.ruffian.library.widget.RRelativeLayout
+        android:id="@+id/layout_ll"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:orientation="vertical"
+        app:background_normal="@android:color/white"
+        app:border_color_normal="@color/colorAccent"
+        app:border_width_normal="2dp"
+        app:corner_radius="10dp"
+        app:ripple="true"
+        app:ripple_color="@color/purple"
+        app:ripple_mask_style="normal"
+        app:shadow_color="@color/colorAccent"
+        app:shadow_dx="5dp"
+        app:shadow_dy="5dp"
+        app:shadow_radius="10dp" />
+
+
+</LinearLayout>

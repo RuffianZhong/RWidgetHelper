@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.gradient).setOnClickListener(this);
         findViewById(R.id.checked).setOnClickListener(this);
         findViewById(R.id.ripper).setOnClickListener(this);
+        findViewById(R.id.shadow).setOnClickListener(this);
     }
 
 
@@ -49,6 +50,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.ripper:
                 intent = new Intent(this, RipperActivity.class);
+                break;
+            case R.id.shadow:
+                intent = new Intent(this, ShadowActivity.class);
                 break;
         }
         if (intent != null) {
