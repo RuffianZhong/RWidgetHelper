@@ -32,6 +32,7 @@
 | 边框颜色 		| 颜色  			 				| 默认/按下/不可用 		| 实线/虚线边框		 |
 | 背景			| 颜色/颜色数组/drawable  		| 默认/按下/不可用 		| 纯色/渐变/Drawable	 |
 | 水波纹			| --  							| -- 					| 点击效果水波纹	 	 |
+| 阴影			| --  							| -- 					| 控件四周阴影	 	 |
 #### 属性介绍
 
 | 属性			|说明			 |
@@ -64,6 +65,10 @@
 | ripple_color	 				|   水波纹效果颜色 |
 | ripple_mask_style	 			|   水波纹效果限制样式，none:无限制 normal:默认跟随控件背景形状 drawable:自定义形状 |
 | ripple_mask 					|   水波纹效果限制自定义drawable |
+| shadow_radius 				|   阴影大小 dp |
+| shadow_color 					|   阴影颜色 |
+| shadow_dx 					|   阴影水平方向偏移  负数向左，正数向右  dp  |
+| shadow_dy 					|   阴影垂直方向偏移  负数向上，正数向下  dp  |
 
 
 > 	 1.background_xxx         纯色   渐变   drawable
@@ -75,6 +80,8 @@
 > 	   例如: `app:corner_radius="10dp"` 搭配 `app:background_normal="#74EBD5"` 而不是`background="#74EBD5"`
 > 	 
 > 	 3.ripple 效果和 pressed 对立，启用 ripple 后，按下效果无效
+> 	 
+> 	 4.shadow 内容需要开发者自行兼容，例如：`shadow_radius=10dp` , `shadow_dx=5dp`  则在水平方向需要 `padingLeft/right = 15 dp`
 
 
 #### 示例xml
@@ -125,6 +132,12 @@
 	        app:ripple_color="@color/purple"
 	        app:ripple_mask="@mipmap/icon_star"
 	        app:ripple_mask_style="drawable"
+
+	        //shadow
+	        app:shadow_dx="5dp"
+	        app:shadow_dy="5dp"
+	        app:shadow_radius="10dp"
+	        app:shadow_color="@color/colorAccent"
         	/>
 ```
 
@@ -144,7 +157,7 @@
 ![](picture/all.gif)  ![](picture/part5.png)
 ![](picture/part1.png) ![](picture/part2.png)
 ![](picture/part3.png) ![](picture/part4.png)
-![](picture/ripple.gif) 
+![](picture/ripple.gif) ![](picture/shadow.png) 
 
 ## 个性功能
 
@@ -231,10 +244,12 @@
 ### 使用
 > ###  Gradle （版本号根据更新历史使用最新版）
 
-    compile 'com.ruffian.library:RWidgetHelper:1.1.2'
+    compile 'com.ruffian.library:RWidgetHelper:1.1.3'
 
 
 ### 版本历史
+
+**v1.1.3**　`2019.09.03`　 支持阴影效果
 
 **v1.1.2**　`2019.08.30`　 RippleDrawable 与 unable / checked 状态兼容，ripper -> ripple (更名:1.1.1版本名称写错了)
 
