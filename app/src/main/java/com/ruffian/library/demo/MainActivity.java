@@ -57,11 +57,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
         if (intent != null) {
-            try {
-                Thread.sleep(8*1000);
-            }catch (Exception e){
-
-            }
             startActivity(intent);
         }
     }

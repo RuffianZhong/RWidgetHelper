@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.ruffian.library.widget.RLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    app:shadow_color="#E91E63"
+    app:shadow_dx="5dp"
+    app:shadow_dy="5dp"
+    app:shadow_radius="20dp"
     android:orientation="vertical">
+
+    <include layout="@layout/test_iv" />
 
     <com.ruffian.library.widget.RLinearLayout
         android:layout_width="match_parent"
@@ -16,18 +22,18 @@
         app:shadow_dy="5dp"
         app:shadow_radius="20dp">
 
-     <!--   <com.ruffian.library.widget.RImageView
+        <com.ruffian.library.widget.RImageView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginLeft="25dp"
             android:layout_marginTop="25dp"
             android:layout_marginRight="25dp"
             android:scaleType="fitXY"
-            app:corner_radius_top_left="10dp"
-            app:border_width="1dp"
             app:border_color="@color/colorAccent"
+            app:border_width="1dp"
+            app:corner_radius_top_left="10dp"
             app:corner_radius_top_right="10dp"
-            app:icon_src_normal="@mipmap/food" />-->
+            app:icon_src_normal="@mipmap/food" />
         <!--
          app:border_width="1dp"
             app:border_color="@color/colorAccent"
@@ -45,4 +51,4 @@
 
     </com.ruffian.library.widget.RLinearLayout>
 
-</LinearLayout>
+</com.ruffian.library.widget.RLinearLayout>

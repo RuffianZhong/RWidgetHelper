@@ -8,8 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingBottom="16dp"
-        android:paddingTop="16dp">
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp">
 
 
         <LinearLayout
@@ -46,12 +46,15 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 app:corner_radius="10dp"
+                android:scaleType="fitXY"
                 app:icon_src_normal="@mipmap/icon_man" />
 
             <com.ruffian.library.widget.RImageView
+                android:id="@+id/image"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginLeft="12dp"
+                android:scaleType="fitXY"
                 app:border_color="@color/colorAccent"
                 app:border_width="2dp"
                 app:corner_radius="10dp"
@@ -75,6 +78,7 @@
                 app:border_width="0dp"
                 app:corner_radius_bottom_left="10dp"
                 app:corner_radius_top_left="10dp"
+                android:scaleType="fitXY"
                 app:icon_src_normal="@mipmap/icon_man" />
 
             <com.ruffian.library.widget.RImageView
@@ -85,6 +89,7 @@
                 app:border_width="0dp"
                 app:corner_radius_bottom_right="10dp"
                 app:corner_radius_top_right="10dp"
+                android:scaleType="fitXY"
                 app:icon_src_normal="@mipmap/icon_man" />
 
             <com.ruffian.library.widget.RImageView
