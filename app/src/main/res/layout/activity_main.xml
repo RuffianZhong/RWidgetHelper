@@ -90,4 +90,10 @@
         app:background_normal="@color/colorPrimary"
         app:background_pressed="@color/colorPrimaryDark"
         app:corner_radius="6dp" />
+
+    <TextView
+        android:id="@+id/tv_spt"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@drawable/tv_selected" />
 </LinearLayout>

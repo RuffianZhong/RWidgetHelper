@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.checked).setOnClickListener(this);
         findViewById(R.id.ripper).setOnClickListener(this);
         findViewById(R.id.shadow).setOnClickListener(this);
+        findViewById(R.id.tv_spt).setSelected(true);
     }
 
 
@@ -56,6 +57,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
         if (intent != null) {
+            try {
+                Thread.sleep(8*1000);
+            }catch (Exception e){
+
+            }
             startActivity(intent);
         }
     }

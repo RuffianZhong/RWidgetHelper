@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--选中时的图片背景-->
+    <item android:drawable="@mipmap/icon_account" android:state_selected="true" />
+    <!--获得焦点时的图片背景-->
+</selector>
