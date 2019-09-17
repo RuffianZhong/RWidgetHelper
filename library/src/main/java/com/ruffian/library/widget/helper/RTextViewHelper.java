@@ -40,14 +40,16 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
     protected int mTextColorNormal;
     protected int mTextColorPressed;
     protected int mTextColorUnable;
+    protected int mTextColorSelected;
     protected ColorStateList mTextColorStateList;
-    protected int[][] states = new int[3][];
+    protected int[][] states = new int[5][];
 
     //Icon
     private Drawable mIcon = null;
     private Drawable mIconNormal;
     private Drawable mIconPressed;
     private Drawable mIconUnable;
+    private Drawable mIconSelected;
 
     //typeface
     private String mTypefacePath;
@@ -63,6 +65,8 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
      */
     protected boolean mHasPressedTextColor = false;
     protected boolean mHasUnableTextColor = false;
+    protected boolean mHasSelectedTextColor = false;
+
     //TextView本身设置的padding
     protected int mPaddingLeft, mPaddingRight, mPaddingTop, mPaddingBottom;
 
@@ -131,10 +135,12 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
             mIconNormal = a.getDrawable(R.styleable.RTextView_icon_src_normal);
             mIconPressed = a.getDrawable(R.styleable.RTextView_icon_src_pressed);
             mIconUnable = a.getDrawable(R.styleable.RTextView_icon_src_unable);
+            mIconSelected = a.getDrawable(R.styleable.RTextView_icon_src_selected);
         } else {
             int normalId = a.getResourceId(R.styleable.RTextView_icon_src_normal, -1);
             int pressedId = a.getResourceId(R.styleable.RTextView_icon_src_pressed, -1);
             int unableId = a.getResourceId(R.styleable.RTextView_icon_src_unable, -1);
+            int selectedId = a.getResourceId(R.styleable.RTextView_icon_src_selected, -1);
 
             if (normalId != -1)
                 mIconNormal = AppCompatResources.getDrawable(context, normalId);
@@ -142,6 +148,8 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
                 mIconPressed = AppCompatResources.getDrawable(context, pressedId);
             if (unableId != -1)
                 mIconUnable = AppCompatResources.getDrawable(context, unableId);
+            if (selectedId != -1)
+                mIconSelected = AppCompatResources.getDrawable(context, selectedId);
         }
         mIconWidth = a.getDimensionPixelSize(R.styleable.RTextView_icon_width, 0);
         mIconHeight = a.getDimensionPixelSize(R.styleable.RTextView_icon_height, 0);
@@ -150,6 +158,7 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
         mTextColorNormal = a.getColor(R.styleable.RTextView_text_color_normal, mView.getCurrentTextColor());
         mTextColorPressed = a.getColor(R.styleable.RTextView_text_color_pressed, 0);
         mTextColorUnable = a.getColor(R.styleable.RTextView_text_color_unable, 0);
+        mTextColorSelected = a.getColor(R.styleable.RTextView_text_color_selected, 0);
         //typeface
         mTypefacePath = a.getString(R.styleable.RTextView_text_typeface);
         //drawableWithText
@@ -159,6 +168,7 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
 
         mHasPressedTextColor = mTextColorPressed != 0;
         mHasUnableTextColor = mTextColorUnable != 0;
+        mHasSelectedTextColor = mTextColorSelected != 0;
 
         //setup
         setup();
@@ -175,6 +185,8 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
          */
         if (!mView.isEnabled()) {
             mIcon = mIconUnable;
+        } else if (mView.isSelected()) {
+            mIcon = mIconSelected;
         } else {
             mIcon = mIconNormal;
         }
@@ -188,10 +200,16 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
         if (!mHasUnableTextColor) {
             mTextColorUnable = mTextColorNormal;
         }
-        //state_pressed,Normal,Unable
-        states[0] = new int[]{android.R.attr.state_enabled, android.R.attr.state_pressed};
-        states[1] = new int[]{android.R.attr.state_enabled};
-        states[2] = new int[]{-android.R.attr.state_enabled};
+        if (!mHasSelectedTextColor) {
+            mTextColorSelected = mTextColorNormal;
+        }
+
+        //unable,focused,pressed,selected,normal
+        states[0] = new int[]{-android.R.attr.state_enabled};//unable
+        states[1] = new int[]{android.R.attr.state_focused};//focused
+        states[2] = new int[]{android.R.attr.state_pressed};//pressed
+        states[3] = new int[]{android.R.attr.state_selected};//selected
+        states[4] = new int[]{android.R.attr.state_enabled};//normal
 
         //设置文本颜色
         setTextColor();
@@ -263,6 +281,17 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
         return mIconUnable;
     }
 
+    public RTextViewHelper setIconSelected(Drawable icon) {
+        this.mIconSelected = icon;
+        this.mIcon = icon;
+        setIcon();
+        return this;
+    }
+
+    public Drawable getIconSelected() {
+        return mIconSelected;
+    }
+
     public RTextViewHelper setIconSize(int iconWidth, int iconHeight) {
         this.mIconWidth = iconWidth;
         this.mIconHeight = iconHeight;
@@ -302,8 +331,7 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
 
     /**
      * 主要用于子类调用
-     *
-     * @param icon
+     * 备注:用于库内确定逻辑的调用，不建议开发者直接调用
      */
     @SuppressWarnings("unchecked")
     protected void setIcon(Drawable icon) {
@@ -399,6 +427,9 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
         if (!mHasUnableTextColor) {
             mTextColorUnable = mTextColorNormal;
         }
+        if (!mHasSelectedTextColor) {
+            mTextColorSelected = mTextColorNormal;
+        }
         setTextColor();
         return this;
     }
@@ -429,28 +460,42 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
         return mTextColorUnable;
     }
 
-    public RTextViewHelper setTextColor(@ColorInt int normal, @ColorInt int pressed, @ColorInt int unable) {
+
+    public RTextViewHelper setTextColorSelected(@ColorInt int textColor) {
+        this.mTextColorSelected = textColor;
+        this.mHasSelectedTextColor = true;
+        setTextColor();
+        return this;
+    }
+
+    public int getTextColorSelected() {
+        return mTextColorSelected;
+    }
+
+    public RTextViewHelper setTextColor(@ColorInt int normal, @ColorInt int pressed, @ColorInt int unable, @ColorInt int selected) {
         this.mTextColorNormal = normal;
         this.mTextColorPressed = pressed;
         this.mTextColorUnable = unable;
+        this.mTextColorSelected = selected;
         this.mHasPressedTextColor = true;
         this.mHasUnableTextColor = true;
+        this.mHasSelectedTextColor = true;
         setTextColor();
         return this;
     }
 
     protected void setTextColor() {
-        //state_pressed,Normal,Unable
-        int[] colors = new int[]{mTextColorPressed, mTextColorNormal, mTextColorUnable};
+        //unable,focused,pressed,selected,normal
+        int[] colors = new int[]{mTextColorUnable, mTextColorPressed, mTextColorPressed, mTextColorSelected, mTextColorNormal};
         mTextColorStateList = new ColorStateList(states, colors);
         mView.setTextColor(mTextColorStateList);
     }
 
     /**
      * 设置是否启用
-     *
-     * @param enabled
+     * 备注:用于库内确定逻辑的调用，不建议开发者直接调用
      */
+    @SuppressWarnings("unchecked")
     public void setEnabled(boolean enabled) {
         if (enabled) {
             if (mIconNormal != null) {
@@ -466,12 +511,33 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
     }
 
     /**
-     * 触摸事件逻辑
-     *
-     * @param event
+     * 设置是否选中
+     * 备注:用于库内确定逻辑的调用，不建议开发者直接调用
      */
+    @SuppressWarnings("unchecked")
+    public void setSelected(boolean selected) {
+        if (!mView.isEnabled()) return;
+        if (selected) {
+            if (mIconSelected != null) {
+                mIcon = mIconSelected;
+                setIcon();
+            }
+        } else {
+            if (mIconNormal != null) {
+                mIcon = mIconNormal;
+                setIcon();
+            }
+        }
+    }
+
+    /**
+     * 触摸事件逻辑
+     * 备注:用于库内确定逻辑的调用，不建议开发者直接调用
+     */
+    @SuppressWarnings("unchecked")
     public void onTouchEvent(MotionEvent event) {
         if (!mView.isEnabled()) return;
+        if (mView.isSelected()) return;
         mGestureDetector.onTouchEvent(event);
         int action = event.getAction();
         switch (action) {
@@ -506,6 +572,7 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
     class SimpleOnGesture extends GestureDetector.SimpleOnGestureListener {
         @Override
         public void onShowPress(MotionEvent e) {
+            if (mView.isSelected()) return;
             if (mIconPressed != null) {
                 mIcon = mIconPressed;
                 setIcon();
@@ -514,6 +581,7 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
 
         @Override
         public boolean onSingleTapUp(MotionEvent e) {
+            if (mView.isSelected()) return false;
             if (mIconNormal != null) {
                 mIcon = mIconNormal;
                 setIcon();

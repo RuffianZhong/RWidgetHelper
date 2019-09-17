@@ -19,18 +19,21 @@
     <attr name="border_width_pressed" format="dimension" />
     <attr name="border_width_unable" format="dimension" />
     <attr name="border_width_checked" format="dimension" />
+    <attr name="border_width_selected" format="dimension" />
 
     <!--边框颜色-->
     <attr name="border_color_normal" format="color" />
     <attr name="border_color_pressed" format="color" />
     <attr name="border_color_unable" format="color" />
     <attr name="border_color_checked" format="color" />
+    <attr name="border_color_selected" format="color" />
 
     <!--背景颜色-->
     <attr name="background_normal" format="color|reference" />
     <attr name="background_pressed" format="color|reference" />
     <attr name="background_unable" format="color|reference" />
     <attr name="background_checked" format="color|reference" />
+    <attr name="background_selected" format="color|reference" />
 
     <!--Gradient相关-->
     <attr name="gradient_orientation">
@@ -59,12 +62,14 @@
     <attr name="text_color_pressed" format="color" />
     <attr name="text_color_unable" format="color" />
     <attr name="text_color_checked" format="color" />
+    <attr name="text_color_selected" format="color" />
 
     <!--图标资源-->
     <attr name="icon_src_normal" format="reference" />
     <attr name="icon_src_pressed" format="reference" />
     <attr name="icon_src_unable" format="reference" />
     <attr name="icon_src_checked" format="reference" />
+    <attr name="icon_src_selected" format="reference" />
 
     <!--图标、大小、位置-->
     <attr name="icon_height" format="dimension" />
@@ -125,18 +130,21 @@
         <attr name="border_width_pressed" />
         <attr name="border_width_unable" />
         <attr name="border_width_checked" />
+        <attr name="border_width_selected" />
 
         <!--边框颜色-->
         <attr name="border_color_normal" />
         <attr name="border_color_pressed" />
         <attr name="border_color_unable" />
         <attr name="border_color_checked" />
+        <attr name="border_color_selected" />
 
         <!--背景颜色-->
         <attr name="background_normal" />
         <attr name="background_pressed" />
         <attr name="background_unable" />
         <attr name="background_checked" />
+        <attr name="background_selected" />
 
         <!--Gradient相关-->
         <attr name="gradient_orientation" />
@@ -179,16 +187,19 @@
         <attr name="border_width_normal" />
         <attr name="border_width_pressed" />
         <attr name="border_width_unable" />
+        <attr name="border_width_selected" />
 
         <!--边框颜色-->
         <attr name="border_color_normal" />
         <attr name="border_color_pressed" />
         <attr name="border_color_unable" />
+        <attr name="border_color_selected" />
 
         <!--背景颜色-->
         <attr name="background_normal" />
         <attr name="background_pressed" />
         <attr name="background_unable" />
+        <attr name="background_selected" />
 
         <!--Gradient相关-->
         <attr name="gradient_orientation" />
@@ -201,84 +212,13 @@
         <attr name="text_color_normal" />
         <attr name="text_color_pressed" />
         <attr name="text_color_unable" />
+        <attr name="text_color_selected" />
 
         <!--图标资源-->
         <attr name="icon_src_normal" />
         <attr name="icon_src_pressed" />
         <attr name="icon_src_unable" />
-
-        <!--图标、大小、位置-->
-        <attr name="icon_height" />
-        <attr name="icon_width" />
-        <attr name="icon_direction" />
-
-        <!--字体样式-->
-        <attr name="text_typeface" />
-
-        <!--drawable和Text居中-->
-        <attr name="icon_with_text" />
-
-        <!--是否可用-->
-        <attr name="enabled" />
-
-        <!--ripple-->
-        <attr name="ripple" />
-        <attr name="ripple_color" />
-        <attr name="ripple_mask" />
-        <attr name="ripple_mask_style" />
-
-        <!--shadow-->
-        <attr name="shadow_dx" />
-        <attr name="shadow_dy" />
-        <attr name="shadow_color" />
-        <attr name="shadow_radius" />
-    </declare-styleable>
-
-    <!-- RButton -->
-    <declare-styleable name="RButton">
-
-        <!--四周圆角度、左上、右上、左下、右下-->
-        <attr name="corner_radius" />
-        <attr name="corner_radius_top_left" />
-        <attr name="corner_radius_top_right" />
-        <attr name="corner_radius_bottom_left" />
-        <attr name="corner_radius_bottom_right" />
-
-        <!--虚线边框宽度/间隔-->
-        <attr name="border_dash_width" />
-        <attr name="border_dash_gap" />
-
-        <!--边框宽度-->
-        <attr name="border_width_normal" />
-        <attr name="border_width_pressed" />
-        <attr name="border_width_unable" />
-
-        <!--边框颜色-->
-        <attr name="border_color_normal" />
-        <attr name="border_color_pressed" />
-        <attr name="border_color_unable" />
-
-        <!--背景颜色-->
-        <attr name="background_normal" />
-        <attr name="background_pressed" />
-        <attr name="background_unable" />
-
-        <!--Gradient相关-->
-        <attr name="gradient_orientation" />
-        <attr name="gradient_type" />
-        <attr name="gradient_radius" />
-        <attr name="gradient_centerX" />
-        <attr name="gradient_centerY" />
-
-        <!--文本颜色-->
-        <attr name="text_color_normal" />
-        <attr name="text_color_pressed" />
-        <attr name="text_color_unable" />
-
-        <!--图标资源-->
-        <attr name="icon_src_normal" />
-        <attr name="icon_src_pressed" />
-        <attr name="icon_src_unable" />
+        <attr name="icon_src_selected" />
 
         <!--图标、大小、位置-->
         <attr name="icon_height" />
@@ -325,16 +265,19 @@
         <attr name="border_width_normal" />
         <attr name="border_width_pressed" />
         <attr name="border_width_unable" />
+        <attr name="border_width_selected" />
 
         <!--边框颜色-->
         <attr name="border_color_normal" />
         <attr name="border_color_pressed" />
         <attr name="border_color_unable" />
+        <attr name="border_color_selected" />
 
         <!--背景颜色-->
         <attr name="background_normal" />
         <attr name="background_pressed" />
         <attr name="background_unable" />
+        <attr name="background_selected" />
 
         <!--Gradient相关-->
         <attr name="gradient_orientation" />
@@ -347,11 +290,13 @@
         <attr name="text_color_normal" />
         <attr name="text_color_pressed" />
         <attr name="text_color_unable" />
+        <attr name="text_color_selected" />
 
         <!--图标资源-->
         <attr name="icon_src_normal" />
         <attr name="icon_src_pressed" />
         <attr name="icon_src_unable" />
+        <attr name="icon_src_selected" />
 
         <!--图标、大小、位置-->
         <attr name="icon_height" />
@@ -394,6 +339,7 @@
         <attr name="icon_src_normal" />
         <attr name="icon_src_pressed" />
         <attr name="icon_src_unable" />
+        <attr name="icon_src_selected" />
 
         <!--边框-->
         <attr name="border_width" format="dimension" />
@@ -439,16 +385,19 @@
         <attr name="border_width_normal" />
         <attr name="border_width_pressed" />
         <attr name="border_width_unable" />
+        <attr name="border_width_selected" />
 
         <!--边框颜色-->
         <attr name="border_color_normal" />
         <attr name="border_color_pressed" />
         <attr name="border_color_unable" />
+        <attr name="border_color_selected" />
 
         <!--背景颜色-->
         <attr name="background_normal" />
         <attr name="background_pressed" />
         <attr name="background_unable" />
+        <attr name="background_selected" />
 
         <!--Gradient相关-->
         <attr name="gradient_orientation" />
@@ -491,16 +440,19 @@
         <attr name="border_width_normal" />
         <attr name="border_width_pressed" />
         <attr name="border_width_unable" />
+        <attr name="border_width_selected" />
 
         <!--边框颜色-->
         <attr name="border_color_normal" />
         <attr name="border_color_pressed" />
         <attr name="border_color_unable" />
+        <attr name="border_color_selected" />
 
         <!--背景颜色-->
         <attr name="background_normal" />
         <attr name="background_pressed" />
         <attr name="background_unable" />
+        <attr name="background_selected" />
 
         <!--Gradient相关-->
         <attr name="gradient_orientation" />
@@ -543,16 +495,19 @@
         <attr name="border_width_normal" />
         <attr name="border_width_pressed" />
         <attr name="border_width_unable" />
+        <attr name="border_width_selected" />
 
         <!--边框颜色-->
         <attr name="border_color_normal" />
         <attr name="border_color_pressed" />
         <attr name="border_color_unable" />
+        <attr name="border_color_selected" />
 
         <!--背景颜色-->
         <attr name="background_normal" />
         <attr name="background_pressed" />
         <attr name="background_unable" />
+        <attr name="background_selected" />
 
         <!--Gradient相关-->
         <attr name="gradient_orientation" />
@@ -595,16 +550,19 @@
         <attr name="border_width_normal" />
         <attr name="border_width_pressed" />
         <attr name="border_width_unable" />
+        <attr name="border_width_selected" />
 
         <!--边框颜色-->
         <attr name="border_color_normal" />
         <attr name="border_color_pressed" />
         <attr name="border_color_unable" />
+        <attr name="border_color_selected" />
 
         <!--背景颜色-->
         <attr name="background_normal" />
         <attr name="background_pressed" />
         <attr name="background_unable" />
+        <attr name="background_selected" />
 
         <!--Gradient相关-->
         <attr name="gradient_orientation" />
@@ -648,18 +606,21 @@
         <attr name="border_width_pressed" />
         <attr name="border_width_unable" />
         <attr name="border_width_checked" />
+        <attr name="border_width_selected" />
 
         <!--边框颜色-->
         <attr name="border_color_normal" />
         <attr name="border_color_pressed" />
         <attr name="border_color_unable" />
         <attr name="border_color_checked" />
+        <attr name="border_color_selected" />
 
         <!--背景颜色-->
         <attr name="background_normal" />
         <attr name="background_pressed" />
         <attr name="background_unable" />
         <attr name="background_checked" />
+        <attr name="background_selected" />
 
         <!--Gradient相关-->
         <attr name="gradient_orientation" />
@@ -673,6 +634,7 @@
         <attr name="text_color_pressed" />
         <attr name="text_color_unable" />
         <attr name="text_color_checked" />
+        <attr name="text_color_selected" />
 
         <!--字体样式-->
         <attr name="text_typeface" />
@@ -685,6 +647,7 @@
         <attr name="icon_src_pressed" />
         <attr name="icon_src_unable" />
         <attr name="icon_src_checked" />
+        <attr name="icon_src_selected" />
 
         <!--图标、大小、位置-->
         <attr name="icon_height" />
@@ -726,18 +689,21 @@
         <attr name="border_width_pressed" />
         <attr name="border_width_unable" />
         <attr name="border_width_checked" />
+        <attr name="border_width_selected" />
 
         <!--边框颜色-->
         <attr name="border_color_normal" />
         <attr name="border_color_pressed" />
         <attr name="border_color_unable" />
         <attr name="border_color_checked" />
+        <attr name="border_color_selected" />
 
         <!--背景颜色-->
         <attr name="background_normal" />
         <attr name="background_pressed" />
         <attr name="background_unable" />
         <attr name="background_checked" />
+        <attr name="background_selected" />
 
         <!--Gradient相关-->
         <attr name="gradient_orientation" />
@@ -751,6 +717,7 @@
         <attr name="text_color_pressed" />
         <attr name="text_color_unable" />
         <attr name="text_color_checked" />
+        <attr name="text_color_selected" />
 
         <!--字体样式-->
         <attr name="text_typeface" />
@@ -763,6 +730,7 @@
         <attr name="icon_src_pressed" />
         <attr name="icon_src_unable" />
         <attr name="icon_src_checked" />
+        <attr name="icon_src_selected" />
 
         <!--图标、大小、位置-->
         <attr name="icon_height" />

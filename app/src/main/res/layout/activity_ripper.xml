@@ -43,7 +43,7 @@
             app:ripple_color="@color/purple"
             app:ripple_mask_style="normal" />
 
-        <com.ruffian.library.widget.RButton
+        <com.ruffian.library.widget.RTextView
             android:id="@+id/tv_update"
             style="@style/itemMain"
             android:layout_width="0dp"
