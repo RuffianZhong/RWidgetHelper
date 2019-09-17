@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
@@ -106,6 +105,7 @@ public class RBaseHelper<T extends View> {
     //null normal drawable
     private final int MASK_STYLE_NULL = 1, MASK_STYLE_NORMAL = 2, MASK_STYLE_DRAWABLE = 3;
 
+    private Drawable mViewBackground;//控件默认背景Drawable
     private Drawable mBackgroundDrawable;
 
     private int[][] states = new int[6][];
@@ -274,12 +274,8 @@ public class RBaseHelper<T extends View> {
         mBackgroundSelected = new GradientDrawable();
         if (userShadow()) mShadowDrawable = new ShadowDrawable();
 
-        Drawable drawable = mView.getBackground();
-        if (drawable != null && drawable instanceof StateListDrawable) {
-            mStateBackground = (StateListDrawable) drawable;
-        } else {
-            mStateBackground = new StateListDrawable();
-        }
+        mViewBackground = mView.getBackground();
+        mStateBackground = new StateListDrawable();
 
         /**
          * 设置背景默认值
@@ -836,27 +832,25 @@ public class RBaseHelper<T extends View> {
         /**
          * 未设置自定义属性,获取原生背景并且设置
          */
-        Drawable drawable = mView.getBackground();
-        if (!hasCustom && drawable instanceof ColorDrawable) {
-            int color = ((ColorDrawable) drawable).getColor();
-            setStateBackgroundColor(color, color, color, color, color);//获取背景颜色值设置 StateListDrawable
-        }
+        if (!hasCustom && !userShadow() && !useRipple()) {
+            mBackgroundDrawable = mViewBackground;//使用原生背景
+        } else {
+            //获取drawable
+            mBackgroundDrawable = getBackgroundDrawable(hasCustom, mRippleColor);
+            if (userShadow()) {
+                mView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);//禁止硬件加速,must
+                if (mShadowDrawable == null) mShadowDrawable = new ShadowDrawable();
+                mShadowDrawable.updateParameter(mShadowColor, mShadowRadius, mShadowDx, mShadowDy, mBorderRadii);
+                int shadowOffset = (int) mShadowDrawable.getShadowOffsetHalf();
+                int left = shadowOffset + Math.abs(mShadowDx);
+                int right = shadowOffset + Math.abs(mShadowDx);
+                int top = shadowOffset + Math.abs(mShadowDy);
+                int bottom = shadowOffset + Math.abs(mShadowDy);
 
-        //设置水波纹drawable
-        mBackgroundDrawable = getBackgroundDrawable(hasCustom, mRippleColor);
-        if (userShadow()) {
-            mView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);//禁止硬件加速,must
-            if (mShadowDrawable == null) mShadowDrawable = new ShadowDrawable();
-            mShadowDrawable.updateParameter(mShadowColor, mShadowRadius, mShadowDx, mShadowDy, mBorderRadii);
-            int shadowOffset = (int) mShadowDrawable.getShadowOffsetHalf();
-            int left = shadowOffset + Math.abs(mShadowDx);
-            int right = shadowOffset + Math.abs(mShadowDx);
-            int top = shadowOffset + Math.abs(mShadowDy);
-            int bottom = shadowOffset + Math.abs(mShadowDy);
-
-            LayerDrawable layerDrawable = new LayerDrawable(new Drawable[]{mShadowDrawable, mBackgroundDrawable});
-            layerDrawable.setLayerInset(1, left, top, right, bottom);//设置第二层drawable四周偏移量
-            mBackgroundDrawable = layerDrawable;
+                LayerDrawable layerDrawable = new LayerDrawable(new Drawable[]{mShadowDrawable, mBackgroundDrawable});
+                layerDrawable.setLayerInset(1, left, top, right, bottom);//设置第二层drawable四周偏移量
+                mBackgroundDrawable = layerDrawable;
+            }
         }
 
         /**
