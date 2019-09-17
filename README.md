@@ -9,7 +9,7 @@
 
 ### 说明
 
-> 需求：Android UI 开发常用：圆角，边框，Gradient背景渐变，控件State各个状态UI样式
+> Android UI 开发常用：圆角，边框，Gradient背景渐变，控件State各个状态UI样式，阴影，水波纹
 > 
 > 普通解决方案缺点：代码冗余，复用性差，自由度低
 > 
@@ -18,21 +18,21 @@
 
 ### 简介
 
-    通过继承原生控件，设置自定义属性，解决常用 Selector，Gradient，Shape 等功能
+    通过继承原生控件，设置自定义属性，解决常用 Selector，Gradient，Shape， 阴影，水波纹等功能
 	
 	原生控件都可实现 **基础功能** ，针对具体控件还有 **个性功能**
 
 
 ## 基础功能
 
-| 功能			| 属性值			 				| 可用State状态			| 特性				 |
-| ------------- | -------------  				| ------------- 		| -------------		 |
-| 圆角 			| 颜色  			 				| 默认/按下/不可用 		| 四周圆角/单个方向圆角 |
-| 边框宽度 		| 数值  			 				| 默认/按下/不可用 		| 实线/虚线边框		 |
-| 边框颜色 		| 颜色  			 				| 默认/按下/不可用 		| 实线/虚线边框		 |
-| 背景			| 颜色/颜色数组/drawable  		| 默认/按下/不可用 		| 纯色/渐变/Drawable	 |
-| 水波纹			| --  							| -- 					| 点击效果水波纹	 	 |
-| 阴影			| --  							| -- 					| 控件四周阴影	 	 |
+| 功能			| 属性值			 				| 可用State状态				| 特性				 |
+| ------------- | -------------  				| ------------- 			| -------------		 |
+| 圆角 			| 颜色  			 				| 默认/按下/不可用/选中 		| 四周圆角/单个方向圆角 |
+| 边框宽度 		| 数值  			 				| 默认/按下/不可用/选中 		| 实线/虚线边框		 |
+| 边框颜色 		| 颜色  			 				| 默认/按下/不可用/选中		| 实线/虚线边框		 |
+| 背景			| 颜色/颜色数组/drawable  		| 默认/按下/不可用/选中 		| 纯色/渐变/Drawable	 |
+| 水波纹			| --  							| -- 						| 点击效果水波纹	 	 |
+| 阴影			| --  							| -- 						| 控件四周阴影	 	 |
 #### 属性介绍
 
 | 属性			|说明			 |
@@ -48,14 +48,17 @@
 | border_width_pressed 			|   边框宽度 	按下 	|
 | border_width_unable 			|   边框宽度 	不可点击 |
 | border_width_checked 			|   边框宽度 	选中		|
+| border_width_selected 		|   边框宽度 	选择		|
 | border_color_normal 			|   边框颜色 	默认		|
 | border_color_pressed 			|   边框颜色 	按下 	|
 | border_color_unable 			|   边框颜色 	不可点击 |
 | border_color_checked 			|   边框颜色 	选中		|
+| border_color_selected 		|   边框颜色 	选择		|
 | background_normal 			|   背景   	 	默认 	|
 | background_pressed 			|   背景		 	按下 	|
 | background_unable 			|   背景		  	不可点击 |
 | background_checked 			|   背景		  	选中		|
+| background_selected 			|   背景		  	选择		|
 | gradient_orientation 			|	渐变的方向	参考 GradientDrawable.Orientation:TOP_BOTTOM，TR_BL...	|
 | gradient_type     			|   渐变的样式	linear线性，radial径向，sweep扫描式	默认：linear|
 | gradient_radius 				|	渐变半径	 默认:（宽或高最小值）/ 2 |
@@ -82,32 +85,38 @@
 > 	 3.ripple 效果和 pressed 对立，启用 ripple 后，按下效果无效
 > 	 
 > 	 4.shadow 内容需要开发者自行兼容，例如：`shadow_radius=10dp` , `shadow_dx=5dp`  则在水平方向需要 `padingLeft/right = 15 dp`
+> 		 
+> 	 5.pressed/unable/checked/selected 等状态在未设置具体值时会默认设置 normal 值，方便开发者实现各种需求
+
 
 
 #### 示例xml
 ```
-        <com.ruffian.library.widget.RView
-			xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+	    <com.ruffian.library.widget.RView 
+	        xmlns:app="http://schemas.android.com/apk/res-auto"
+	        android:layout_width="100dp"
+	        android:layout_height="100dp" 
 
 	        //背景各个状态，支持：纯颜色   渐变   drawable
 	        app:background_normal="#3F51B5"
 	        app:background_pressed="@array/color_array"
 	        app:background_unable="@mipmap/icon_unable"
 	        app:background_checked="@mipmap/icon_checked"
+	        app:background_selected="@mipmap/icon_checked"
 
 	        //边框颜色
 	        app:border_color_normal="#FF4081"
 	        app:border_color_pressed="#3F51B5"
 	        app:border_color_unable="#c3c3c3"
 	        app:border_color_checked="#c3c3c3"
+	        app:border_color_selected="#c3c3c3"
 
 	        //边框宽度
 	        app:border_width_normal="3dp"
 	        app:border_width_pressed="3dp"
 	        app:border_width_unable="3dp"
 	        app:border_width_checked="3dp"
+	        app:border_width_selected="3dp"
 
 	        //虚线边框 1.虚线边框宽度 2.虚线间隔
 	        app:border_dash_width="10dp"
@@ -166,7 +175,7 @@
 - [x] `drawableLeft/Right/Top/Bottom icon大小`
 - [x] `drawableLeft/Right/Top/Bottom icon状态`
 - [x] `drawableLeft 和 text 一起居中`
-- [x] `文字根据状态变色    默认/按下/不可点击`
+- [x] `文字根据状态变色    默认/按下/不可点击/选择`
 - [x] `设置字体样式`
 
 | 属性			|说明			 |
@@ -174,9 +183,11 @@
 | text_color_normal 			|   文字颜色 	默认 	|
 | text_color_pressed      		|   文字颜色 	按下 	|
 | text_color_unable      		| 	文字颜色 	不可点击 |
+| text_color_selected      		| 	文字颜色 	选择		|
 | icon_src_normal      			|   drawable icon 	默认 		|
 | icon_src_pressed      		|   drawable icon 	按下 		|
 | icon_src_unable      			| 	drawable icon 	不可点击 	|
+| icon_src_selected      		| 	drawable icon 	选择		 	|
 | icon_height      				| 	drawable icon 	高 			|
 | icon_width      				|   drawable icon 	宽 			|
 | icon_direction      			|   drawable icon 	位置{left,top,right,bottom} |
@@ -223,7 +234,7 @@
 >   
 > 4.边框
 >    
-> 5.各个state状态的图片 默认/按下/不可点击
+> 5.各个state状态的图片 默认/按下/不可点击/选择
 >   
 
 | 属性			|说明			 |
@@ -238,16 +249,19 @@
 | icon_src_normal      			|   icon 	默认 		|
 | icon_src_pressed      		|   icon 	按下 		|
 | icon_src_unable      			| 	icon 	不可点击 	|
+| icon_src_selected      		| 	icon 	选择		 	|
 | is_circle	      				| 	是否圆形图片 			|
 
 
 ### 使用
 > ###  Gradle （版本号根据更新历史使用最新版）
 
-    compile 'com.ruffian.library:RWidgetHelper:1.1.3'
+    compile 'com.ruffian.library:RWidgetHelper:1.1.4'
 
 
 ### 版本历史
+
+**v1.1.4**　`2019.09.17`　 支持selected状态，Fix bug
 
 **v1.1.3**　`2019.09.03`　 支持阴影效果
 
