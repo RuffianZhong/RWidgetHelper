@@ -28,7 +28,7 @@ public class RCheckHelper extends RTextViewHelper {
 
     {
         //先于构造函数重置
-        states = new int[4][];
+        states = new int[6][];
     }
 
 
@@ -79,9 +79,7 @@ public class RCheckHelper extends RTextViewHelper {
         /**
          * icon
          */
-        if (isChecked()) {
-            setIcon(mIconChecked);
-        }
+        if (isChecked()) setIcon(mIconChecked);
 
         /**
          * 设置文字颜色默认值
@@ -89,25 +87,18 @@ public class RCheckHelper extends RTextViewHelper {
         if (!mHasCheckedTextColor) {
             mTextColorChecked = mTextColorNormal;
         }
-        //state_pressed,state_checked,Unable,Normal
-        states[0] = new int[]{android.R.attr.state_enabled, android.R.attr.state_pressed};
-        states[1] = new int[]{android.R.attr.state_checked};
-        states[2] = new int[]{-android.R.attr.state_enabled};
-        states[3] = new int[]{android.R.attr.state_enabled, -android.R.attr.state_checked};
+
+        //unable,focused,pressed,checked,selected,normal
+        states[0] = new int[]{-android.R.attr.state_enabled};//unable
+        states[1] = new int[]{android.R.attr.state_focused};//focused
+        states[2] = new int[]{android.R.attr.state_pressed};//pressed
+        states[3] = new int[]{android.R.attr.state_checked};//checked
+        states[4] = new int[]{android.R.attr.state_selected};//selected
+        states[5] = new int[]{android.R.attr.state_enabled};//normal
 
         //设置文本颜色
         setTextColor();
-
-        ((CompoundButton) mView).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (mView == buttonView) {
-                    setIcon(isChecked ? mIconChecked : getIconNormal());
-                }
-            }
-        });
     }
-
 
     /************************
      * text color
@@ -133,17 +124,17 @@ public class RCheckHelper extends RTextViewHelper {
         return mTextColorChecked;
     }
 
-    public RCheckHelper setTextColor(@ColorInt int normal, @ColorInt int pressed, @ColorInt int unable, @ColorInt int checked) {
+    public RCheckHelper setTextColor(@ColorInt int normal, @ColorInt int pressed, @ColorInt int unable, @ColorInt int checked, @ColorInt int selected) {
         this.mTextColorChecked = checked;
         this.mHasCheckedTextColor = true;
-        super.setTextColor(normal, pressed, unable);
+        super.setTextColor(normal, pressed, unable, selected);
         return this;
     }
 
     @Override
     protected void setTextColor() {
-        //state_pressed,state_checked,Unable,Normal
-        int[] colors = new int[]{mTextColorPressed, mTextColorChecked, mTextColorUnable, mTextColorNormal};
+        //unable,focused,pressed,checked,selected,normal
+        int[] colors = new int[]{mTextColorUnable, mTextColorPressed, mTextColorPressed, mTextColorChecked, mTextColorSelected, mTextColorNormal};
         mTextColorStateList = new ColorStateList(states, colors);
         mView.setTextColor(mTextColorStateList);
     }
@@ -169,10 +160,22 @@ public class RCheckHelper extends RTextViewHelper {
         }
     }
 
-    public boolean isChecked() {
+    private boolean isChecked() {
         if (mView != null) {
             return ((CompoundButton) mView).isChecked();
         }
         return false;
     }
+
+    /**
+     * 选中监听，用于更新icon状态
+     * 备注:用于库内确定逻辑的调用，不建议开发者直接调用
+     *
+     * @param checked
+     */
+    @SuppressWarnings("unchecked")
+    public void setChecked(boolean checked) {
+        setIcon(checked ? mIconChecked : getIconNormal());
+    }
+
 }

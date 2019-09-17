@@ -32,6 +32,7 @@ public class RImageViewHelper {
     private Drawable mIconNormal;
     private Drawable mIconPressed;
     private Drawable mIconUnable;
+    private Drawable mIconSelected;
 
     //圆角
     private float mCorner = -1;
@@ -86,10 +87,12 @@ public class RImageViewHelper {
             mIconNormal = a.getDrawable(R.styleable.RImageView_icon_src_normal);
             mIconPressed = a.getDrawable(R.styleable.RImageView_icon_src_pressed);
             mIconUnable = a.getDrawable(R.styleable.RImageView_icon_src_unable);
+            mIconSelected = a.getDrawable(R.styleable.RImageView_icon_src_selected);
         } else {
             int normalId = a.getResourceId(R.styleable.RImageView_icon_src_normal, -1);
             int pressedId = a.getResourceId(R.styleable.RImageView_icon_src_pressed, -1);
             int unableId = a.getResourceId(R.styleable.RImageView_icon_src_unable, -1);
+            int selectedId = a.getResourceId(R.styleable.RImageView_icon_src_selected, -1);
 
             if (normalId != -1)
                 mIconNormal = AppCompatResources.getDrawable(context, normalId);
@@ -97,6 +100,8 @@ public class RImageViewHelper {
                 mIconPressed = AppCompatResources.getDrawable(context, pressedId);
             if (unableId != -1)
                 mIconUnable = AppCompatResources.getDrawable(context, unableId);
+            if (selectedId != -1)
+                mIconSelected = AppCompatResources.getDrawable(context, selectedId);
         }
         //基础属性
         mIsCircle = a.getBoolean(R.styleable.RImageView_is_circle, false);
@@ -137,16 +142,20 @@ public class RImageViewHelper {
         if (mIconUnable == null) {
             mIconUnable = mIconNormal;
         }
+        if (mIconSelected == null) {
+            mIconSelected = mIconNormal;
+        }
 
-        //pressed, focused, normal, unable
-        states[0] = new int[]{android.R.attr.state_enabled, android.R.attr.state_pressed};
-        states[1] = new int[]{android.R.attr.state_enabled, android.R.attr.state_focused};
-        states[3] = new int[]{-android.R.attr.state_enabled};
-        states[2] = new int[]{android.R.attr.state_enabled};
-        mStateDrawable.addState(states[0], mIconPressed);
+        //unable,focused,pressed,selected,normal
+        states[0] = new int[]{-android.R.attr.state_enabled};//unable
+        states[1] = new int[]{android.R.attr.state_pressed};//pressed
+        states[2] = new int[]{android.R.attr.state_selected};//selected
+        states[3] = new int[]{android.R.attr.state_enabled};//normal
+
+        mStateDrawable.addState(states[0], mIconUnable);
         mStateDrawable.addState(states[1], mIconPressed);
-        mStateDrawable.addState(states[3], mIconUnable);
-        mStateDrawable.addState(states[2], mIconNormal);
+        mStateDrawable.addState(states[2], mIconSelected);
+        mStateDrawable.addState(states[3], mIconNormal);
 
         setIcon();
     }
@@ -228,7 +237,14 @@ public class RImageViewHelper {
             int bmpW = drawable.getIntrinsicWidth();
             int bmpH = drawable.getIntrinsicHeight();
             //matrix
-            Matrix matrix = mView.getMatrix();
+            Matrix matrix;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                matrix = mView.getMatrix();
+            } else {
+                matrix = new Matrix();
+                matrix.set(mView.getMatrix());
+            }
+
             //ScaleType
             ImageView.ScaleType scaleType = mView.getScaleType();
 
@@ -533,7 +549,16 @@ public class RImageViewHelper {
 
     public RImageViewHelper setIconNormal(Drawable icon) {
         this.mIconNormal = icon;
-        setup();
+        if (mIconPressed == null) {
+            mIconPressed = mIconNormal;
+        }
+        if (mIconUnable == null) {
+            mIconUnable = mIconNormal;
+        }
+        if (mIconSelected == null) {
+            mIconSelected = mIconNormal;
+        }
+        setIcon();
         return this;
     }
 
@@ -543,7 +568,7 @@ public class RImageViewHelper {
 
     public RImageViewHelper setIconPressed(Drawable icon) {
         this.mIconPressed = icon;
-        setup();
+        setIcon();
         return this;
     }
 
@@ -553,12 +578,22 @@ public class RImageViewHelper {
 
     public RImageViewHelper setIconUnable(Drawable icon) {
         this.mIconUnable = icon;
-        setup();
+        setIcon();
         return this;
     }
 
     public Drawable getIconUnable() {
         return mIconUnable;
+    }
+
+    public RImageViewHelper setIconSelected(Drawable icon) {
+        this.mIconSelected = icon;
+        setIcon();
+        return this;
+    }
+
+    public Drawable getIconSelected() {
+        return mIconSelected;
     }
 
     private void setIcon() {

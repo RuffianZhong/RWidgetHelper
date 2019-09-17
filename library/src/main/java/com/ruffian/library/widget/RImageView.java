@@ -25,7 +25,6 @@ public class RImageView extends ImageView {
         mHelper = new RImageViewHelper(context, this, attrs);
     }
 
-
     @Override
     protected void onDraw(Canvas canvas) {
         if (mHelper.isNormal()) {
@@ -38,6 +37,5 @@ public class RImageView extends ImageView {
     public RImageViewHelper getHelper() {
         return mHelper;
     }
-
 
 }

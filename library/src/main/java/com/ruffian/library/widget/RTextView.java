@@ -1,7 +1,6 @@
 package com.ruffian.library.widget;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.TextView;
@@ -35,18 +34,19 @@ public class RTextView extends TextView implements RHelper<RTextViewHelper> {
     @Override
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
-        if (mHelper != null) {
-            mHelper.setEnabled(enabled);
-        }
+        if (mHelper != null) mHelper.setEnabled(enabled);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (mHelper != null) {
-            mHelper.onTouchEvent(event);
-        }
+        if (mHelper != null) mHelper.onTouchEvent(event);
         return super.onTouchEvent(event);
     }
 
+    @Override
+    public void setSelected(boolean selected) {
+        if (mHelper != null) mHelper.setSelected(selected);
+        super.setSelected(selected);
+    }
 
 }

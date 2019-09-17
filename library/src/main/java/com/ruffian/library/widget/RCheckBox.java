@@ -34,16 +34,25 @@ public class RCheckBox extends CheckBox implements RHelper<RCheckHelper> {
     @Override
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
-        if (mHelper != null) {
-            mHelper.setEnabled(enabled);
-        }
+        if (mHelper != null) mHelper.setEnabled(enabled);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (mHelper != null) {
-            mHelper.onTouchEvent(event);
-        }
+        if (mHelper != null) mHelper.onTouchEvent(event);
         return super.onTouchEvent(event);
     }
+
+    @Override
+    public void setSelected(boolean selected) {
+        if (mHelper != null) mHelper.setSelected(selected);
+        super.setSelected(selected);
+    }
+
+    @Override
+    public void setChecked(boolean checked) {
+        if (mHelper != null) mHelper.setChecked(checked);
+        super.setChecked(checked);
+    }
+
 }
