@@ -256,10 +256,12 @@
 ### 使用
 > ###  Gradle （版本号根据更新历史使用最新版）
 
-    compile 'com.ruffian.library:RWidgetHelper:1.1.4'
+    compile 'com.ruffian.library:RWidgetHelper:1.1.5'
 
 
 ### 版本历史
+
+**v1.1.5**　`2019.09.17`　 修复 REditText 在Android 4.X 系统上无法正常使用
 
 **v1.1.4**　`2019.09.17`　 支持selected状态，Fix bug
 
