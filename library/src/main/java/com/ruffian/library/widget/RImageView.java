@@ -27,10 +27,10 @@ public class RImageView extends ImageView {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        if (mHelper.isNormal()) {
-            super.onDraw(canvas);
-        } else {
+        if (!mHelper.isNormal() && getVisibility() == VISIBLE) {
             mHelper.onDraw(canvas);
+        } else {
+            super.onDraw(canvas);
         }
     }
 

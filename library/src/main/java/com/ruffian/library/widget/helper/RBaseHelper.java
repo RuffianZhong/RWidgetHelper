@@ -24,6 +24,7 @@ import android.view.ViewTreeObserver;
 import com.ruffian.library.widget.R;
 import com.ruffian.library.widget.shadow.ShadowDrawable;
 
+
 /**
  * BaseHelper
  *
@@ -272,7 +273,7 @@ public class RBaseHelper<T extends View> {
         mBackgroundUnable = new GradientDrawable();
         mBackgroundChecked = new GradientDrawable();
         mBackgroundSelected = new GradientDrawable();
-        if (userShadow()) mShadowDrawable = new ShadowDrawable();
+        if (useShadow()) mShadowDrawable = new ShadowDrawable();
 
         mViewBackground = mView.getBackground();
         mStateBackground = new StateListDrawable();
@@ -385,7 +386,7 @@ public class RBaseHelper<T extends View> {
         }
 
         //设置背景
-        setBackgroundState();
+        //setBackgroundState();
 
         //设置边框
         setBorder();
@@ -832,16 +833,17 @@ public class RBaseHelper<T extends View> {
         /**
          * 未设置自定义属性,获取原生背景并且设置
          */
-        if (!hasCustom && !userShadow() && !useRipple()) {
+        if (!hasCustom && !useShadow() && !useRipple()) {
             mBackgroundDrawable = mViewBackground;//使用原生背景
         } else {
             //获取drawable
             mBackgroundDrawable = getBackgroundDrawable(hasCustom, mRippleColor);
-            if (userShadow()) {
-                mView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);//禁止硬件加速,must
+            if (useShadow()) {
+                mView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);//禁止硬件加速,must,导致绘制耗时(寻找优化路径)
                 if (mShadowDrawable == null) mShadowDrawable = new ShadowDrawable();
                 mShadowDrawable.updateParameter(mShadowColor, mShadowRadius, mShadowDx, mShadowDy, mBorderRadii);
-                int shadowOffset = (int) mShadowDrawable.getShadowOffsetHalf();
+
+                int shadowOffset = (int) mShadowDrawable.getShadowOffset();
                 int left = shadowOffset + Math.abs(mShadowDx);
                 int right = shadowOffset + Math.abs(mShadowDx);
                 int top = shadowOffset + Math.abs(mShadowDy);
@@ -861,6 +863,7 @@ public class RBaseHelper<T extends View> {
         } else {
             mView.setBackground(mBackgroundDrawable);
         }
+
     }
 
 
@@ -985,7 +988,7 @@ public class RBaseHelper<T extends View> {
      * Shadow
      *********************/
 
-    public boolean userShadow() {
+    public boolean useShadow() {
         return mShadowRadius >= 0;
     }
 
@@ -1212,7 +1215,8 @@ public class RBaseHelper<T extends View> {
         return mBorderColorUnable;
     }
 
-    public RBaseHelper setBorderWidth(int normal, int pressed, int unable, int checked, int selected) {
+    public RBaseHelper setBorderWidth(int normal, int pressed, int unable, int checked,
+                                      int selected) {
         this.mBorderWidthNormal = normal;
         this.mBorderWidthPressed = pressed;
         this.mBorderWidthUnable = unable;
@@ -1226,7 +1230,8 @@ public class RBaseHelper<T extends View> {
         return this;
     }
 
-    public RBaseHelper setBorderColor(@ColorInt int normal, @ColorInt int pressed, @ColorInt int unable, @ColorInt int checked, @ColorInt int selected) {
+    public RBaseHelper setBorderColor(@ColorInt int normal, @ColorInt int pressed,
+                                      @ColorInt int unable, @ColorInt int checked, @ColorInt int selected) {
         this.mBorderColorNormal = normal;
         this.mBorderColorPressed = pressed;
         this.mBorderColorUnable = unable;
@@ -1358,7 +1363,8 @@ public class RBaseHelper<T extends View> {
         return mCornerRadiusBottomLeft;
     }
 
-    public RBaseHelper setCornerRadius(float topLeft, float topRight, float bottomRight, float bottomLeft) {
+    public RBaseHelper setCornerRadius(float topLeft, float topRight, float bottomRight,
+                                       float bottomLeft) {
         this.mCornerRadius = -1;
         this.mCornerRadiusTopLeft = topLeft;
         this.mCornerRadiusTopRight = topRight;
