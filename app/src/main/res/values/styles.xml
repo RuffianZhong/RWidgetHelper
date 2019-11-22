@@ -14,6 +14,10 @@
         <item name="android:layout_height">45dp</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@android:color/white</item>
+        <!--RWidgetHelper-->
+        <item name="background_normal">@color/colorPrimary</item>
+        <item name="background_pressed">@color/colorPrimaryDark</item>
+        <item name="corner_radius">6dp</item>
     </style>
 
     <style name="itemRipple" parent="AppTheme">

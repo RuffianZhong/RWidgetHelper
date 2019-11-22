@@ -6,20 +6,13 @@ import android.content.Context;
 import com.letv.sarrsdesktop.blockcanaryex.jrt.BlockCanaryEx;
 import com.letv.sarrsdesktop.blockcanaryex.jrt.Config;
 
-/**
- * CHUANGJIANZHE @u
- */
 public class App extends Application {
 
     @Override
     public void attachBaseContext(Context context) {
         super.attachBaseContext(context);
-        boolean isInSamplerProcess = BlockCanaryEx.isInSamplerProcess(this);
-        if(!isInSamplerProcess) {
+        if (!BlockCanaryEx.isInSamplerProcess(this)) {
             BlockCanaryEx.install(new Config(this));
-        }
-        if(!isInSamplerProcess) {
-            //your code start here
         }
     }
 

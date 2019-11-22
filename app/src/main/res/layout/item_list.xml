@@ -3,51 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:shadow_color="#E91E63"
-    app:shadow_dx="5dp"
-    app:shadow_dy="5dp"
-    app:shadow_radius="20dp"
     android:orientation="vertical">
 
-    <include layout="@layout/test_iv" />
-
     <com.ruffian.library.widget.RLinearLayout
+        android:id="@+id/layout_ll"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:orientation="vertical"
-        app:background_normal="@android:color/white"
-        app:corner_radius="10dp"
-        app:shadow_color="#DF23DF"
+        app:background_normal="#cc3"
+        app:corner_radius="6dp"
+        app:shadow_color="#E91E63"
         app:shadow_dx="5dp"
         app:shadow_dy="5dp"
         app:shadow_radius="20dp">
 
-        <com.ruffian.library.widget.RImageView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginRight="25dp"
-            android:scaleType="fitXY"
-            app:border_color="@color/colorAccent"
-            app:border_width="1dp"
-            app:corner_radius_top_left="10dp"
-            app:corner_radius_top_right="10dp"
-            app:icon_src_normal="@mipmap/food" />
-        <!--
-         app:border_width="1dp"
-            app:border_color="@color/colorAccent"
-        -->
-
-        <TextView
+        <com.ruffian.library.widget.RTextView
             android:id="@+id/tv_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
+            android:layout_margin="25dp"
             android:gravity="center_vertical"
             android:padding="2dp"
-            android:text="@string/shadow_tips" />
+            android:text="@string/app_name" />
 
     </com.ruffian.library.widget.RLinearLayout>
 

@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.checked).setOnClickListener(this);
         findViewById(R.id.ripper).setOnClickListener(this);
         findViewById(R.id.shadow).setOnClickListener(this);
-        findViewById(R.id.tv_spt).setSelected(true);
     }
 
 
