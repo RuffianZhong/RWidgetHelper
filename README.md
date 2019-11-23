@@ -256,10 +256,12 @@
 ### 使用
 > ###  Gradle （版本号根据更新历史使用最新版）
 
-    compile 'com.ruffian.library:RWidgetHelper:1.1.5'
+    compile 'com.ruffian.library:RWidgetHelper:1.1.6'
 
 
 ### 版本历史
+
+**v1.1.6**　`2019.11.23`　 修改 RImageView 实现方式。 Fix bug
 
 **v1.1.5**　`2019.09.17`　 修复 REditText 在Android 4.X 系统上无法正常使用
 
