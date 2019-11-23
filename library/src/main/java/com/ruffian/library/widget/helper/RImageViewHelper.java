@@ -351,7 +351,7 @@ public class RImageViewHelper {
                 break;
         }
 
-        viewCanvas.concat(matrix);//设置变化矩阵
+        if (matrix != null) viewCanvas.concat(matrix);//设置变化矩阵
         drawable.draw(viewCanvas);//绘制drawable
         return viewBitmap;
     }
@@ -368,6 +368,7 @@ public class RImageViewHelper {
             case FIT_END:
                 return Matrix.ScaleToFit.END;
             case FIT_CENTER:
+                return Matrix.ScaleToFit.CENTER;
             default:
                 return Matrix.ScaleToFit.CENTER;
         }
