@@ -256,10 +256,12 @@
 ### 使用
 > ###  Gradle （版本号根据更新历史使用最新版）
 
-    compile 'com.ruffian.library:RWidgetHelper:1.1.6'
+    compile 'com.ruffian.library:RWidgetHelper:1.1.7'
 
 
 ### 版本历史
+
+**v1.1.7**　`2019.12.03`　 修复 Android 7.1 版本 Ripple 空指针问题 [issues#51](https://github.com/RuffianZhong/RWidgetHelper/issues/51)
 
 **v1.1.6**　`2019.11.23`　 修改 RImageView 实现方式。 Fix bug
 
