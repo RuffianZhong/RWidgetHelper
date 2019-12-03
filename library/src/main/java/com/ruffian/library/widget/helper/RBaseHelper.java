@@ -10,6 +10,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.RippleDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.StateListDrawable;
+import android.graphics.drawable.shapes.RectShape;
 import android.graphics.drawable.shapes.RoundRectShape;
 import android.os.Build;
 import android.support.annotation.ColorInt;
@@ -950,7 +951,7 @@ public class RBaseHelper<T extends View> {
                         maskDrawable = shapeDrawable;
                     }
                 } else {//控件默认形状->矩形
-                    maskDrawable = new ShapeDrawable();
+                    maskDrawable = new ShapeDrawable(new RectShape());
                 }
                 break;
             case MASK_STYLE_DRAWABLE:// 自定义设置drawable
