@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".ShadowActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,7 +29,7 @@
         <activity android:name=".GradientActivity" />
         <activity android:name=".CheckedActivity" />
         <activity android:name=".RipperActivity" />
-        <activity android:name=".ShadowActivity" />
+       <!-- <activity android:name=".ShadowActivity" />-->
     </application>
 
 </manifest>

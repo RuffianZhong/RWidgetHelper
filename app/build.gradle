@@ -41,4 +41,6 @@ dependencies {
     testCompile 'com.letv.sarrsdesktop:BlockCanaryExJRTNoOp:0.9.9.4'
     testCompile 'junit:junit:4.12'
     compile project(':library')
+
+    compile 'com.makeramen:roundedimageview:2.3.0'
 }

@@ -27,7 +27,7 @@ public class ShadowActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private MyAdapter adapter;
-    private final boolean isAuthor = false;//作者自测逻辑
+    private final boolean isAuthor = true;//作者自测逻辑
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,7 +43,7 @@ public class ShadowActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list);
 
         List<String> list = new ArrayList<>();
-        for (int i = 0; i < 20; i++) list.add("Item" + (i + 1));
+        for (int i = 0; i < 1; i++) list.add("Item" + (i + 1));
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         adapter = new MyAdapter(list);
@@ -68,7 +68,7 @@ public class ShadowActivity extends AppCompatActivity {
         public void onBindViewHolder(MyViewHolder holder, int position) {
             holder.textView.setText(mList.get(position));
             //test
-            int height = dp2px(150) + (position) * 20;
+            int height = dp2px(550) + (position) * 20;
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height);
             holder.layout_ll.setLayoutParams(params);
         }
