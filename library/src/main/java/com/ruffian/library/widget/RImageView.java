@@ -11,10 +11,8 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.ImageView;
 
-import com.ruffian.library.widget.helper.RImageViewHelper;
 import com.ruffian.library.widget.rounded.RoundDrawable;
 
 /**
