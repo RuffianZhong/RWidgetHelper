@@ -507,6 +507,61 @@
         <attr name="shadow_radius" />
     </declare-styleable>
 
+    <!-- RConstraintLayout -->
+    <declare-styleable name="RConstraintLayout">
+
+        <!--四周圆角度、左上、右上、左下、右下-->
+        <attr name="corner_radius" />
+        <attr name="corner_radius_top_left" />
+        <attr name="corner_radius_top_right" />
+        <attr name="corner_radius_bottom_left" />
+        <attr name="corner_radius_bottom_right" />
+
+        <!--虚线边框宽度/间隔-->
+        <attr name="border_dash_width" />
+        <attr name="border_dash_gap" />
+
+        <!--边框宽度-->
+        <attr name="border_width_normal" />
+        <attr name="border_width_pressed" />
+        <attr name="border_width_unable" />
+        <attr name="border_width_selected" />
+
+        <!--边框颜色-->
+        <attr name="border_color_normal" />
+        <attr name="border_color_pressed" />
+        <attr name="border_color_unable" />
+        <attr name="border_color_selected" />
+
+        <!--背景颜色-->
+        <attr name="background_normal" />
+        <attr name="background_pressed" />
+        <attr name="background_unable" />
+        <attr name="background_selected" />
+
+        <!--Gradient相关-->
+        <attr name="gradient_orientation" />
+        <attr name="gradient_type" />
+        <attr name="gradient_radius" />
+        <attr name="gradient_centerX" />
+        <attr name="gradient_centerY" />
+
+        <!--是否可用-->
+        <attr name="enabled" />
+
+        <!--ripple-->
+        <attr name="ripple" />
+        <attr name="ripple_color" />
+        <attr name="ripple_mask" />
+        <attr name="ripple_mask_style" />
+
+        <!--shadow-->
+        <attr name="shadow_dx" />
+        <attr name="shadow_dy" />
+        <attr name="shadow_color" />
+        <attr name="shadow_radius" />
+    </declare-styleable>
+
     <!-- RView -->
     <declare-styleable name="RView">
 
