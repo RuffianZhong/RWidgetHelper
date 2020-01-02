@@ -12,8 +12,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.ruffian.library.widget.RImageView;
-
 import java.util.ArrayList;
 import java.util.List;
 

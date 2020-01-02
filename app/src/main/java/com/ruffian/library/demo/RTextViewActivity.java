@@ -6,10 +6,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
-import com.ruffian.library.widget.RTextView;
-import com.ruffian.library.widget.helper.RBaseHelper;
-import com.ruffian.library.widget.helper.RTextViewHelper;
-
 import java.util.ArrayList;
 import java.util.List;
 
