@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="bg_main">#eff1f3</color>
+    <color name="iv_bg">#DCDCDD</color>
     <!--彩虹-->
     <color name="red">#FF0000</color>
     <color name="orange">#FF7F00</color>
