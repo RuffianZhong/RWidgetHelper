@@ -13,7 +13,6 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
@@ -57,9 +56,6 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
     //drawable和Text居中
     private boolean mDrawableWithText = false;
 
-    //手势检测
-    private GestureDetector mGestureDetector;
-
     /**
      * 是否设置对应的属性
      */
@@ -73,7 +69,6 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
 
     public RTextViewHelper(Context context, TextView view, AttributeSet attrs) {
         super(context, view, attrs);
-        mGestureDetector = new GestureDetector(context, new SimpleOnGesture());
         initAttributeSet(context, attrs);
         //监听View改变
         addOnViewChangeListener();
@@ -537,13 +532,17 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
     @SuppressWarnings("unchecked")
     public void onTouchEvent(MotionEvent event) {
         if (!mView.isEnabled()) return;
-        if (mView.isSelected()) return;
-        mGestureDetector.onTouchEvent(event);
         int action = event.getAction();
         switch (action) {
             case MotionEvent.ACTION_UP://抬起
                 if (mIconNormal != null) {
-                    mIcon = mIconNormal;
+                    mIcon = mView.isSelected() ? mIconSelected : mIconNormal;
+                    setIcon();
+                }
+                break;
+            case MotionEvent.ACTION_DOWN://按下
+                if (mIconPressed != null) {
+                    mIcon = mIconPressed;
                     setIcon();
                 }
                 break;
@@ -552,41 +551,17 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
                 int y = (int) event.getY();
                 if (isOutsideView(x, y)) {
                     if (mIconNormal != null) {
-                        mIcon = mIconNormal;
+                        mIcon = mView.isSelected() ? mIconSelected : mIconNormal;
                         setIcon();
                     }
                 }
                 break;
             case MotionEvent.ACTION_CANCEL://父级控件获取控制权
                 if (mIconNormal != null) {
-                    mIcon = mIconNormal;
+                    mIcon = mView.isSelected() ? mIconSelected : mIconNormal;
                     setIcon();
                 }
                 break;
-        }
-    }
-
-    /**
-     * 手势处理
-     */
-    class SimpleOnGesture extends GestureDetector.SimpleOnGestureListener {
-        @Override
-        public void onShowPress(MotionEvent e) {
-            if (mView.isSelected()) return;
-            if (mIconPressed != null) {
-                mIcon = mIconPressed;
-                setIcon();
-            }
-        }
-
-        @Override
-        public boolean onSingleTapUp(MotionEvent e) {
-            if (mView.isSelected()) return false;
-            if (mIconNormal != null) {
-                mIcon = mIconNormal;
-                setIcon();
-            }
-            return false;
         }
     }
 
