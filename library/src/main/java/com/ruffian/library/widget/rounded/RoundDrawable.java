@@ -29,38 +29,38 @@ import android.widget.ImageView;
  */
 public class RoundDrawable extends Drawable {
 
-
     private Bitmap mBitmap;
     private final int mBitmapWidth;
     private final int mBitmapHeight;
     private final RectF mBitmapRect = new RectF();
-    //Bitmap
+
     private final Paint mBitmapPaint;
-    //Border
     private final Paint mBorderPaint;
-    private float mBorderWidth = 00;
-    private int mBorderColor = Color.RED;
+
     private final RectF mBorderRect = new RectF();
-
-    private final RectF mBounds = new RectF();
-    private ImageView.ScaleType mScaleType = ImageView.ScaleType.CENTER_INSIDE;
-
-    private final Matrix mShaderMatrix = new Matrix();
-
     private final RectF mDrawableRect = new RectF();
 
+    private Path mPath = new Path();
+    private RectF mRectF = new RectF();
+    private final RectF mBounds = new RectF();
+    private final RectF mBoundsFinal = new RectF();
+
     private boolean mRebuildShader = true;
-    private boolean mCircle = false;//是否圆形
+    private final Matrix mShaderMatrix = new Matrix();
+    private ImageView.ScaleType mScaleType = ImageView.ScaleType.FIT_CENTER;
 
     //圆角
     private float mCorner = -1;
-    private float mCornerTopLeft = 30;
-    private float mCornerTopRight = 30;
-    private float mCornerBottomLeft = 30;
-    private float mCornerBottomRight = 30;
+    private float mCornerTopLeft = 0;
+    private float mCornerTopRight = 0;
+    private float mCornerBottomLeft = 0;
+    private float mCornerBottomRight = 0;
     private float mCornerRadii[] = new float[8];
-    private Path mPath = new Path();
-    private RectF mRectF = new RectF();
+    //边框
+    private float mBorderWidth = 0;
+    private int mBorderColor = Color.BLACK;
+    //是否圆形
+    private boolean mCircle = true;
 
     public RoundDrawable(Bitmap bitmap) {
         mBitmap = bitmap;
@@ -75,29 +75,78 @@ public class RoundDrawable extends Drawable {
         mBorderPaint = new Paint();
         mBorderPaint.setStyle(Paint.Style.STROKE);
         mBorderPaint.setAntiAlias(true);
-        mBorderPaint.setColor(mBorderColor);
-        mBorderPaint.setStrokeWidth(mBorderWidth);
+        updateBorder();
     }
 
     @Override
     protected void onBoundsChange(Rect bounds) {
         super.onBoundsChange(bounds);
-        Log.e("tag", "===================onBoundsChange");
-        mBounds.set(bounds);
-
-        //边框矩形
-        mBorderRect.set(mBounds);
-
-        updateShaderMatrix();
-
-        updateRound();
-    }
-
-    private void updateRound() {
+        mBoundsFinal.set(bounds);//更新Bounds
+        updateShaderMatrix();//更新变化矩阵
         updateConner();//更新圆角
-        updatePath();//更新Path
     }
 
+    @Override
+    public void setAlpha(int alpha) {
+        mBitmapPaint.setAlpha(alpha);
+        invalidateSelf();
+    }
+
+    @Override
+    public void setColorFilter(@Nullable ColorFilter colorFilter) {
+        mBitmapPaint.setColorFilter(colorFilter);
+        invalidateSelf();
+    }
+
+    @Override
+    public int getOpacity() {
+        return PixelFormat.TRANSLUCENT;
+    }
+
+    @Override
+    public void draw(@NonNull Canvas canvas) {
+
+        if (mRebuildShader) {
+            BitmapShader bitmapShader = new BitmapShader(mBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+            bitmapShader.setLocalMatrix(mShaderMatrix);// Shader.TileMode.CLAMP
+            mBitmapPaint.setShader(bitmapShader);
+            mRebuildShader = false;
+        }
+
+        if (mCircle) {
+            // mDrawableRect 宽高是实际显示图片的宽高，类似于 marginTop 了  mDrawableRect.left
+            float cx = mDrawableRect.width() / 2f + mDrawableRect.left;
+            float cy = mDrawableRect.height() / 2f + mDrawableRect.top;
+            float radiusX = mDrawableRect.width() / 2f;
+            float radiusY = mDrawableRect.height() / 2f;
+            float radiusDrawable = Math.min(radiusX, radiusY);
+            float radiusBitmap = Math.min(mBitmapHeight, mBitmapWidth);
+            float radius = Math.min(radiusBitmap, radiusDrawable);
+            canvas.drawCircle(cx, cy, radius, mBitmapPaint);
+
+            if (mBorderWidth > 0) {
+                cx = mBorderRect.width() / 2f + mBorderRect.left;
+                cy = mBorderRect.height() / 2f + mBorderRect.top;
+                radiusX = mBorderRect.width() / 2f;
+                radiusY = mBorderRect.height() / 2f;
+                radiusDrawable = Math.min(radiusX, radiusY);
+                radiusBitmap = Math.min(mBitmapHeight, mBitmapWidth);
+                radius = Math.min(radiusBitmap, radiusDrawable);
+                canvas.drawCircle(cx, cy, radius, mBorderPaint);
+            }
+        } else {
+            updateDrawablePath();
+            canvas.drawPath(mPath, mBitmapPaint);
+            if (mBorderWidth > 0) {
+                updateBorderPath();
+                canvas.drawPath(mPath, mBorderPaint);
+            }
+        }
+    }
+
+    /**
+     * 更新圆角
+     */
     private void updateConner() {
         if (mCorner >= 0) {
             for (int i = 0; i < mCornerRadii.length; i++) {
@@ -119,176 +168,69 @@ public class RoundDrawable extends Drawable {
         }
     }
 
-    private void updatePath() {
+    /**
+     * 更新Drawable路径
+     */
+    private void updateDrawablePath() {
         mPath.reset();//must重置
         mPath.addRoundRect(mDrawableRect, mCornerRadii, Path.Direction.CCW);
     }
 
-    @Override
-    public void setAlpha(int alpha) {
-        mBitmapPaint.setAlpha(alpha);
-        invalidateSelf();
-    }
-
-    @Override
-    public void setColorFilter(@Nullable ColorFilter colorFilter) {
-        mBitmapPaint.setColorFilter(colorFilter);
-        invalidateSelf();
-    }
-
-    @Override
-    public int getOpacity() {
-        return PixelFormat.TRANSLUCENT;
-    }
-
-
-    @Override
-    public void draw(@NonNull Canvas canvas) {
-
-        if (mRebuildShader) {
-            BitmapShader bitmapShader = new BitmapShader(mBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
-            bitmapShader.setLocalMatrix(mShaderMatrix);// Shader.TileMode.CLAMP
-            mBitmapPaint.setShader(bitmapShader);
-            mRebuildShader = false;
-        }
-
-        if (mCircle) {
-
-            // mDrawableRect 宽高是实际显示图片的宽高，类似于 marginTop 了  mDrawableRect.left
-            float cx = mDrawableRect.width() / 2f + mDrawableRect.left;
-            float cy = mDrawableRect.height() / 2f + mDrawableRect.top;
-
-            float radiusX = mDrawableRect.width() / 2f;//- mBorderWidth;
-            float radiusY = mDrawableRect.height() / 2f;//- mBorderWidth;
-
-            float radiusDrawable = Math.min(radiusX, radiusY);
-            float radiusBitmap = Math.min(mBitmapHeight, mBitmapWidth);
-            float radius = Math.min(radiusBitmap, radiusDrawable);
-
-            canvas.drawCircle(cx, cy, radius, mBitmapPaint);
-
-            if (mBorderWidth > 0) {
-                cx = mBorderRect.width() / 2f + mBorderRect.left;
-                cy = mBorderRect.height() / 2f + mBorderRect.top;
-
-                radiusX = mBorderRect.width() / 2f;//- mBorderWidth;
-                radiusY = mBorderRect.height() / 2f;// - mBorderWidth;
-
-                radiusDrawable = Math.min(radiusX, radiusY);
-                radiusBitmap = Math.min(mBitmapHeight, mBitmapWidth);
-                radius = Math.min(radiusBitmap, radiusDrawable);
-                 canvas.drawCircle(cx, cy, radius, mBorderPaint);
-            }
-        } else {
-            mPath.reset();//must重置
-            mPath.addRoundRect(mDrawableRect, mCornerRadii, Path.Direction.CCW);
-            Log.e("tag", "======DrawableRect==width:" + mDrawableRect.width() + "  height: " + mDrawableRect.height());
-            canvas.drawPath(mPath, mBitmapPaint);
-            if (mBorderWidth > 0) {
-                mPath.reset();
-                mPath.addRoundRect(mBorderRect, mCornerRadii, Path.Direction.CCW);
-                  canvas.drawPath(mPath, mBorderPaint);
-            }
-        }
-    }
-
-
-    private void updateDrawablePath(){
-        mPath.reset();//must重置
-        mPath.addRoundRect(mDrawableRect, mCornerRadii, Path.Direction.CCW);
-    }
-
-    private void updateBorderPath(){
+    /**
+     * 更新边框路径
+     */
+    private void updateBorderPath() {
         mPath.reset();//must重置
         mPath.addRoundRect(mBorderRect, mCornerRadii, Path.Direction.CCW);
     }
 
-
-
+    /**
+     * 根据ScaleType更新ShaderMatrix
+     * 此函数涉及更新的属性：mBorderWidth || mScaleType || mCircle
+     */
     private void updateShaderMatrix() {
-        float dx;
-        float dy;
-        float scale;
+        float dx = 0, dy = 0;
+        float height, width;
         float half = mBorderWidth / 2f;
+        mBounds.set(mBoundsFinal);
         switch (mScaleType) {
             case CENTER_INSIDE:
-                /**
-                 * 找出View中比较小的一边（宽/高）
-                 * 将bitmap的宽或者高按照View的小的一边缩放比例，另一边空余
-                 * 然后位移
-                 */
-                float height, width;
-                //比例处理
-                float scaleH, scaleW;
-                float wPadding = 0, hPadding = 0;
+                float scaleH, scaleW;//比例处理
                 if (mBitmapWidth <= mBounds.width() && mBitmapHeight <= mBounds.height()) {
-
                     scaleH = scaleW = 1.0f;//原比例缩放
-                    dx = mBounds.width() - mBitmapWidth;
-                    dy = mBounds.height() - mBitmapHeight;
-
                     height = mBitmapHeight * scaleH;
                     width = mBitmapWidth * scaleW;
-
-                    wPadding = (mBounds.width() - width) / 2f;
-                    hPadding = (mBounds.height() - height) / 2f;
-
+                    dx = (mBounds.width() - width) / 2f;
+                    dy = (mBounds.height() - height) / 2f;
                 } else {//bitmap > drawable
-
                     if (mBounds.height() <= mBounds.width()) {//高<宽
-
                         scaleH = mBounds.height() / mBitmapHeight;
                         scaleW = scaleH;
-
                         height = mBounds.height();
                         width = mBitmapWidth * scaleW;
-
-                        dy = (mBitmapHeight - height) / 2f;
-                        dx = (mBitmapWidth - width) / 2f;
-
-                        wPadding = (mBounds.width() - width) / 2f;
-                        hPadding = 0;
-
+                        dx = (mBounds.width() - width) / 2f;
+                        dy = 0;
                     } else {//宽<高
-                        Log.e("tag", "=============================");
                         scaleW = mBounds.width() / mBitmapWidth;
                         scaleH = scaleW;
-
                         width = mBounds.width();
                         height = mBitmapHeight * scaleH;
-
-                        dx = (mBitmapWidth - width) / 2f;
-                        dy = (mBitmapHeight - height) / 2f;
-
-                        wPadding = 0;
-                        hPadding = (mBounds.height() - height) / 2f;
+                        dx = 0;
+                        dy = (mBounds.height() - height) / 2f;
                     }
                 }
-                Log.e("tag", "=============mBounds.height():" + mBounds.height() + " mBounds.width():" + mBounds.width());
-                Log.e("tag", "=============height:" + height + " width:" + width);
-                Log.e("tag", "=============scaleH:" + scaleH + " scaleW:" + scaleW);
-                // Log.e("tag", "=============dx:" + dx + " dy:" + dy);
 
-                RectF rectF = new RectF(wPadding, hPadding, width + wPadding, height + hPadding);
+                mRectF = new RectF(dx, dy, width + dx, height + dy);
                 if (mCircle) {
-                    rectF.inset(mBorderWidth, mBorderWidth);//圆形 padding BorderWidth
+                    mRectF.inset(mBorderWidth, mBorderWidth);//圆形 padding BorderWidth
                 } else {
-                    rectF.inset(half, half);//非圆 padding 1/2兼容圆角
+                    mRectF.inset(half, half);//非圆 padding 1/2兼容圆角
                 }
-                mRectF.set(rectF);
-
-                //位移处理
                 mShaderMatrix.reset();
                 mShaderMatrix.setScale(scaleW, scaleH);
-                mShaderMatrix.postTranslate(wPadding, hPadding);
+                mShaderMatrix.postTranslate(dx, dy);
                 break;
             case CENTER:
-
-                //  RectF rectF = new RectF();
-                //  float height = Math.min(mBounds.height(), mBitmapRect.height());
-                //   float width = Math.min(mBounds.width(), mBitmapRect.width());
-
-                rectF = new RectF();
                 height = Math.min(mBounds.height(), mBitmapRect.height());
                 width = Math.min(mBounds.width(), mBitmapRect.width());
                 //裁剪或者Margin（如果View大，则 margin Bitmap，如果View小则裁剪Bitmap）
@@ -297,48 +239,26 @@ public class RoundDrawable extends Drawable {
                 float halfH = cutOrMarginH / 2f, halfW = cutOrMarginW / 2f;
                 float top = halfH > 0 ? halfH : 0;
                 float left = halfW > 0 ? halfW : 0;
-                //   dx = halfW ;
-                //     dy = halfH ;
-                dx = halfW;// < 0 ? halfW : 0;
-                dy = halfH;//< 0 ? halfH : 0;
-                //     dx = left > 0 ? left : 0;
-                //    dy = top > 0 ? top : 0;
+                dx = halfW;
+                dy = halfH;
 
-                Log.e("tag", "=============cutOrMarginH:" + cutOrMarginH + " cutOrMarginW:" + cutOrMarginW);
-                Log.e("tag", "=============top:" + top + " left:" + left);
-                Log.e("tag", "=============dx:" + dx + " dy:" + dy);
-
-                rectF.set(left, top, left + width, top + height);
-
-
-                float insetDx = dx < 0 ? dx : 0;
-                float insetDy = dy < 0 ? dy : 0;
-                // rectF.inset(insetDx, insetDy);
-                Log.e("tag", "=============insetDx:" + insetDx + " insetDy:" + insetDy);
-
+                mRectF = new RectF(left, top, left + width, top + height);
+                if (mCircle) {
+                    mRectF.inset(mBorderWidth, mBorderWidth);//圆形 padding BorderWidth
+                } else {
+                    mRectF.inset(half, half);//非圆 padding 1/2兼容圆角
+                }
                 mShaderMatrix.reset();
                 mShaderMatrix.postTranslate((int) (dx + 0.5f) + half, (int) (dy + 0.5f) + half);
-
-                if (mCircle) {
-                    rectF.inset(mBorderWidth, mBorderWidth);//圆形 padding BorderWidth
-                } else {
-                    rectF.inset(half, half);//非圆 padding 1/2兼容圆角
-                }
-
-                mRectF.set(rectF);
-
                 break;
             case CENTER_CROP:
-                if (mCircle) {
-                    mBounds.inset(mBorderWidth, mBorderWidth);//圆形 padding BorderWidth
-                } else {
-                    mBounds.inset(half, half);//非圆 padding 1/2兼容圆角
-                }
-
                 mRectF.set(mBounds);
-                mShaderMatrix.reset();
-                dx = 0;
-                dy = 0;
+                if (mCircle) {
+                    mRectF.inset(mBorderWidth, mBorderWidth);//圆形 padding BorderWidth
+                } else {
+                    mRectF.inset(half, half);//非圆 padding 1/2兼容圆角
+                }
+                float scale;
                 if (mBitmapWidth * mRectF.height() > mRectF.width() * mBitmapHeight) {
                     scale = mRectF.height() / (float) mBitmapHeight;
                     dx = (mRectF.width() - mBitmapWidth * scale) * 0.5f;
@@ -346,7 +266,7 @@ public class RoundDrawable extends Drawable {
                     scale = mRectF.width() / (float) mBitmapWidth;
                     dy = (mRectF.height() - mBitmapHeight * scale) * 0.5f;
                 }
-
+                mShaderMatrix.reset();
                 mShaderMatrix.setScale(scale, scale);
                 mShaderMatrix.postTranslate((int) (dx + 0.5f) + half, (int) (dy + 0.5f) + half);
                 break;
@@ -354,22 +274,17 @@ public class RoundDrawable extends Drawable {
             case FIT_CENTER:
             case FIT_END:
             case FIT_START:
-
-                //为了不改变mBounds引入临时变量
-                //控制源bitmap
                 if (mCircle) {
                     mBounds.inset(mBorderWidth, mBorderWidth);//圆形 padding BorderWidth
                 } else {
                     mBounds.inset(half, half);//非圆 padding 1/2兼容圆角
                 }
-
                 mRectF.set(mBitmapRect);
                 mShaderMatrix.setRectToRect(mBitmapRect, mBounds, scaleTypeToScaleToFit(mScaleType));
                 mShaderMatrix.mapRect(mRectF);
                 mShaderMatrix.setRectToRect(mBitmapRect, mRectF, Matrix.ScaleToFit.FILL);
                 break;
             case FIT_XY:
-
                 if (mCircle) {
                     mBounds.inset(mBorderWidth, mBorderWidth);
                 } else {
@@ -383,39 +298,23 @@ public class RoundDrawable extends Drawable {
         if (mCircle) {
             mBorderRect.set(mRectF.left - half, mRectF.top - half, mRectF.right + half, mRectF.bottom + half);//还原
         } else {
-            //   mBorderRect.set(drawableRect);//前面赋值
+            mBorderRect.set(mBoundsFinal);
             mBorderRect.inset(half, half);
         }
         mDrawableRect.set(mRectF);
         mRebuildShader = true;
     }
 
-
-    private static Matrix.ScaleToFit scaleTypeToScaleToFit(ImageView.ScaleType st) {
-        /**
-         * 根据源码改造  sS2FArray[st.nativeInt - 1]
-         */
-        switch (st) {
-            case FIT_XY:
-                return Matrix.ScaleToFit.FILL;
-            case FIT_START:
-                return Matrix.ScaleToFit.START;
-            case FIT_END:
-                return Matrix.ScaleToFit.END;
-            case FIT_CENTER:
-                return Matrix.ScaleToFit.CENTER;
-            default:
-                return Matrix.ScaleToFit.CENTER;
-        }
+    /**
+     * 更新边框
+     */
+    private void updateBorder() {
+        mBorderPaint.setColor(mBorderColor);
+        mBorderPaint.setStrokeWidth(mBorderWidth);
     }
 
-
-    public Bitmap getSourceBitmap() {
+    public Bitmap getBitmap() {
         return mBitmap;
-    }
-
-    public ImageView.ScaleType getScaleType() {
-        return mScaleType;
     }
 
     public RoundDrawable setScaleType(ImageView.ScaleType scaleType) {
@@ -424,36 +323,43 @@ public class RoundDrawable extends Drawable {
         }
         if (mScaleType != scaleType) {
             mScaleType = scaleType;
-            updateShaderMatrix();
+            updateShaderMatrix();//更新变化矩阵
+            invalidateSelf();
         }
         return this;
     }
 
-    public boolean isCircle() {
-        return mCircle;
-    }
-
     public RoundDrawable setCircle(boolean circle) {
         mCircle = circle;
+        updateShaderMatrix();//更新变化矩阵
+        invalidateSelf();
         return this;
     }
 
     public RoundDrawable setBorderWidth(float borderWidth) {
         mBorderWidth = borderWidth;
+        updateBorder();
+        updateShaderMatrix();//更新变化矩阵
+        invalidateSelf();
         return this;
-    }
-
-    public float getBorderWidth() {
-        return mBorderWidth;
     }
 
     public RoundDrawable setBorderColor(int borderColor) {
         mBorderColor = borderColor;
+        updateBorder();
+        invalidateSelf();
         return this;
     }
 
-    public float getBorderColor() {
-        return mBorderColor;
+    public RoundDrawable setConner(float corner, float topLeft, float topRight, float bottomLeft, float bottomRight) {
+        mCorner = corner;
+        mCornerTopLeft = topLeft;
+        mCornerTopRight = topRight;
+        mCornerBottomLeft = bottomLeft;
+        mCornerBottomRight = bottomRight;
+        updateConner();
+        invalidateSelf();
+        return this;
     }
 
     public static RoundDrawable fromBitmap(Bitmap bitmap) {
@@ -507,11 +413,27 @@ public class RoundDrawable extends Drawable {
             drawable.draw(canvas);
         } catch (Throwable e) {
             e.printStackTrace();
-            //  Log.w(TAG, "Failed to create bitmap from drawable!");
             bitmap = null;
         }
 
         return bitmap;
     }
 
+    private static Matrix.ScaleToFit scaleTypeToScaleToFit(ImageView.ScaleType st) {
+        /**
+         * 根据源码改造  sS2FArray[st.nativeInt - 1]
+         */
+        switch (st) {
+            case FIT_XY:
+                return Matrix.ScaleToFit.FILL;
+            case FIT_START:
+                return Matrix.ScaleToFit.START;
+            case FIT_END:
+                return Matrix.ScaleToFit.END;
+            case FIT_CENTER:
+                return Matrix.ScaleToFit.CENTER;
+            default:
+                return Matrix.ScaleToFit.CENTER;
+        }
+    }
 }

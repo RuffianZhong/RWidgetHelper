@@ -327,7 +327,6 @@
 
     <!-- ImageView -->
     <declare-styleable name="RImageView">
-
         <!--四周圆角度、左上、右上、左下、右下-->
         <attr name="corner_radius" />
         <attr name="corner_radius_top_left" />
@@ -335,36 +334,12 @@
         <attr name="corner_radius_bottom_left" />
         <attr name="corner_radius_bottom_right" />
 
-        <!--图标资源-->
-        <attr name="icon_src_normal" />
-        <attr name="icon_src_pressed" />
-        <attr name="icon_src_unable" />
-        <attr name="icon_src_selected" />
-
         <!--边框-->
         <attr name="border_width" format="dimension" />
         <attr name="border_color" format="color" />
 
         <!--是否圆形-->
         <attr name="is_circle" format="boolean" />
-
-        <!--是否可用-->
-        <attr name="enabled" />
-
-        <!--图片展示类型-->
-        <attr name="android:scaleType" />
-
-        <!--ripple-->
-        <!--<attr name="ripple" />
-        <attr name="ripple_color" />
-        <attr name="ripple_mask" />
-        <attr name="ripple_mask_style" />-->
-
-        <!--shadow-->
-        <!-- <attr name="shadow_dx" />
-         <attr name="shadow_dy" />
-         <attr name="shadow_color" />
-         <attr name="shadow_radius" />-->
     </declare-styleable>
 
     <!-- RLinearLayout -->

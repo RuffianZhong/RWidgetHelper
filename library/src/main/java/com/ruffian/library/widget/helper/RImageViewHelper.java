@@ -23,9 +23,11 @@ import com.ruffian.library.widget.R;
 
 /**
  * ImageView-Helper
+ * 已经弃用
  *
  * @author ZhongDaFeng
  */
+@Deprecated
 public class RImageViewHelper {
 
     //Icon
@@ -85,12 +87,12 @@ public class RImageViewHelper {
         //icon
         //Vector兼容处理
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mIconNormal = a.getDrawable(R.styleable.RImageView_icon_src_normal);
+            /*mIconNormal = a.getDrawable(R.styleable.RImageView_icon_src_normal);
             mIconPressed = a.getDrawable(R.styleable.RImageView_icon_src_pressed);
             mIconUnable = a.getDrawable(R.styleable.RImageView_icon_src_unable);
-            mIconSelected = a.getDrawable(R.styleable.RImageView_icon_src_selected);
+            mIconSelected = a.getDrawable(R.styleable.RImageView_icon_src_selected);*/
         } else {
-            int normalId = a.getResourceId(R.styleable.RImageView_icon_src_normal, -1);
+            /*int normalId = a.getResourceId(R.styleable.RImageView_icon_src_normal, -1);
             int pressedId = a.getResourceId(R.styleable.RImageView_icon_src_pressed, -1);
             int unableId = a.getResourceId(R.styleable.RImageView_icon_src_unable, -1);
             int selectedId = a.getResourceId(R.styleable.RImageView_icon_src_selected, -1);
@@ -102,7 +104,7 @@ public class RImageViewHelper {
             if (unableId != -1)
                 mIconUnable = AppCompatResources.getDrawable(context, unableId);
             if (selectedId != -1)
-                mIconSelected = AppCompatResources.getDrawable(context, selectedId);
+                mIconSelected = AppCompatResources.getDrawable(context, selectedId);*/
         }
         //基础属性
         mIsCircle = a.getBoolean(R.styleable.RImageView_is_circle, false);
