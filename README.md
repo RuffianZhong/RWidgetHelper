@@ -1,14 +1,5 @@
 # RWidgetHelper
 
-### ==特别声明==
-	RImageView
-	<  V1.1.6 版本由于禁用硬件加速和实现方式问题，大量绘制时可能会导致卡顿；
-	>= V1.1.6 版本改变了实现方式，大量绘制时可能会导致内存泄漏；
-	新的实现方案正在着手实现，为了避免不必要的bug，暂时慎用
-	（虽然承认自己的代码有问题很难，但是不能坑了开发者，鼓起勇气提示 RImageView 暂时慎用，等我新版本）
-
-	其他控件和功能稳的一逼
-
 ## 欢迎使用 RWidgetHelper 
 
 ### 宗旨：专治原生控件各种不服
@@ -206,7 +197,7 @@
 
 > REditText 使用方法跟 RTextView 一致
 
-#### RLinearLayout  /  RRelativeLayout  /  RFrameLayout  /  RView
+#### RLinearLayout  /  RRelativeLayout  /  RFrameLayout  /  RView /  RConstraintLayout
 
 > 查看基础功能
 
@@ -232,7 +223,7 @@
 
 #### RImageView
 
-> RImageView 不再提供背景各个state背景颜色
+> RImageView 不提供state状态   
 >   
 > 1.圆形图片
 >   
@@ -241,9 +232,7 @@
 > 3.指定某一方向圆角图片
 >   
 > 4.边框
->    
-> 5.各个state状态的图片 默认/按下/不可点击/选择
->   
+>     
 
 | 属性			|说明			 |
 | ------------- |  :-------------|
@@ -254,20 +243,18 @@
 | corner_radius_bottom_right 	|   圆角		右下 	|
 | border_width		 			|   边框宽度		 	|
 | border_color					|   边框颜色 		|
-| icon_src_normal      			|   icon 	默认 		|
-| icon_src_pressed      		|   icon 	按下 		|
-| icon_src_unable      			| 	icon 	不可点击 	|
-| icon_src_selected      		| 	icon 	选择		 	|
 | is_circle	      				| 	是否圆形图片 			|
 
 
 ### 使用
 > ###  Gradle （版本号根据更新历史使用最新版）
 
-    compile 'com.ruffian.library:RWidgetHelper:1.1.7'
+    compile 'com.ruffian.library:RWidgetHelper:1.1.8'
 
 
 ### 版本历史
+
+**v1.1.8**　`2020.01.03`　 RImageView重现实现，解决历史版本卡顿和内存溢出问题，新增RConstraintLayout控件，支持androidX
 
 **v1.1.7**　`2019.12.03`　 修复 Android 7.1 版本 Ripple 空指针问题 [issues#51](https://github.com/RuffianZhong/RWidgetHelper/issues/51)
 
