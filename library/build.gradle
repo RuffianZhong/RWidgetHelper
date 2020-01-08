@@ -8,8 +8,8 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 28
-        versionCode 20
-        versionName "1.1.8"
+        versionCode 21
+        versionName "1.1.9"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -31,16 +31,16 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
     testImplementation 'junit:junit:4.12'
 
-    //编译时依赖
-    compileOnly 'androidx.appcompat:appcompat:1.0.0'
-    compileOnly 'androidx.constraintlayout:constraintlayout:1.1.3'
+    //不要使用编译时依赖，确保开发者正确使用
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 }
 
 publish {
     userOrg = 'ruffian'
     groupId = 'com.ruffian.library'
     artifactId = 'RWidgetHelper'
-    publishVersion = '1.1.8'
+    publishVersion = '1.1.9'
     desc = 'A set widget for developer easy to use.'
     website = 'https://github.com/RuffianZhong/RWidgetHelper'
 }

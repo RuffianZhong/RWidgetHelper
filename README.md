@@ -243,18 +243,20 @@
 | corner_radius_bottom_right 	|   圆角		右下 	|
 | border_width		 			|   边框宽度		 	|
 | border_color					|   边框颜色 		|
-| is_circle	      				| 	是否圆形图片 			|
+| is_circle	      				| 	是否圆形图片 		|
 
 
 ### 使用
 > ###  Gradle （版本号根据更新历史使用最新版）
 
-    compile 'com.ruffian.library:RWidgetHelper:1.1.8'
+    compile 'com.ruffian.library:RWidgetHelper:1.1.9'
 
 
 ### 版本历史
 
-**v1.1.8**　`2020.01.03`　 RImageView重现实现，解决历史版本卡顿和内存溢出问题，新增RConstraintLayout控件，支持androidX
+**v1.1.9**　`2020.01.08`　 `androidx.appcompat` 和 `androidx.constraintlayout` 的依赖方式从编译时依赖到直接依赖，避免开发者未引入时不能正确使用
+
+**v1.1.8**　`2020.01.03`　 RImageView重新实现，解决历史版本卡顿和内存溢出问题，新增RConstraintLayout控件，支持androidX
 
 **v1.1.7**　`2019.12.03`　 修复 Android 7.1 版本 Ripple 空指针问题 [issues#51](https://github.com/RuffianZhong/RWidgetHelper/issues/51)
 
