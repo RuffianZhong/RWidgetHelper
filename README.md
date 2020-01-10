@@ -246,13 +246,21 @@
 | is_circle	      				| 	是否圆形图片 		|
 
 
-### 使用
-> ###  Gradle （版本号根据更新历史使用最新版）
+### 使用 （版本号根据更新历史使用最新版）
+> ###  Gradle  未支持 AndroidX
 
-    compile 'com.ruffian.library:RWidgetHelper:1.1.9'
+    compile 'com.ruffian.library:RWidgetHelper:1.1.10'
+
+> ###  Gradle  支持 AndroidX
+
+    compile 'com.ruffian.library:RWidgetHelper-AndroidX:0.0.1'
 
 
 ### 版本历史
+
+**v0.0.1**　`2020.01.10`　 单独支持 AndroidX ，方便开发者选择 （基于v1.1.10）
+
+**v1.1.10**　`2020.01.10`　 还原 Support 包支持，分离 AndroidX 
 
 **v1.1.9**　`2020.01.08`　 `androidx.appcompat` 和 `androidx.constraintlayout` 的依赖方式从编译时依赖到直接依赖，避免开发者未引入时不能正确使用
 
