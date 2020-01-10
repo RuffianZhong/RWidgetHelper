@@ -14,8 +14,8 @@ import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
-import androidx.annotation.ColorInt;
-import androidx.appcompat.content.res.AppCompatResources;
+import android.support.annotation.ColorInt;
+import android.support.v7.content.res.AppCompatResources;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
