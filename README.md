@@ -249,14 +249,16 @@
 ### 使用 （版本号根据更新历史使用最新版）
 > ###  Gradle  未支持 AndroidX
 
-    compile 'com.ruffian.library:RWidgetHelper:1.1.10'
+    compile 'com.ruffian.library:RWidgetHelper:1.1.11'
 
 > ###  Gradle  支持 AndroidX
 
-    compile 'com.ruffian.library:RWidgetHelper-AndroidX:0.0.1'
+    compile 'com.ruffian.library:RWidgetHelper-AndroidX:0.0.2'
 
 
 ### 版本历史
+
+**v1.1.11/v0.0.2**　`2020.01.14`　 ScaleType 的 center_inside 类型实现方式修改
 
 **v0.0.1**　`2020.01.10`　 单独支持 AndroidX ，方便开发者选择 （基于v1.1.10）
 
