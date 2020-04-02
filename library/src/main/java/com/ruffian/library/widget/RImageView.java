@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
@@ -108,6 +109,12 @@ public class RImageView extends ImageView {
         }
     }
 
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        drawEmptyBitmap();
+    }
+
     private Drawable resolveResource() {
         Resources resources = getResources();
         if (resources == null) {
@@ -131,17 +138,22 @@ public class RImageView extends ImageView {
     private void updateAttrs(Drawable drawable, ScaleType scaleType) {
         if (drawable == null) return;
         if (drawable instanceof RoundDrawable) {
-            ((RoundDrawable) drawable)
-                    .setScaleType(scaleType)
-                    .setBorderWidth(mBorderWidth)
-                    .setBorderColor(mBorderColor)
-                    .setCircle(mIsCircle)
-                    .setConner(mCorner, mCornerTopLeft, mCornerTopRight, mCornerBottomLeft, mCornerBottomRight);
+            ((RoundDrawable) drawable).setParams(scaleType, mBorderWidth, mBorderColor, mIsCircle, mCorner, mCornerTopLeft, mCornerTopRight, mCornerBottomLeft, mCornerBottomRight);
         } else if (drawable instanceof LayerDrawable) {
             LayerDrawable ld = ((LayerDrawable) drawable);
             for (int i = 0, layers = ld.getNumberOfLayers(); i < layers; i++) {
                 updateAttrs(ld.getDrawable(i), scaleType);
             }
+        }
+    }
+
+    /**
+     * 绘制空Bitmap
+     */
+    private void drawEmptyBitmap() {
+        if (mDrawable == null) {//未设置Bitmap
+            Bitmap empty = Bitmap.createBitmap(getMeasuredWidth(), getMeasuredHeight(), Bitmap.Config.ALPHA_8);
+            setImageBitmap(empty);
         }
     }
 
