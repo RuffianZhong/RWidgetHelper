@@ -15,9 +15,10 @@ import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import android.widget.ImageView;
 
 /**
  * Round Drawable
@@ -289,6 +290,41 @@ public class RoundDrawable extends Drawable {
     public Bitmap getBitmap() {
         return mBitmap;
     }
+
+    /**
+     * 统一设置参数
+     */
+    public void setParams(ImageView.ScaleType scaleType, float borderWidth, int borderColor, boolean circle, float corner, float topLeft, float topRight, float bottomLeft, float bottomRight) {
+        //scaleType
+        if (scaleType == null) {
+            scaleType = ImageView.ScaleType.FIT_CENTER;
+        }
+        if (mScaleType != scaleType) {
+            mScaleType = scaleType;
+        }
+
+        //borderWidth
+        mBorderWidth = borderWidth;
+        //borderColor
+        mBorderColor = borderColor;
+        updateBorder();
+
+        //circle
+        mCircle = circle;
+
+        //corner
+        mCorner = corner;
+        mCornerTopLeft = topLeft;
+        mCornerTopRight = topRight;
+        mCornerBottomLeft = bottomLeft;
+        mCornerBottomRight = bottomRight;
+        updateConner();
+
+        //update
+        updateShaderMatrix();//更新变化矩阵
+        invalidateSelf();//更新
+    }
+
 
     public RoundDrawable setScaleType(ImageView.ScaleType scaleType) {
         if (scaleType == null) {
