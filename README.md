@@ -249,14 +249,17 @@
 ### 使用 （版本号根据更新历史使用最新版）
 > ###  Gradle  未支持 AndroidX
 
-    compile 'com.ruffian.library:RWidgetHelper:1.1.11'
+    compile 'com.ruffian.library:RWidgetHelper:1.1.12'
 
 > ###  Gradle  支持 AndroidX
 
-    compile 'com.ruffian.library:RWidgetHelper-AndroidX:0.0.2'
+    compile 'com.ruffian.library:RWidgetHelper-AndroidX:0.0.3'
 
 
 ### 版本历史
+
+
+**v1.1.12/v0.0.3**　`2020.04.02`　 修复RImageView未设置src时不能绘制边框
 
 **v1.1.11/v0.0.2**　`2020.01.14`　 ScaleType 的 center_inside 类型实现方式修改
 
