@@ -11,11 +11,11 @@ import android.graphics.drawable.LayerDrawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-import com.ruffian.library.widget.rounded.RoundDrawable;
-
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
+
+import com.ruffian.library.widget.rounded.RoundDrawable;
 
 /**
  * RImageView
@@ -153,8 +153,17 @@ public class RImageView extends ImageView {
      */
     private void drawEmptyBitmap() {
         if (mDrawable == null) {//未设置Bitmap
-            Bitmap empty = Bitmap.createBitmap(getMeasuredWidth(), getMeasuredHeight(), Bitmap.Config.ALPHA_8);
-            setImageBitmap(empty);
+            int width = getMeasuredWidth();
+            int height = getMeasuredHeight();
+            if (width > 0 && height > 0) {
+                Drawable background = getBackground();
+                if (background != null) {
+                    background.setBounds(0, 0, width, height);
+                    setImageDrawable(background);
+                } else {
+                    setImageBitmap(Bitmap.createBitmap(width, height, Bitmap.Config.ALPHA_8));
+                }
+            }
         }
     }
 
