@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'blockcanaryex'
 
 android {
     compileSdkVersion 28
@@ -33,10 +32,6 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.github.bumptech.glide:glide:4.3.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.3.0'
-    //性能监控
-    //debugCompile 'com.letv.sarrsdesktop:BlockCanaryExJRT:0.9.9.4'
-    //releaseCompile 'com.letv.sarrsdesktop:BlockCanaryExJRTNoOp:0.9.9.4'
-    //testCompile 'com.letv.sarrsdesktop:BlockCanaryExJRTNoOp:0.9.9.4'
     testImplementation 'junit:junit:4.12'
     implementation project(':library')
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
