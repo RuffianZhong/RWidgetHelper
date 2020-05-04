@@ -13,14 +13,15 @@ import android.graphics.drawable.StateListDrawable;
 import android.graphics.drawable.shapes.RectShape;
 import android.graphics.drawable.shapes.RoundRectShape;
 import android.os.Build;
-import androidx.annotation.ColorInt;
-import androidx.annotation.StyleableRes;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewTreeObserver;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.StyleableRes;
 
 import com.ruffian.library.widget.R;
 import com.ruffian.library.widget.shadow.ShadowDrawable;
@@ -1427,6 +1428,13 @@ public class RBaseHelper<T extends View> {
             @Override
             public void onGlobalLayout() {
                 mView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                //5.0以下圆角兼容
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                    float half = mView.getHeight() / 2f;
+                    for (int i = 0; i < mBorderRadii.length; i++) {
+                        if (mBorderRadii[i] > half) mBorderRadii[i] = half;
+                    }
+                }
                 if (mGradientRadius <= 0) {
                     int width = mView.getWidth();
                     int height = mView.getHeight();
