@@ -65,11 +65,11 @@ public class RoundDrawable extends Drawable {
         mBitmapHeight = bitmap.getHeight();
         mBitmapRect.set(0, 0, mBitmapWidth, mBitmapHeight);
 
-        mBitmapPaint = new Paint();
+        mBitmapPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mBitmapPaint.setStyle(Paint.Style.FILL);
         mBitmapPaint.setAntiAlias(true);
 
-        mBorderPaint = new Paint();
+        mBorderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mBorderPaint.setStyle(Paint.Style.STROKE);
         mBorderPaint.setAntiAlias(true);
         updateBorder();

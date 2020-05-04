@@ -1427,6 +1427,13 @@ public class RBaseHelper<T extends View> {
             @Override
             public void onGlobalLayout() {
                 mView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                //5.0以下圆角兼容
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                    float half = mView.getHeight() / 2f;
+                    for (int i = 0; i < mBorderRadii.length; i++) {
+                        if (mBorderRadii[i] > half) mBorderRadii[i] = half;
+                    }
+                }
                 if (mGradientRadius <= 0) {
                     int width = mView.getWidth();
                     int height = mView.getHeight();
