@@ -249,15 +249,17 @@
 ### 使用 （版本号根据更新历史使用最新版）
 > ###  Gradle  未支持 AndroidX
 
-    compile 'com.ruffian.library:RWidgetHelper:1.1.12'
+    compile 'com.ruffian.library:RWidgetHelper:1.1.13'
 
 > ###  Gradle  支持 AndroidX
 
-    compile 'com.ruffian.library:RWidgetHelper-AndroidX:0.0.3'
+    compile 'com.ruffian.library:RWidgetHelper-AndroidX:0.0.4'
 
 
 ### 版本历史
 
+
+**v1.1.13/v0.0.4**　`2020.05.05`　 修复RImageView未设置宽高时出错，圆角最大值不超过高度的1/2 
 
 **v1.1.12/v0.0.3**　`2020.04.02`　 修复RImageView未设置src时不能绘制边框
 
