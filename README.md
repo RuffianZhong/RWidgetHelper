@@ -183,15 +183,35 @@
 | text_color_pressed      		|   文字颜色 	按下 	|
 | text_color_unable      		| 	文字颜色 	不可点击 |
 | text_color_selected      		| 	文字颜色 	选择		|
-| icon_src_normal      			|   drawable icon 	默认 		|
-| icon_src_pressed      		|   drawable icon 	按下 		|
-| icon_src_unable      			| 	drawable icon 	不可点击 	|
-| icon_src_selected      		| 	drawable icon 	选择		 	|
-| icon_height      				| 	drawable icon 	高 			|
-| icon_width      				|   drawable icon 	宽 			|
 | icon_direction      			|   drawable icon 	位置{left,top,right,bottom} |
 | icon_with_text      			|   图片和文本一起居中 true/false |
 | text_typeface      			|   字体样式 |
+
+老版本仅支持单一方向icon设置
+
+| | |
+| ------------- |  :-------------|
+| icon_src_normal      			|   drawable icon 	默认 		|
+| icon_src_pressed      		|   drawable icon 	按下 		|
+| icon_src_unable      			| 	drawable icon 	不可点击 	|
+| icon_src_selected      		| 	drawable icon 	选择		|
+| icon_height      				| 	drawable icon 	高 			|
+| icon_width      				|   drawable icon 	宽 			|
+
+新版本仅支持多个方向icon设置
+
+| | |
+| ------------- |  :-------------|
+| icon_normal_left/right/top/bottom | 	默认icon  各方向 	|
+| icon_pressed_left/right/top/bottom | 	按下icon  各方向 	|
+| icon_unable_left/right/top/bottom | 	不可用icon  各方向 	|
+| icon_selected_left/right/top/bottom | 	选中icon  各方向 	|
+| icon_height_left/right/top/bottom | 	icon 各方向 高 	|
+| icon_width_left/right/top/bottom | 	icon 各方向 宽 	|
+
+> `RTextView` 控件新增支持多个方向同时设置 `icon`（老版本仅支持一个方向）为了兼容老版本用户，保留了原来字段 `icon_src_normal/pressed/unable/selected`
+> 
+> 如果出现老版本属性默认开发者使用老版本逻辑（仅支持一个方向），新版请使用 `icon_normal_left/right/top/bottom` 等属性
 
 #### REditText
 
@@ -217,8 +237,23 @@
 | border_color_checked 			|   边框颜色 	选中		|
 | background_checked 			|   背景		 	选中 	|
 | text_color_checked       		|   文字颜色 	选中 	|
+
+老版本仅支持单一方向icon设置
+
+| | |
+| ------------- |  :-------------|
 | icon_src_normal       		|   图标 	未选中 	|
 | icon_src_checked       		|   图标 	选中 	|
+
+新版本仅支持多个方向icon设置
+
+| | |
+| ------------- |  :-------------|
+| icon_normal_left/right/top/bottom | 	图标 	未选中  各方向 	|
+| icon_checked_left/right/top/bottom | 	图标 	选中    各方向 	|
+
+> `RRadioButton  / RCheckBox` 控件新增支持多个方向同时设置 `icon`（老版本仅支持一个方向）为了兼容老版本用户，保留了原来字段 `icon_src_checked`
+> 如果出现老版本属性默认开发者使用老版本逻辑（仅支持一个方向），新版请使用 `icon_checked_left/right/top/bottom` 等属性
 
 
 #### RImageView
@@ -249,15 +284,16 @@
 ### 使用 （版本号根据更新历史使用最新版）
 > ###  Gradle  未支持 AndroidX
 
-    compile 'com.ruffian.library:RWidgetHelper:1.1.13'
+    compile 'com.ruffian.library:RWidgetHelper:1.1.14'
 
 > ###  Gradle  支持 AndroidX
 
-    compile 'com.ruffian.library:RWidgetHelper-AndroidX:0.0.4'
+    compile 'com.ruffian.library:RWidgetHelper-AndroidX:0.0.5'
 
 
 ### 版本历史
 
+**v1.1.14/v0.0.5**　`2020.07.23`　 RTextView 支持多方向icon，优化按下状态（背景/字体颜色）默认值
 
 **v1.1.13/v0.0.4**　`2020.05.05`　 修复RImageView未设置宽高时出错，圆角最大值不超过高度的1/2 
 
