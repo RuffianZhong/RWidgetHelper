@@ -114,6 +114,7 @@ public class RCheckHelper extends RTextViewHelper {
         if (!mHasCheckedTextColor) {
             mTextColorChecked = mTextColorNormal;
         }
+        initPressedTextColor(mHasCheckedTextColor, mTextColorChecked);
 
         //unable,focused,pressed,checked,selected,normal
         states[0] = new int[]{-android.R.attr.state_enabled};//unable
@@ -137,12 +138,15 @@ public class RCheckHelper extends RTextViewHelper {
             mTextColorChecked = textColor;
         }
         super.setTextColorNormal(textColor);
+        initPressedTextColor(mHasCheckedTextColor, mTextColorChecked);
+        setTextColor();
         return this;
     }
 
     public RCheckHelper setTextColorChecked(@ColorInt int textColor) {
         this.mTextColorChecked = textColor;
         this.mHasCheckedTextColor = true;
+        initPressedTextColor(mHasCheckedTextColor, mTextColorChecked);
         setTextColor();
         return this;
     }

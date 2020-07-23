@@ -1176,4 +1176,15 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
         }
     }
 
+    /**
+     * 初始化按下状态文本颜色
+     * 备注:当存在 Checked 状态并且没有设置 Pressed 时，Pressed = Checked 更符合常规UI
+     * 备注:使用子类 RCheckHelper 中的属性，提供方法入口
+     */
+    protected void initPressedTextColor(boolean hasCheckedTextColor, int textColorChecked) {
+        if (!mHasPressedTextColor) {
+            mTextColorPressed = hasCheckedTextColor ? textColorChecked : mTextColorNormal;
+        }
+    }
+
 }
