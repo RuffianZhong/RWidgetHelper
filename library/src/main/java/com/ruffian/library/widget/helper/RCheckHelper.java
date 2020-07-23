@@ -5,11 +5,12 @@ import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import androidx.annotation.ColorInt;
-import androidx.appcompat.content.res.AppCompatResources;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.CompoundButton;
+
+import androidx.annotation.ColorInt;
+import androidx.appcompat.content.res.AppCompatResources;
 
 import com.ruffian.library.widget.R;
 
@@ -24,6 +25,11 @@ public class RCheckHelper extends RTextViewHelper {
     private int mTextColorChecked;
     private boolean mHasCheckedTextColor = false;
     //Icon
+    private Drawable mIconCheckedLeft;
+    private Drawable mIconCheckedRight;
+    private Drawable mIconCheckedTop;
+    private Drawable mIconCheckedBottom;
+    //版本兼容
     private Drawable mIconChecked;
 
     {
@@ -55,8 +61,24 @@ public class RCheckHelper extends RTextViewHelper {
         //icon
         //Vector兼容处理
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mIconCheckedLeft = a.getDrawable(R.styleable.RRadioButton_icon_checked_left);
+            mIconCheckedRight = a.getDrawable(R.styleable.RRadioButton_icon_checked_right);
+            mIconCheckedTop = a.getDrawable(R.styleable.RRadioButton_icon_checked_top);
+            mIconCheckedBottom = a.getDrawable(R.styleable.RRadioButton_icon_checked_bottom);
             mIconChecked = a.getDrawable(R.styleable.RRadioButton_icon_src_checked);
         } else {
+            int checkedIdLeft = a.getResourceId(R.styleable.RRadioButton_icon_checked_left, -1);
+            int checkedIdRight = a.getResourceId(R.styleable.RRadioButton_icon_checked_right, -1);
+            int checkedIdTop = a.getResourceId(R.styleable.RRadioButton_icon_checked_top, -1);
+            int checkedIdBottom = a.getResourceId(R.styleable.RRadioButton_icon_checked_bottom, -1);
+            if (checkedIdLeft != -1)
+                mIconCheckedLeft = AppCompatResources.getDrawable(context, checkedIdLeft);
+            if (checkedIdRight != -1)
+                mIconCheckedRight = AppCompatResources.getDrawable(context, checkedIdRight);
+            if (checkedIdTop != -1)
+                mIconCheckedTop = AppCompatResources.getDrawable(context, checkedIdTop);
+            if (checkedIdBottom != -1)
+                mIconCheckedBottom = AppCompatResources.getDrawable(context, checkedIdBottom);
             int checkedId = a.getResourceId(R.styleable.RRadioButton_icon_src_checked, -1);
             if (checkedId != -1)
                 mIconChecked = AppCompatResources.getDrawable(context, checkedId);
@@ -79,7 +101,13 @@ public class RCheckHelper extends RTextViewHelper {
         /**
          * icon
          */
-        if (isChecked()) setIcon(mIconChecked);
+        if (isChecked()) {
+            setIconLeft(mIconCheckedLeft);
+            setIconRight(mIconCheckedRight);
+            setIconTop(mIconCheckedTop);
+            setIconBottom(mIconCheckedBottom);
+            setIcon(mIconChecked);
+        }
 
         /**
          * 设置文字颜色默认值
@@ -87,6 +115,7 @@ public class RCheckHelper extends RTextViewHelper {
         if (!mHasCheckedTextColor) {
             mTextColorChecked = mTextColorNormal;
         }
+        initPressedTextColor(mHasCheckedTextColor, mTextColorChecked);
 
         //unable,focused,pressed,checked,selected,normal
         states[0] = new int[]{-android.R.attr.state_enabled};//unable
@@ -110,12 +139,15 @@ public class RCheckHelper extends RTextViewHelper {
             mTextColorChecked = textColor;
         }
         super.setTextColorNormal(textColor);
+        initPressedTextColor(mHasCheckedTextColor, mTextColorChecked);
+        setTextColor();
         return this;
     }
 
     public RCheckHelper setTextColorChecked(@ColorInt int textColor) {
         this.mTextColorChecked = textColor;
         this.mHasCheckedTextColor = true;
+        initPressedTextColor(mHasCheckedTextColor, mTextColorChecked);
         setTextColor();
         return this;
     }
@@ -142,15 +174,62 @@ public class RCheckHelper extends RTextViewHelper {
     /************************
      * icon
      ************************/
-
+    /**
+     * *********老版本兼容代码*********
+     */
+    @Deprecated
     public RCheckHelper setIconChecked(Drawable icon) {
         this.mIconChecked = icon;
         setIcon(icon);
         return this;
     }
 
+    @Deprecated
     public Drawable getIconChecked() {
         return mIconChecked;
+    }
+
+    /**
+     * *********新版本逻辑*********
+     */
+    public RCheckHelper setIconCheckedLeft(Drawable icon) {
+        this.mIconCheckedLeft = icon;
+        setIconLeft(icon);
+        return this;
+    }
+
+    public RCheckHelper setIconCheckedRight(Drawable icon) {
+        this.mIconCheckedRight = icon;
+        setIconRight(icon);
+        return this;
+    }
+
+    public RCheckHelper setIconCheckedTop(Drawable icon) {
+        this.mIconCheckedTop = icon;
+        setIconTop(icon);
+        return this;
+    }
+
+    public RCheckHelper setIconCheckedBottom(Drawable icon) {
+        this.mIconCheckedBottom = icon;
+        setIconBottom(icon);
+        return this;
+    }
+
+    public Drawable getIconCheckedLeft() {
+        return mIconCheckedLeft;
+    }
+
+    public Drawable getIconCheckedRight() {
+        return mIconCheckedRight;
+    }
+
+    public Drawable getIconCheckedTop() {
+        return mIconCheckedTop;
+    }
+
+    public Drawable getIconCheckedBottom() {
+        return mIconCheckedBottom;
     }
 
     @Override
@@ -175,7 +254,15 @@ public class RCheckHelper extends RTextViewHelper {
      */
     @SuppressWarnings("unchecked")
     public void setChecked(boolean checked) {
+        setIconLeft(checked ? mIconCheckedLeft : getIconNormalLeft());
+        setIconRight(checked ? mIconCheckedRight : getIconNormalRight());
+        setIconTop(checked ? mIconCheckedTop : getIconNormalTop());
+        setIconBottom(checked ? mIconCheckedBottom : getIconNormalBottom());
         setIcon(checked ? mIconChecked : getIconNormal());
     }
 
+    @Override
+    protected boolean isSingleDirection() {
+        return super.isSingleDirection() || (mIconChecked != null);
+    }
 }

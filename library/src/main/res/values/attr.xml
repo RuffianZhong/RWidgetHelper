@@ -64,14 +64,12 @@
     <attr name="text_color_checked" format="color" />
     <attr name="text_color_selected" format="color" />
 
-    <!--图标资源-->
+    <!--图标资源,大小,位置(版本兼容保留)-->
     <attr name="icon_src_normal" format="reference" />
     <attr name="icon_src_pressed" format="reference" />
     <attr name="icon_src_unable" format="reference" />
     <attr name="icon_src_checked" format="reference" />
     <attr name="icon_src_selected" format="reference" />
-
-    <!--图标、大小、位置-->
     <attr name="icon_height" format="dimension" />
     <attr name="icon_width" format="dimension" />
     <attr name="icon_direction">
@@ -80,6 +78,36 @@
         <enum name="right" value="3" />
         <enum name="bottom" value="4" />
     </attr>
+
+    <!--图标资源,大小,位置-->
+    <attr name="icon_normal_left" format="reference" />
+    <attr name="icon_pressed_left" format="reference" />
+    <attr name="icon_unable_left" format="reference" />
+    <attr name="icon_checked_left" format="reference" />
+    <attr name="icon_selected_left" format="reference" />
+    <attr name="icon_normal_right" format="reference" />
+    <attr name="icon_pressed_right" format="reference" />
+    <attr name="icon_unable_right" format="reference" />
+    <attr name="icon_checked_right" format="reference" />
+    <attr name="icon_selected_right" format="reference" />
+    <attr name="icon_normal_top" format="reference" />
+    <attr name="icon_pressed_top" format="reference" />
+    <attr name="icon_unable_top" format="reference" />
+    <attr name="icon_checked_top" format="reference" />
+    <attr name="icon_selected_top" format="reference" />
+    <attr name="icon_normal_bottom" format="reference" />
+    <attr name="icon_pressed_bottom" format="reference" />
+    <attr name="icon_unable_bottom" format="reference" />
+    <attr name="icon_checked_bottom" format="reference" />
+    <attr name="icon_selected_bottom" format="reference" />
+    <attr name="icon_height_left" format="dimension" />
+    <attr name="icon_width_left" format="dimension" />
+    <attr name="icon_height_bottom" format="dimension" />
+    <attr name="icon_width_bottom" format="dimension" />
+    <attr name="icon_height_top" format="dimension" />
+    <attr name="icon_width_top" format="dimension" />
+    <attr name="icon_height_right" format="dimension" />
+    <attr name="icon_width_right" format="dimension" />
 
     <!--字体样式-->
     <attr name="text_typeface" format="string" />
@@ -214,13 +242,41 @@
         <attr name="text_color_unable" />
         <attr name="text_color_selected" />
 
-        <!--图标资源-->
+        <!--图标资源,大小-->
+        <attr name="icon_normal_left" />
+        <attr name="icon_pressed_left" />
+        <attr name="icon_unable_left" />
+        <attr name="icon_checked_left" />
+        <attr name="icon_selected_left" />
+        <attr name="icon_normal_right" />
+        <attr name="icon_pressed_right" />
+        <attr name="icon_unable_right" />
+        <attr name="icon_checked_right" />
+        <attr name="icon_selected_right" />
+        <attr name="icon_normal_top" />
+        <attr name="icon_pressed_top" />
+        <attr name="icon_unable_top" />
+        <attr name="icon_checked_top" />
+        <attr name="icon_selected_top" />
+        <attr name="icon_normal_bottom" />
+        <attr name="icon_pressed_bottom" />
+        <attr name="icon_unable_bottom" />
+        <attr name="icon_checked_bottom" />
+        <attr name="icon_selected_bottom" />
+        <attr name="icon_height_left" />
+        <attr name="icon_width_left" />
+        <attr name="icon_height_bottom" />
+        <attr name="icon_width_bottom" />
+        <attr name="icon_height_top" />
+        <attr name="icon_width_top" />
+        <attr name="icon_height_right" />
+        <attr name="icon_width_right" />
+
+        <!--图标资源,大小(版本兼容保留)-->
         <attr name="icon_src_normal" />
         <attr name="icon_src_pressed" />
         <attr name="icon_src_unable" />
         <attr name="icon_src_selected" />
-
-        <!--图标、大小、位置-->
         <attr name="icon_height" />
         <attr name="icon_width" />
         <attr name="icon_direction" />
@@ -292,13 +348,41 @@
         <attr name="text_color_unable" />
         <attr name="text_color_selected" />
 
-        <!--图标资源-->
+        <!--图标资源,大小-->
+        <attr name="icon_normal_left" />
+        <attr name="icon_pressed_left" />
+        <attr name="icon_unable_left" />
+        <attr name="icon_checked_left" />
+        <attr name="icon_selected_left" />
+        <attr name="icon_normal_right" />
+        <attr name="icon_pressed_right" />
+        <attr name="icon_unable_right" />
+        <attr name="icon_checked_right" />
+        <attr name="icon_selected_right" />
+        <attr name="icon_normal_top" />
+        <attr name="icon_pressed_top" />
+        <attr name="icon_unable_top" />
+        <attr name="icon_checked_top" />
+        <attr name="icon_selected_top" />
+        <attr name="icon_normal_bottom" />
+        <attr name="icon_pressed_bottom" />
+        <attr name="icon_unable_bottom" />
+        <attr name="icon_checked_bottom" />
+        <attr name="icon_selected_bottom" />
+        <attr name="icon_height_left" />
+        <attr name="icon_width_left" />
+        <attr name="icon_height_bottom" />
+        <attr name="icon_width_bottom" />
+        <attr name="icon_height_top" />
+        <attr name="icon_width_top" />
+        <attr name="icon_height_right" />
+        <attr name="icon_width_right" />
+
+        <!--图标资源,大小(版本兼容保留)-->
         <attr name="icon_src_normal" />
         <attr name="icon_src_pressed" />
         <attr name="icon_src_unable" />
         <attr name="icon_src_selected" />
-
-        <!--图标、大小、位置-->
         <attr name="icon_height" />
         <attr name="icon_width" />
         <attr name="icon_direction" />
@@ -672,14 +756,42 @@
         <!--是否可用-->
         <attr name="enabled" />
 
-        <!--图标资源-->
+        <!--图标资源,大小-->
+        <attr name="icon_normal_left" />
+        <attr name="icon_pressed_left" />
+        <attr name="icon_unable_left" />
+        <attr name="icon_checked_left" />
+        <attr name="icon_selected_left" />
+        <attr name="icon_normal_right" />
+        <attr name="icon_pressed_right" />
+        <attr name="icon_unable_right" />
+        <attr name="icon_checked_right" />
+        <attr name="icon_selected_right" />
+        <attr name="icon_normal_top" />
+        <attr name="icon_pressed_top" />
+        <attr name="icon_unable_top" />
+        <attr name="icon_checked_top" />
+        <attr name="icon_selected_top" />
+        <attr name="icon_normal_bottom" />
+        <attr name="icon_pressed_bottom" />
+        <attr name="icon_unable_bottom" />
+        <attr name="icon_checked_bottom" />
+        <attr name="icon_selected_bottom" />
+        <attr name="icon_height_left" />
+        <attr name="icon_width_left" />
+        <attr name="icon_height_bottom" />
+        <attr name="icon_width_bottom" />
+        <attr name="icon_height_top" />
+        <attr name="icon_width_top" />
+        <attr name="icon_height_right" />
+        <attr name="icon_width_right" />
+
+        <!--图标资源,大小,位置(版本兼容保留)-->
         <attr name="icon_src_normal" />
         <attr name="icon_src_pressed" />
         <attr name="icon_src_unable" />
         <attr name="icon_src_checked" />
         <attr name="icon_src_selected" />
-
-        <!--图标、大小、位置-->
         <attr name="icon_height" />
         <attr name="icon_width" />
         <attr name="icon_direction" />
@@ -755,14 +867,42 @@
         <!--是否可用-->
         <attr name="enabled" />
 
-        <!--图标资源-->
+        <!--图标资源,大小-->
+        <attr name="icon_normal_left" />
+        <attr name="icon_pressed_left" />
+        <attr name="icon_unable_left" />
+        <attr name="icon_checked_left" />
+        <attr name="icon_selected_left" />
+        <attr name="icon_normal_right" />
+        <attr name="icon_pressed_right" />
+        <attr name="icon_unable_right" />
+        <attr name="icon_checked_right" />
+        <attr name="icon_selected_right" />
+        <attr name="icon_normal_top" />
+        <attr name="icon_pressed_top" />
+        <attr name="icon_unable_top" />
+        <attr name="icon_checked_top" />
+        <attr name="icon_selected_top" />
+        <attr name="icon_normal_bottom" />
+        <attr name="icon_pressed_bottom" />
+        <attr name="icon_unable_bottom" />
+        <attr name="icon_checked_bottom" />
+        <attr name="icon_selected_bottom" />
+        <attr name="icon_height_left" />
+        <attr name="icon_width_left" />
+        <attr name="icon_height_bottom" />
+        <attr name="icon_width_bottom" />
+        <attr name="icon_height_top" />
+        <attr name="icon_width_top" />
+        <attr name="icon_height_right" />
+        <attr name="icon_width_right" />
+
+        <!--图标资源,大小,位置(版本兼容保留)-->
         <attr name="icon_src_normal" />
         <attr name="icon_src_pressed" />
         <attr name="icon_src_unable" />
         <attr name="icon_src_checked" />
         <attr name="icon_src_selected" />
-
-        <!--图标、大小、位置-->
         <attr name="icon_height" />
         <attr name="icon_width" />
         <attr name="icon_direction" />
