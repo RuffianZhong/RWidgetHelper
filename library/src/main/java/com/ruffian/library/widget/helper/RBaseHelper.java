@@ -3,7 +3,9 @@ package com.ruffian.library.widget.helper;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Path;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
@@ -23,6 +25,9 @@ import android.view.ViewConfiguration;
 import android.view.ViewTreeObserver;
 
 import com.ruffian.library.widget.R;
+import com.ruffian.library.widget.clip.ClipHelper;
+import com.ruffian.library.widget.clip.ClipPathManager;
+import com.ruffian.library.widget.clip.IClip;
 import com.ruffian.library.widget.shadow.ShadowDrawable;
 
 
@@ -31,7 +36,7 @@ import com.ruffian.library.widget.shadow.ShadowDrawable;
  *
  * @author ZhongDaFeng
  */
-public class RBaseHelper<T extends View> {
+public class RBaseHelper<T extends View> implements IClip {
     /**
      * 背景类型{1:单一颜色值 2:颜色数组 3:图片}
      */
@@ -146,6 +151,11 @@ public class RBaseHelper<T extends View> {
     //EmptyStateListDrawable
     private StateListDrawable emptyStateListDrawable = new StateListDrawable();
 
+    //ClipHelper
+    protected ClipHelper mClipHelper = new ClipHelper();
+    //clipLayout
+    private boolean mClipLayout = false;
+
     public RBaseHelper(Context context, T view, AttributeSet attrs) {
         mView = view;
         mContext = context;
@@ -231,6 +241,8 @@ public class RBaseHelper<T extends View> {
         mShadowDy = a.getDimensionPixelSize(R.styleable.RBaseView_shadow_dy, 0);
         mShadowColor = a.getColor(R.styleable.RBaseView_shadow_color, Color.GRAY);
         mShadowRadius = a.getDimensionPixelSize(R.styleable.RBaseView_shadow_radius, -1);
+        //clip
+        mClipLayout = a.getBoolean(R.styleable.RBaseView_clip_layout, false);
 
         a.recycle();
 
@@ -1452,6 +1464,8 @@ public class RBaseHelper<T extends View> {
                     float radius = Math.min(width, height) / 2f;
                     setGradientRadius(radius);
                 }
+                //初始化clip
+                initClip();
             }
         });
     }
@@ -1599,4 +1613,28 @@ public class RBaseHelper<T extends View> {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && mUseRipple;
     }
 
+    /**
+     * 初始化Clip
+     */
+    private void initClip() {
+        //初始化clip
+        mClipHelper.initClip(mView, mClipLayout, new ClipPathManager.ClipPathCreator() {
+            @Override
+            public Path createClipPath(int width, int height) {
+                Path path = new Path();
+                path.addRoundRect(0, 0, width, height, mBorderRadii, Path.Direction.CCW);
+                return path;
+            }
+        });
+    }
+
+    @Override
+    public void dispatchDraw(Canvas canvas) {
+        mClipHelper.dispatchDraw(canvas);
+    }
+
+    @Override
+    public void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        mClipHelper.onLayout(changed, left, top, right, bottom);
+    }
 }

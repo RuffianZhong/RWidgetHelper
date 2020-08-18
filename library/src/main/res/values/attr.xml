@@ -138,6 +138,8 @@
     <attr name="shadow_color" format="color" />
     <attr name="shadow_radius" format="dimension" />
 
+    <!--是否裁剪布局-->
+    <attr name="clip_layout" format="boolean" />
 
     <!--RBaseView 通用-->
     <declare-styleable name="RBaseView">
@@ -195,6 +197,9 @@
         <attr name="shadow_dy" />
         <attr name="shadow_color" />
         <attr name="shadow_radius" />
+
+        <!--clipLayout-->
+        <attr name="clip_layout" />
     </declare-styleable>
 
     <!-- TextView -->
@@ -479,6 +484,9 @@
         <attr name="shadow_dy" />
         <attr name="shadow_color" />
         <attr name="shadow_radius" />
+
+        <!--clipLayout-->
+        <attr name="clip_layout" />
     </declare-styleable>
 
     <!-- RRelativeLayout -->
@@ -534,6 +542,9 @@
         <attr name="shadow_dy" />
         <attr name="shadow_color" />
         <attr name="shadow_radius" />
+
+        <!--clipLayout-->
+        <attr name="clip_layout" />
     </declare-styleable>
 
     <!-- RFrameLayout -->
@@ -589,6 +600,9 @@
         <attr name="shadow_dy" />
         <attr name="shadow_color" />
         <attr name="shadow_radius" />
+
+        <!--clipLayout-->
+        <attr name="clip_layout" />
     </declare-styleable>
 
     <!-- RConstraintLayout -->
@@ -644,6 +658,9 @@
         <attr name="shadow_dy" />
         <attr name="shadow_color" />
         <attr name="shadow_radius" />
+
+        <!--clipLayout-->
+        <attr name="clip_layout" />
     </declare-styleable>
 
     <!-- RView -->
