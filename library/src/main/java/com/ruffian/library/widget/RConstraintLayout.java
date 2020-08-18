@@ -1,8 +1,10 @@
 package com.ruffian.library.widget;
 
 import android.content.Context;
-import androidx.constraintlayout.widget.ConstraintLayout;
+import android.graphics.Canvas;
 import android.util.AttributeSet;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.ruffian.library.widget.helper.RBaseHelper;
 import com.ruffian.library.widget.iface.RHelper;
@@ -32,5 +34,17 @@ public class RConstraintLayout extends ConstraintLayout implements RHelper<RBase
     @Override
     public RBaseHelper getHelper() {
         return mHelper;
+    }
+
+    @Override
+    public void dispatchDraw(Canvas canvas) {
+        super.dispatchDraw(canvas);
+        mHelper.dispatchDraw(canvas);
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+        mHelper.onLayout(changed, left, top, right, bottom);
     }
 }
