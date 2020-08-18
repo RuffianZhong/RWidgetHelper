@@ -32,6 +32,7 @@
 | 背景			| 颜色/颜色数组/drawable  		| 默认/按下/不可用/选中 		| 纯色/渐变/Drawable	 |
 | 水波纹			| --  							| -- 						| 点击效果水波纹	 	 |
 | 阴影			| --  							| -- 						| 控件四周阴影	 	 |
+| 裁剪布局		| --  							| -- 						| 裁剪子控件内容	 	 |
 #### 属性介绍
 
 | 属性			|说明			 |
@@ -71,7 +72,7 @@
 | shadow_color 					|   阴影颜色 |
 | shadow_dx 					|   阴影水平方向偏移  负数向左，正数向右  dp  |
 | shadow_dy 					|   阴影垂直方向偏移  负数向上，正数向下  dp  |
-
+| clip_layout 					|   裁剪子控件内容  |
 
 > 	 1.background_xxx         纯色   渐变   drawable
 > 	 纯色:   颜色值               app:background_normal="#74EBD5"
@@ -86,6 +87,8 @@
 > 	 4.shadow 内容需要开发者自行兼容，例如：`shadow_radius=10dp` , `shadow_dx=5dp`  则在水平方向需要 `padingLeft/right = 15 dp`
 > 		 
 > 	 5.pressed/unable/checked/selected 等状态在未设置具体值时会默认设置 normal 值，方便开发者实现各种需求
+> 		 
+> 	 6.clip_layout 是否裁剪控件，未设置此属性时，所有的圆角/圆形都是背景形状。 设置此属性后，在背景效果的同时真实裁剪控件
 
 
 
@@ -146,6 +149,9 @@
 	        app:shadow_dy="5dp"
 	        app:shadow_radius="10dp"
 	        app:shadow_color="@color/colorAccent"
+
+			//clipLayout
+			app:clip_layout="true"
         	/>
 ```
 
@@ -220,6 +226,8 @@
 #### RLinearLayout  /  RRelativeLayout  /  RFrameLayout  /  RView /  RConstraintLayout
 
 > 查看基础功能
+> 
+> **重磅： ViewGroup 支持通过 clip_layout 设置是否裁剪子控件**
 
 #### RRadioButton  / RCheckBox  
 
@@ -284,14 +292,16 @@
 ### 使用 （版本号根据更新历史使用最新版）
 > ###  Gradle  未支持 AndroidX
 
-    compile 'com.ruffian.library:RWidgetHelper:1.1.14'
+    compile 'com.ruffian.library:RWidgetHelper:1.1.15'
 
 > ###  Gradle  支持 AndroidX
 
-    compile 'com.ruffian.library:RWidgetHelper-AndroidX:0.0.5'
+    compile 'com.ruffian.library:RWidgetHelper-AndroidX:0.0.6'
 
 
 ### 版本历史
+
+**v1.1.15/v0.0.6**　`2020.08.18`　 重磅更新 ViewGroup 支持裁剪控件功能
 
 **v1.1.14/v0.0.5**　`2020.07.23`　 RTextView 支持多方向icon，优化按下状态（背景/字体颜色）默认值
 
