@@ -301,6 +301,8 @@
 
 ### 版本历史
 
+**v1.1.16/v0.0.7**　`2020.11.05`　 Fix bug:4.4.x版本上裁剪出现崩溃，内存泄漏[issues#78](https://github.com/RuffianZhong/RWidgetHelper/issues/78)
+
 **v1.1.15/v0.0.6**　`2020.08.18`　 重磅更新 ViewGroup 支持裁剪控件功能
 
 **v1.1.14/v0.0.5**　`2020.07.23`　 RTextView 支持多方向icon，优化按下状态（背景/字体颜色）默认值
