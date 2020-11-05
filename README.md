@@ -32,6 +32,7 @@
 | 背景			| 颜色/颜色数组/drawable  		| 默认/按下/不可用/选中 		| 纯色/渐变/Drawable	 |
 | 水波纹			| --  							| -- 						| 点击效果水波纹	 	 |
 | 阴影			| --  							| -- 						| 控件四周阴影	 	 |
+| 裁剪布局		| --  							| -- 						| 裁剪子控件内容	 	 |
 #### 属性介绍
 
 | 属性			|说明			 |
@@ -71,7 +72,7 @@
 | shadow_color 					|   阴影颜色 |
 | shadow_dx 					|   阴影水平方向偏移  负数向左，正数向右  dp  |
 | shadow_dy 					|   阴影垂直方向偏移  负数向上，正数向下  dp  |
-
+| clip_layout 					|   裁剪子控件内容  |
 
 > 	 1.background_xxx         纯色   渐变   drawable
 > 	 纯色:   颜色值               app:background_normal="#74EBD5"
@@ -86,6 +87,8 @@
 > 	 4.shadow 内容需要开发者自行兼容，例如：`shadow_radius=10dp` , `shadow_dx=5dp`  则在水平方向需要 `padingLeft/right = 15 dp`
 > 		 
 > 	 5.pressed/unable/checked/selected 等状态在未设置具体值时会默认设置 normal 值，方便开发者实现各种需求
+> 		 
+> 	 6.clip_layout 是否裁剪控件，未设置此属性时，所有的圆角/圆形都是背景形状。 设置此属性后，在背景效果的同时真实裁剪控件
 
 
 
@@ -146,6 +149,9 @@
 	        app:shadow_dy="5dp"
 	        app:shadow_radius="10dp"
 	        app:shadow_color="@color/colorAccent"
+
+			//clipLayout
+			app:clip_layout="true"
         	/>
 ```
 
@@ -183,15 +189,35 @@
 | text_color_pressed      		|   文字颜色 	按下 	|
 | text_color_unable      		| 	文字颜色 	不可点击 |
 | text_color_selected      		| 	文字颜色 	选择		|
-| icon_src_normal      			|   drawable icon 	默认 		|
-| icon_src_pressed      		|   drawable icon 	按下 		|
-| icon_src_unable      			| 	drawable icon 	不可点击 	|
-| icon_src_selected      		| 	drawable icon 	选择		 	|
-| icon_height      				| 	drawable icon 	高 			|
-| icon_width      				|   drawable icon 	宽 			|
 | icon_direction      			|   drawable icon 	位置{left,top,right,bottom} |
 | icon_with_text      			|   图片和文本一起居中 true/false |
 | text_typeface      			|   字体样式 |
+
+老版本仅支持单一方向icon设置
+
+| | |
+| ------------- |  :-------------|
+| icon_src_normal      			|   drawable icon 	默认 		|
+| icon_src_pressed      		|   drawable icon 	按下 		|
+| icon_src_unable      			| 	drawable icon 	不可点击 	|
+| icon_src_selected      		| 	drawable icon 	选择		|
+| icon_height      				| 	drawable icon 	高 			|
+| icon_width      				|   drawable icon 	宽 			|
+
+新版本仅支持多个方向icon设置
+
+| | |
+| ------------- |  :-------------|
+| icon_normal_left/right/top/bottom | 	默认icon  各方向 	|
+| icon_pressed_left/right/top/bottom | 	按下icon  各方向 	|
+| icon_unable_left/right/top/bottom | 	不可用icon  各方向 	|
+| icon_selected_left/right/top/bottom | 	选中icon  各方向 	|
+| icon_height_left/right/top/bottom | 	icon 各方向 高 	|
+| icon_width_left/right/top/bottom | 	icon 各方向 宽 	|
+
+> `RTextView` 控件新增支持多个方向同时设置 `icon`（老版本仅支持一个方向）为了兼容老版本用户，保留了原来字段 `icon_src_normal/pressed/unable/selected`
+> 
+> 如果出现老版本属性默认开发者使用老版本逻辑（仅支持一个方向），新版请使用 `icon_normal_left/right/top/bottom` 等属性
 
 #### REditText
 
@@ -200,6 +226,8 @@
 #### RLinearLayout  /  RRelativeLayout  /  RFrameLayout  /  RView /  RConstraintLayout
 
 > 查看基础功能
+> 
+> **重磅： ViewGroup 支持通过 clip_layout 设置是否裁剪子控件**
 
 #### RRadioButton  / RCheckBox  
 
@@ -217,8 +245,23 @@
 | border_color_checked 			|   边框颜色 	选中		|
 | background_checked 			|   背景		 	选中 	|
 | text_color_checked       		|   文字颜色 	选中 	|
+
+老版本仅支持单一方向icon设置
+
+| | |
+| ------------- |  :-------------|
 | icon_src_normal       		|   图标 	未选中 	|
 | icon_src_checked       		|   图标 	选中 	|
+
+新版本仅支持多个方向icon设置
+
+| | |
+| ------------- |  :-------------|
+| icon_normal_left/right/top/bottom | 	图标 	未选中  各方向 	|
+| icon_checked_left/right/top/bottom | 	图标 	选中    各方向 	|
+
+> `RRadioButton  / RCheckBox` 控件新增支持多个方向同时设置 `icon`（老版本仅支持一个方向）为了兼容老版本用户，保留了原来字段 `icon_src_checked`
+> 如果出现老版本属性默认开发者使用老版本逻辑（仅支持一个方向），新版请使用 `icon_checked_left/right/top/bottom` 等属性
 
 
 #### RImageView
@@ -249,15 +292,20 @@
 ### 使用 （版本号根据更新历史使用最新版）
 > ###  Gradle  未支持 AndroidX
 
-    compile 'com.ruffian.library:RWidgetHelper:1.1.13'
+    compile 'com.ruffian.library:RWidgetHelper:1.1.15'
 
 > ###  Gradle  支持 AndroidX
 
-    compile 'com.ruffian.library:RWidgetHelper-AndroidX:0.0.4'
+    compile 'com.ruffian.library:RWidgetHelper-AndroidX:0.0.6'
 
 
 ### 版本历史
 
+**v1.1.16/v0.0.7**　`2020.11.05`　 Fix bug:4.4.x版本上裁剪出现崩溃，内存泄漏[issues#78](https://github.com/RuffianZhong/RWidgetHelper/issues/78)
+
+**v1.1.15/v0.0.6**　`2020.08.18`　 重磅更新 ViewGroup 支持裁剪控件功能
+
+**v1.1.14/v0.0.5**　`2020.07.23`　 RTextView 支持多方向icon，优化按下状态（背景/字体颜色）默认值
 
 **v1.1.13/v0.0.4**　`2020.05.05`　 修复RImageView未设置宽高时出错，圆角最大值不超过高度的1/2 
 
