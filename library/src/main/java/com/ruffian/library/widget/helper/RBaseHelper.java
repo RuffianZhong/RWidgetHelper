@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Path;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
@@ -36,7 +37,7 @@ import com.ruffian.library.widget.shadow.ShadowDrawable;
  *
  * @author ZhongDaFeng
  */
-public class RBaseHelper<T extends View> implements IClip {
+public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGlobalLayoutListener {
     /**
      * 背景类型{1:单一颜色值 2:颜色数组 3:图片}
      */
@@ -1447,25 +1448,18 @@ public class RBaseHelper<T extends View> implements IClip {
      */
     private void addOnGlobalLayoutListener() {
         if (mView == null) return;
-        mView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        mView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override
-            public void onGlobalLayout() {
-                mView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                //5.0以下圆角兼容
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                    float half = mView.getHeight() / 2f;
-                    for (int i = 0; i < mBorderRadii.length; i++) {
-                        if (mBorderRadii[i] > half) mBorderRadii[i] = half;
-                    }
-                }
-                if (mGradientRadius <= 0) {
-                    int width = mView.getWidth();
-                    int height = mView.getHeight();
-                    float radius = Math.min(width, height) / 2f;
-                    setGradientRadius(radius);
-                }
-                //初始化clip
-                initClip();
+            public void onViewAttachedToWindow(View v) {
+                ViewTreeObserver observer = v.getViewTreeObserver();
+                observer.addOnGlobalLayoutListener(RBaseHelper.this);
+            }
+
+            @Override
+            public void onViewDetachedFromWindow(View v) {
+                ViewTreeObserver observer = v.getViewTreeObserver();
+                observer.removeGlobalOnLayoutListener(RBaseHelper.this);
+                v.removeOnAttachStateChangeListener(this);
             }
         });
     }
@@ -1622,7 +1616,7 @@ public class RBaseHelper<T extends View> implements IClip {
             @Override
             public Path createClipPath(int width, int height) {
                 Path path = new Path();
-                path.addRoundRect(0, 0, width, height, mBorderRadii, Path.Direction.CCW);
+                path.addRoundRect(new RectF(0, 0, width, height), mBorderRadii, Path.Direction.CCW);
                 return path;
             }
         });
@@ -1636,5 +1630,29 @@ public class RBaseHelper<T extends View> implements IClip {
     @Override
     public void onLayout(boolean changed, int left, int top, int right, int bottom) {
         mClipHelper.onLayout(changed, left, top, right, bottom);
+    }
+
+
+    @Override
+    public void onGlobalLayout() {
+        //移除监听
+        ViewTreeObserver observer = mView.getViewTreeObserver();
+        observer.removeGlobalOnLayoutListener(RBaseHelper.this);
+
+        //5.0以下圆角兼容
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            float half = mView.getHeight() / 2f;
+            for (int i = 0; i < mBorderRadii.length; i++) {
+                if (mBorderRadii[i] > half) mBorderRadii[i] = half;
+            }
+        }
+        if (mGradientRadius <= 0) {
+            int width = mView.getWidth();
+            int height = mView.getHeight();
+            float radius = Math.min(width, height) / 2f;
+            setGradientRadius(radius);
+        }
+        //初始化clip
+        initClip();
     }
 }

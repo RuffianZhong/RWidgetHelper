@@ -14,7 +14,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.ruffian.library.widget.R;
@@ -113,18 +112,6 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
     private void addOnViewChangeListener() {
         if (mView == null) return;
         if (!mDrawableWithText) return;
-        //大小变化
-        mView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                mView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                mPaddingLeft = mView.getPaddingLeft();
-                mPaddingRight = mView.getPaddingRight();
-                mPaddingTop = mView.getPaddingTop();
-                mPaddingBottom = mView.getPaddingBottom();
-                setIcon();
-            }
-        });
         //文本改变
         mView.addTextChangedListener(new TextWatcher() {
             @Override
@@ -1184,6 +1171,18 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
     protected void initPressedTextColor(boolean hasCheckedTextColor, int textColorChecked) {
         if (!mHasPressedTextColor) {
             mTextColorPressed = hasCheckedTextColor ? textColorChecked : mTextColorNormal;
+        }
+    }
+
+    @Override
+    public void onGlobalLayout() {
+        super.onGlobalLayout();
+        if (mDrawableWithText) {
+            mPaddingLeft = mView.getPaddingLeft();
+            mPaddingRight = mView.getPaddingRight();
+            mPaddingTop = mView.getPaddingTop();
+            mPaddingBottom = mView.getPaddingBottom();
+            setIcon();
         }
     }
 
