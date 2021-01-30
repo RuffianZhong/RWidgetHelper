@@ -3,6 +3,7 @@ package com.ruffian.library.widget;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.TextView;
 
 import com.ruffian.library.widget.helper.RTextViewHelper;
@@ -49,4 +50,9 @@ public class RTextView extends TextView implements RHelper<RTextViewHelper> {
         super.setSelected(selected);
     }
 
+    @Override
+    protected void onVisibilityChanged(View changedView, int visibility) {
+        if (mHelper != null) mHelper.onVisibilityChanged(changedView, visibility);
+        super.onVisibilityChanged(changedView, visibility);
+    }
 }

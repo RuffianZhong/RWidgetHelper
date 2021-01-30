@@ -14,9 +14,11 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.TextView;
 
 import com.ruffian.library.widget.R;
+import com.ruffian.library.widget.iface.ITextViewFeature;
 import com.ruffian.library.widget.utils.TextViewUtils;
 
 /**
@@ -24,7 +26,7 @@ import com.ruffian.library.widget.utils.TextViewUtils;
  *
  * @author ZhongDaFeng
  */
-public class RTextViewHelper extends RBaseHelper<TextView> {
+public class RTextViewHelper extends RBaseHelper<TextView> implements ITextViewFeature {
 
     //default value
     public static final int ICON_DIR_LEFT = 1, ICON_DIR_TOP = 2, ICON_DIR_RIGHT = 3, ICON_DIR_BOTTOM = 4;
@@ -129,7 +131,6 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
                 setIcon();
             }
         });
-
     }
 
     /**
@@ -781,25 +782,19 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
      */
     private void setIcon(Drawable drawableLeft, Drawable drawableRight, Drawable drawableTop, Drawable drawableBottom) {
         if (drawableLeft != null || drawableRight != null || drawableTop != null || drawableBottom != null) {
-            if (mIconHeightLeft != 0 && mIconWidthLeft != 0) {
+            if (drawableLeft != null)
                 drawableLeft.setBounds(0, 0, mIconWidthLeft, mIconHeightLeft);
-            }
-            if (mIconHeightRight != 0 && mIconWidthRight != 0) {
+            if (drawableRight != null)
                 drawableRight.setBounds(0, 0, mIconWidthRight, mIconHeightRight);
-            }
-            if (mIconHeightTop != 0 && mIconWidthTop != 0) {
+            if (drawableTop != null)
                 drawableTop.setBounds(0, 0, mIconWidthTop, mIconHeightTop);
-            }
-            if (mIconHeightBottom != 0 && mIconWidthBottom != 0) {
+            if (drawableBottom != null)
                 drawableBottom.setBounds(0, 0, mIconWidthBottom, mIconHeightBottom);
-            }
             //setDrawable
             mView.setCompoundDrawables(drawableLeft, drawableTop, drawableRight, drawableBottom);
 
             //drawable间距
             if (!mDrawableWithText) return;
-            if (mView.getWidth() == 0 || mView.getHeight() == 0) return;
-
             int drawablePadding = mView.getCompoundDrawablePadding();
             int drawablePaddingHorizontal = 0, drawablePaddingVertical = 0;
             if (mIconLeft != null) drawablePaddingHorizontal += drawablePadding;
@@ -809,33 +804,28 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
 
             final int drawableWidthFinal = mIconWidthLeft + mIconWidthRight;
             final int drawableHeightFinal = mIconHeightTop + mIconHeightBottom;
-
             final int drawablePaddingVerticalFinal = drawablePaddingVertical;//垂直方向上drawable间距
             final int drawablePaddingHorizontalFinal = drawablePaddingHorizontal;//水平方向上drawable间距
             //view.getLineCount() need post
             mView.post(new Runnable() {
                 @Override
                 public void run() {
-
                     //水平方向计算
                     float textWidth = TextViewUtils.get().getTextWidth(mView, drawableWidthFinal, mPaddingLeft, mPaddingRight, drawablePaddingHorizontalFinal);
                     float bodyWidth = textWidth + drawableWidthFinal + drawablePaddingHorizontalFinal;//内容宽度
                     float actualWidth = mView.getWidth() - (mPaddingLeft + mPaddingRight);//实际可用宽度
                     int translateX = (int) (actualWidth - bodyWidth) / 2;//两边使用
                     if (translateX < 0) translateX = 0;
-
                     //垂直方向计算
                     float textHeight = TextViewUtils.get().getTextHeight(mView, drawableHeightFinal, mPaddingTop, mPaddingBottom, drawablePaddingVerticalFinal);
                     float bodyHeight = textHeight + drawableHeightFinal + drawablePaddingVerticalFinal;//内容高度
                     float actualHeight = mView.getHeight() - (mPaddingTop + mPaddingBottom);//实际可用高度
                     int translateY = (int) (actualHeight - bodyHeight) / 2;
                     if (translateY < 0) translateY = 0;
-
                     //关键技术点
                     mView.setPadding(translateX + mPaddingLeft, translateY + mPaddingTop, translateX + mPaddingRight, translateY + mPaddingBottom);
                 }
             });
-
         }
     }
 
@@ -850,39 +840,25 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
     @Deprecated
     private void setIcon(Drawable drawable, int drawableWidth, int drawableHeight, int direction) {
         if (drawable != null) {
-            if (drawableWidth != 0 && drawableHeight != 0) {
-                drawable.setBounds(0, 0, drawableWidth, drawableHeight);
-            }
+            drawable.setBounds(0, 0, drawableWidth, drawableHeight);
+            mView.setCompoundDrawables(
+                    direction == ICON_DIR_LEFT ? drawable : null,
+                    direction == ICON_DIR_TOP ? drawable : null,
+                    direction == ICON_DIR_RIGHT ? drawable : null,
+                    direction == ICON_DIR_BOTTOM ? drawable : null);
             //drawable间距
             int drawablePadding = mView.getCompoundDrawablePadding();
             int drawablePaddingHorizontal = drawablePadding;//水平方向上drawable间距
             int drawablePaddingVertical = drawablePadding;//垂直方向上drawable间距
-            switch (direction) {
-                case ICON_DIR_LEFT:
-                    drawableHeight = 0;
-                    drawablePaddingVertical = 0;
-                    mView.setCompoundDrawables(drawable, null, null, null);
-                    break;
-                case ICON_DIR_TOP:
-                    drawableWidth = 0;
-                    drawablePaddingHorizontal = 0;
-                    mView.setCompoundDrawables(null, drawable, null, null);
-                    break;
-                case ICON_DIR_RIGHT:
-                    drawableHeight = 0;
-                    drawablePaddingVertical = 0;
-                    mView.setCompoundDrawables(null, null, drawable, null);
-                    break;
-                case ICON_DIR_BOTTOM:
-                    drawableWidth = 0;
-                    drawablePaddingHorizontal = 0;
-                    mView.setCompoundDrawables(null, null, null, drawable);
-                    break;
+            if (direction == ICON_DIR_LEFT || direction == ICON_DIR_RIGHT) {
+                drawableHeight = 0;
+                drawablePaddingVertical = 0;
             }
-
+            if (direction == ICON_DIR_TOP || direction == ICON_DIR_BOTTOM) {
+                drawableWidth = 0;
+                drawablePaddingHorizontal = 0;
+            }
             if (!mDrawableWithText) return;
-            if (mView.getWidth() == 0 || mView.getHeight() == 0) return;
-
             final int drawableWidthFinal = drawableWidth;
             final int drawableHeightFinal = drawableHeight;
             final int drawablePaddingVerticalFinal = drawablePaddingVertical;
@@ -891,21 +867,18 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
             mView.post(new Runnable() {
                 @Override
                 public void run() {
-
                     //水平方向计算
                     float textWidth = TextViewUtils.get().getTextWidth(mView, drawableWidthFinal, mPaddingLeft, mPaddingRight, drawablePaddingHorizontalFinal);
                     float bodyWidth = textWidth + drawableWidthFinal + drawablePaddingHorizontalFinal;//内容宽度
                     float actualWidth = mView.getWidth() - (mPaddingLeft + mPaddingRight);//实际可用宽度
                     int translateX = (int) (actualWidth - bodyWidth) / 2;//两边使用
                     if (translateX < 0) translateX = 0;
-
                     //垂直方向计算
                     float textHeight = TextViewUtils.get().getTextHeight(mView, drawableHeightFinal, mPaddingTop, mPaddingBottom, drawablePaddingVerticalFinal);
                     float bodyHeight = textHeight + drawableHeightFinal + drawablePaddingVerticalFinal;//内容高度
                     float actualHeight = mView.getHeight() - (mPaddingTop + mPaddingBottom);//实际可用高度
                     int translateY = (int) (actualHeight - bodyHeight) / 2;
                     if (translateY < 0) translateY = 0;
-
                     //关键技术点
                     mView.setPadding(translateX + mPaddingLeft, translateY + mPaddingTop, translateX + mPaddingRight, translateY + mPaddingBottom);
                 }
@@ -990,9 +963,49 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
     }
 
     /**
+     * 是否仅支持单一方向ICON
+     * 老版本仅支持单一方向icon，版本兼容判断逻辑
+     *
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    protected boolean isSingleDirection() {
+        //老版本属性任意一个不为空，默认用户使用老版本逻辑，新版本只能使用带方向后缀的属性字段
+        if (mIconNormal != null || mIconPressed != null || mIconUnable != null || mIconSelected != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 初始化按下状态文本颜色
+     * 备注:当存在 Checked 状态并且没有设置 Pressed 时，Pressed = Checked 更符合常规UI
+     * 备注:使用子类 RCheckHelper 中的属性，提供方法入口
+     */
+    protected void initPressedTextColor(boolean hasCheckedTextColor, int textColorChecked) {
+        if (!mHasPressedTextColor) {
+            mTextColorPressed = hasCheckedTextColor ? textColorChecked : mTextColorNormal;
+        }
+    }
+
+    @Override
+    public void onGlobalLayout() {
+        super.onGlobalLayout();
+        if (mDrawableWithText) {
+            mPaddingLeft = mView.getPaddingLeft();
+            mPaddingRight = mView.getPaddingRight();
+            mPaddingTop = mView.getPaddingTop();
+            mPaddingBottom = mView.getPaddingBottom();
+            setIcon();
+        }
+    }
+
+    /**
      * 设置是否启用
      * 备注:用于库内确定逻辑的调用，不建议开发者直接调用
      */
+    @Override
     @SuppressWarnings("unchecked")
     public void setEnabled(boolean enabled) {
         if (enabled) {
@@ -1036,6 +1049,7 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
      * 设置是否选中
      * 备注:用于库内确定逻辑的调用，不建议开发者直接调用
      */
+    @Override
     @SuppressWarnings("unchecked")
     public void setSelected(boolean selected) {
         if (!mView.isEnabled()) return;
@@ -1080,6 +1094,7 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
      * 触摸事件逻辑
      * 备注:用于库内确定逻辑的调用，不建议开发者直接调用
      */
+    @Override
     @SuppressWarnings("unchecked")
     public void onTouchEvent(MotionEvent event) {
         if (!mView.isEnabled()) return;
@@ -1148,42 +1163,13 @@ public class RTextViewHelper extends RBaseHelper<TextView> {
     }
 
     /**
-     * 是否仅支持单一方向ICON
-     * 老版本仅支持单一方向icon，版本兼容判断逻辑
-     *
-     * @return
+     * View可见性变化时更新textView icon与文本一起居中
+     * 备注:用于库内确定逻辑的调用，不建议开发者直接调用
      */
-    @SuppressWarnings("unchecked")
-    protected boolean isSingleDirection() {
-        //老版本属性任意一个不为空，默认用户使用老版本逻辑，新版本只能使用带方向后缀的属性字段
-        if (mIconNormal != null || mIconPressed != null || mIconUnable != null || mIconSelected != null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * 初始化按下状态文本颜色
-     * 备注:当存在 Checked 状态并且没有设置 Pressed 时，Pressed = Checked 更符合常规UI
-     * 备注:使用子类 RCheckHelper 中的属性，提供方法入口
-     */
-    protected void initPressedTextColor(boolean hasCheckedTextColor, int textColorChecked) {
-        if (!mHasPressedTextColor) {
-            mTextColorPressed = hasCheckedTextColor ? textColorChecked : mTextColorNormal;
-        }
-    }
-
     @Override
-    public void onGlobalLayout() {
-        super.onGlobalLayout();
-        if (mDrawableWithText) {
-            mPaddingLeft = mView.getPaddingLeft();
-            mPaddingRight = mView.getPaddingRight();
-            mPaddingTop = mView.getPaddingTop();
-            mPaddingBottom = mView.getPaddingBottom();
-            setIcon();
-        }
+    @SuppressWarnings("unchecked")
+    public void onVisibilityChanged(View changedView, int visibility) {
+        if (visibility != View.GONE) setIcon();
     }
 
 }
