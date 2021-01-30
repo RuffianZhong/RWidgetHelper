@@ -292,14 +292,16 @@
 ### 使用 （版本号根据更新历史使用最新版）
 > ###  Gradle  未支持 AndroidX
 
-    compile 'com.ruffian.library:RWidgetHelper:1.1.15'
+    compile 'com.ruffian.library:RWidgetHelper:1.1.17'
 
 > ###  Gradle  支持 AndroidX
 
-    compile 'com.ruffian.library:RWidgetHelper-AndroidX:0.0.6'
+    compile 'com.ruffian.library:RWidgetHelper-AndroidX:0.0.8'
 
 
 ### 版本历史
+
+**v1.1.17/v0.0.8**　`2021.01.30`　 Fix bug [issues#68](https://github.com/RuffianZhong/RWidgetHelper/issues/68) | [issues#73](https://github.com/RuffianZhong/RWidgetHelper/issues/73)
 
 **v1.1.16/v0.0.7**　`2020.11.05`　 Fix bug:4.4.x版本上裁剪出现崩溃，内存泄漏[issues#78](https://github.com/RuffianZhong/RWidgetHelper/issues/78)
 
