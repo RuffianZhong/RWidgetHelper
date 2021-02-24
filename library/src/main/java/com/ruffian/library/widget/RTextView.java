@@ -1,9 +1,9 @@
 package com.ruffian.library.widget;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.TextView;
 
 import com.ruffian.library.widget.helper.RTextViewHelper;
@@ -51,9 +51,10 @@ public class RTextView extends TextView implements RHelper<RTextViewHelper> {
     }
 
     @Override
-    protected void onVisibilityChanged(View changedView, int visibility) {
-        if (mHelper != null) mHelper.onVisibilityChanged(changedView, visibility);
-        super.onVisibilityChanged(changedView, visibility);
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        if (mHelper != null) mHelper.drawIconWithText();
     }
+
 
 }

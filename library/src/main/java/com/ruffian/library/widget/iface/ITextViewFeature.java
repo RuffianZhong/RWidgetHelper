@@ -1,7 +1,6 @@
 package com.ruffian.library.widget.iface;
 
 import android.view.MotionEvent;
-import android.view.View;
 
 /**
  * TextView特性功能接口
@@ -15,6 +14,6 @@ public interface ITextViewFeature {
 
     public void setSelected(boolean selected);
 
-    public void onVisibilityChanged(View changedView, int visibility);
+    public void drawIconWithText();
 
 }
