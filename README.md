@@ -292,11 +292,11 @@
 ### 使用 （版本号根据更新历史使用最新版）
 > ###  Gradle  未支持 AndroidX
 
-    compile 'com.ruffian.library:RWidgetHelper:1.1.17'
+    compile 'com.ruffian.library:RWidgetHelper:1.1.18'
 
 > ###  Gradle  支持 AndroidX
 
-    compile 'com.ruffian.library:RWidgetHelper-AndroidX:0.0.8'
+    compile 'com.ruffian.library:RWidgetHelper-AndroidX:0.0.9'
 
 
 ### 版本历史
