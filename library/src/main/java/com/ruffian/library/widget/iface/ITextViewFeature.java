@@ -15,5 +15,5 @@ public interface ITextViewFeature {
 
     public void setSelected(boolean selected);
 
-    public void onVisibilityChanged(View changedView, int visibility);
+    public void drawIconWithText();
 }
