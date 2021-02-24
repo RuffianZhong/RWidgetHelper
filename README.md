@@ -301,6 +301,8 @@
 
 ### 版本历史
 
+**v1.1.18/v0.0.9**　`2021.02.24`　 修复 iconWithText Bug
+
 **v1.1.17/v0.0.8**　`2021.01.30`　 Fix bug [issues#68](https://github.com/RuffianZhong/RWidgetHelper/issues/68) | [issues#73](https://github.com/RuffianZhong/RWidgetHelper/issues/73)
 
 **v1.1.16/v0.0.7**　`2020.11.05`　 Fix bug:4.4.x版本上裁剪出现崩溃，内存泄漏[issues#78](https://github.com/RuffianZhong/RWidgetHelper/issues/78)
