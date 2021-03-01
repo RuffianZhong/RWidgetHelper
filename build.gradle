@@ -2,12 +2,16 @@
 
 buildscript {
     repositories {
+        //serve to dependencies
+        maven { url 'https://maven.aliyun.com/repository/central' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        maven { url "http://mvn.mob.com/android" }
+
         google()
         jcenter()
-        maven {
-            url 'https://maven.google.com/'
-            name 'Google'
-        }
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.0'
@@ -17,15 +21,15 @@ buildscript {
 
 allprojects {
     repositories {
+        //serve to project
+        maven { url 'https://maven.aliyun.com/repository/central' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        maven { url "https://jitpack.io" }
+        maven { url 'https://dl.bintray.com/novoda-oss/snapshots/' }
         google()
         jcenter()
-        maven {
-            url 'https://maven.google.com/'
-            name 'Google'
-        }
-        maven {
-            url 'https://dl.bintray.com/novoda-oss/snapshots/'
-        }
     }
     tasks.withType(Javadoc) {
         options {
