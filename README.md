@@ -290,18 +290,39 @@
 
 
 ### 使用 （版本号根据更新历史使用最新版）
-> ###  Gradle  未支持 AndroidX
+#### JCenter仓库已经被关闭，新版本依赖方式 Jitpack
+```
+//项目级别 build.gradle
+allprojects {
+    repositories {
+        ...
+        maven { url "https://jitpack.io" }
+    }
+}
 
-    compile 'com.ruffian.library:RWidgetHelper:1.1.18'
 
-> ###  Gradle  支持 AndroidX
+//support 版本
+dependencies {
+    implementation 'com.github.RuffianZhong:RWidgetHelper:support.v0.0.1'
+}
 
-    compile 'com.ruffian.library:RWidgetHelper-AndroidX:0.0.9'
-
+//androidx 版本
+dependencies {
+    implementation 'com.github.RuffianZhong:RWidgetHelper:androidx.v0.0.1'
+}
+```
+#### 老版本依赖方式 JCenter 2022 年 2 月 1 日开始无法使用
+```
+//support 版本
+compile 'com.ruffian.library:RWidgetHelper:1.1.18'
+    
+//androidx 版本
+compile 'com.ruffian.library:RWidgetHelper-AndroidX:0.0.9'
+```
 
 ### 版本历史
 
-**v1.1.19/v0.0.10**　`2021.05.25`　修改按下状态逻辑(背景/边框/文本颜色)
+**support.v0.0.1/androidx.v0.0.1**　`2021.05.25`　修改按下状态逻辑(背景/边框/文本颜色)
 
 **v1.1.18/v0.0.9**　`2021.02.24`　 修复 iconWithText Bug
 
