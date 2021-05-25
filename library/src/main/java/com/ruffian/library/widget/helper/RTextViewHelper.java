@@ -133,50 +133,50 @@ public class RTextViewHelper extends RBaseHelper<TextView> implements ITextViewF
             mIconPressedLeft = a.getDrawable(R.styleable.RTextView_icon_pressed_left);
             mIconUnableLeft = a.getDrawable(R.styleable.RTextView_icon_unable_left);
             mIconSelectedLeft = a.getDrawable(R.styleable.RTextView_icon_selected_left);
-            mIconCheckedLeft = a.getDrawable(R.styleable.RRadioButton_icon_checked_left);
+            mIconCheckedLeft = a.getDrawable(R.styleable.RTextView_icon_checked_left);
             mIconNormalRight = a.getDrawable(R.styleable.RTextView_icon_normal_right);
             mIconPressedRight = a.getDrawable(R.styleable.RTextView_icon_pressed_right);
             mIconUnableRight = a.getDrawable(R.styleable.RTextView_icon_unable_right);
             mIconSelectedRight = a.getDrawable(R.styleable.RTextView_icon_selected_right);
-            mIconCheckedRight = a.getDrawable(R.styleable.RRadioButton_icon_checked_right);
+            mIconCheckedRight = a.getDrawable(R.styleable.RTextView_icon_checked_right);
             mIconNormalTop = a.getDrawable(R.styleable.RTextView_icon_normal_top);
             mIconPressedTop = a.getDrawable(R.styleable.RTextView_icon_pressed_top);
             mIconUnableTop = a.getDrawable(R.styleable.RTextView_icon_unable_top);
             mIconSelectedTop = a.getDrawable(R.styleable.RTextView_icon_selected_top);
-            mIconCheckedTop = a.getDrawable(R.styleable.RRadioButton_icon_checked_top);
+            mIconCheckedTop = a.getDrawable(R.styleable.RTextView_icon_checked_top);
             mIconNormalBottom = a.getDrawable(R.styleable.RTextView_icon_normal_bottom);
             mIconPressedBottom = a.getDrawable(R.styleable.RTextView_icon_pressed_bottom);
             mIconUnableBottom = a.getDrawable(R.styleable.RTextView_icon_unable_bottom);
             mIconSelectedBottom = a.getDrawable(R.styleable.RTextView_icon_selected_bottom);
-            mIconCheckedBottom = a.getDrawable(R.styleable.RRadioButton_icon_checked_bottom);
+            mIconCheckedBottom = a.getDrawable(R.styleable.RTextView_icon_checked_bottom);
             //版本兼容代码
             mIconNormal = a.getDrawable(R.styleable.RTextView_icon_src_normal);
             mIconPressed = a.getDrawable(R.styleable.RTextView_icon_src_pressed);
             mIconUnable = a.getDrawable(R.styleable.RTextView_icon_src_unable);
             mIconSelected = a.getDrawable(R.styleable.RTextView_icon_src_selected);
-            mIconChecked = a.getDrawable(R.styleable.RRadioButton_icon_src_checked);
+            mIconChecked = a.getDrawable(R.styleable.RTextView_icon_src_checked);
 
         } else {
             int normalIdLeft = a.getResourceId(R.styleable.RTextView_icon_normal_left, -1);
             int pressedIdLeft = a.getResourceId(R.styleable.RTextView_icon_pressed_left, -1);
             int unableIdLeft = a.getResourceId(R.styleable.RTextView_icon_unable_left, -1);
             int selectedIdLeft = a.getResourceId(R.styleable.RTextView_icon_selected_left, -1);
-            int checkedIdLeft = a.getResourceId(R.styleable.RRadioButton_icon_checked_left, -1);
+            int checkedIdLeft = a.getResourceId(R.styleable.RTextView_icon_checked_left, -1);
             int normalIdRight = a.getResourceId(R.styleable.RTextView_icon_normal_right, -1);
             int pressedIdRight = a.getResourceId(R.styleable.RTextView_icon_pressed_right, -1);
             int unableIdRight = a.getResourceId(R.styleable.RTextView_icon_unable_right, -1);
             int selectedIdRight = a.getResourceId(R.styleable.RTextView_icon_selected_right, -1);
-            int checkedIdRight = a.getResourceId(R.styleable.RRadioButton_icon_checked_right, -1);
+            int checkedIdRight = a.getResourceId(R.styleable.RTextView_icon_checked_right, -1);
             int normalIdTop = a.getResourceId(R.styleable.RTextView_icon_normal_top, -1);
             int pressedIdTop = a.getResourceId(R.styleable.RTextView_icon_pressed_top, -1);
             int unableIdTop = a.getResourceId(R.styleable.RTextView_icon_unable_top, -1);
             int selectedIdTop = a.getResourceId(R.styleable.RTextView_icon_selected_top, -1);
-            int checkedIdTop = a.getResourceId(R.styleable.RRadioButton_icon_checked_top, -1);
+            int checkedIdTop = a.getResourceId(R.styleable.RTextView_icon_checked_top, -1);
             int normalIdBottom = a.getResourceId(R.styleable.RTextView_icon_normal_bottom, -1);
             int pressedIdBottom = a.getResourceId(R.styleable.RTextView_icon_pressed_bottom, -1);
             int unableIdBottom = a.getResourceId(R.styleable.RTextView_icon_unable_bottom, -1);
             int selectedIdBottom = a.getResourceId(R.styleable.RTextView_icon_selected_bottom, -1);
-            int checkedIdBottom = a.getResourceId(R.styleable.RRadioButton_icon_checked_bottom, -1);
+            int checkedIdBottom = a.getResourceId(R.styleable.RTextView_icon_checked_bottom, -1);
             if (normalIdLeft != -1)
                 mIconNormalLeft = AppCompatResources.getDrawable(context, normalIdLeft);
             if (pressedIdLeft != -1)
@@ -222,7 +222,7 @@ public class RTextViewHelper extends RBaseHelper<TextView> implements ITextViewF
             int pressedId = a.getResourceId(R.styleable.RTextView_icon_src_pressed, -1);
             int unableId = a.getResourceId(R.styleable.RTextView_icon_src_unable, -1);
             int selectedId = a.getResourceId(R.styleable.RTextView_icon_src_selected, -1);
-            int checkedId = a.getResourceId(R.styleable.RRadioButton_icon_src_checked, -1);
+            int checkedId = a.getResourceId(R.styleable.RTextView_icon_src_checked, -1);
             if (normalId != -1)
                 mIconNormal = AppCompatResources.getDrawable(context, normalId);
             if (pressedId != -1)
@@ -252,7 +252,7 @@ public class RTextViewHelper extends RBaseHelper<TextView> implements ITextViewF
         mTextColorPressed = a.getColor(R.styleable.RTextView_text_color_pressed, _C);
         mTextColorUnable = a.getColor(R.styleable.RTextView_text_color_unable, _C);
         mTextColorSelected = a.getColor(R.styleable.RTextView_text_color_selected, _C);
-        mTextColorChecked = a.getColor(R.styleable.RRadioButton_text_color_checked, _C);
+        mTextColorChecked = a.getColor(R.styleable.RTextView_text_color_checked, _C);
         //typeface
         mTypefacePath = a.getString(R.styleable.RTextView_text_typeface);
         //drawableWithText
