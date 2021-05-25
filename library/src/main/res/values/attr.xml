@@ -220,18 +220,21 @@
         <attr name="border_width_normal" />
         <attr name="border_width_pressed" />
         <attr name="border_width_unable" />
+        <attr name="border_width_checked" />
         <attr name="border_width_selected" />
 
         <!--边框颜色-->
         <attr name="border_color_normal" />
         <attr name="border_color_pressed" />
         <attr name="border_color_unable" />
+        <attr name="border_color_checked" />
         <attr name="border_color_selected" />
 
         <!--背景颜色-->
         <attr name="background_normal" />
         <attr name="background_pressed" />
         <attr name="background_unable" />
+        <attr name="background_checked" />
         <attr name="background_selected" />
 
         <!--Gradient相关-->
@@ -245,7 +248,14 @@
         <attr name="text_color_normal" />
         <attr name="text_color_pressed" />
         <attr name="text_color_unable" />
+        <attr name="text_color_checked" />
         <attr name="text_color_selected" />
+
+        <!--字体样式-->
+        <attr name="text_typeface" />
+
+        <!--是否可用-->
+        <attr name="enabled" />
 
         <!--图标资源,大小-->
         <attr name="icon_normal_left" />
@@ -277,23 +287,18 @@
         <attr name="icon_height_right" />
         <attr name="icon_width_right" />
 
-        <!--图标资源,大小(版本兼容保留)-->
+        <!--图标资源,大小,位置(版本兼容保留)-->
         <attr name="icon_src_normal" />
         <attr name="icon_src_pressed" />
         <attr name="icon_src_unable" />
+        <attr name="icon_src_checked" />
         <attr name="icon_src_selected" />
         <attr name="icon_height" />
         <attr name="icon_width" />
         <attr name="icon_direction" />
 
-        <!--字体样式-->
-        <attr name="text_typeface" />
-
         <!--drawable和Text居中-->
         <attr name="icon_with_text" />
-
-        <!--是否可用-->
-        <attr name="enabled" />
 
         <!--ripple-->
         <attr name="ripple" />

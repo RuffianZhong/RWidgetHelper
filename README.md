@@ -1,6 +1,6 @@
 # RWidgetHelper
 
-## 欢迎使用 RWidgetHelper 
+## 欢迎使用 RWidgetHelper
 
 ### 宗旨：专治原生控件各种不服
 
@@ -9,11 +9,11 @@
 ### 说明
 
 > Android UI 开发常用：圆角，边框，Gradient背景渐变，控件State各个状态UI样式，阴影，水波纹
-> 
+>
 > 普通解决方案缺点：代码冗余，复用性差，自由度低
-> 
+>
 > RWidgetHelper优点：优化代码，简化使用，快速开发
-> 
+>
 
 ### 简介
 
@@ -78,16 +78,16 @@
 > 	 纯色:   颜色值               app:background_normal="#74EBD5"
 > 	 渐变:   颜色数组 >=2个       app:background_normal="@array/@colorArray"
 > 	 drawable: 资源图片          app:background_normal="@mipmap/@drawable"
-> 	 
+>
 > 	 2.自定义属性对原生属性无效
 > 	   例如: `app:corner_radius="10dp"` 搭配 `app:background_normal="#74EBD5"` 而不是`background="#74EBD5"`
-> 	 
+>
 > 	 3.ripple 效果和 pressed 对立，启用 ripple 后，按下效果无效
-> 	 
+>
 > 	 4.shadow 内容需要开发者自行兼容，例如：`shadow_radius=10dp` , `shadow_dx=5dp`  则在水平方向需要 `padingLeft/right = 15 dp`
-> 		 
+>
 > 	 5.pressed/unable/checked/selected 等状态在未设置具体值时会默认设置 normal 值，方便开发者实现各种需求
-> 		 
+>
 > 	 6.clip_layout 是否裁剪控件，未设置此属性时，所有的圆角/圆形都是背景形状。 设置此属性后，在背景效果的同时真实裁剪控件
 
 
@@ -171,7 +171,7 @@
 ![](picture/all.gif)  ![](picture/part5.png)
 ![](picture/part1.png) ![](picture/part2.png)
 ![](picture/part3.png) ![](picture/part4.png)
-![](picture/ripple.gif) ![](picture/shadow.png) 
+![](picture/ripple.gif) ![](picture/shadow.png)
 
 ## 个性功能
 
@@ -216,7 +216,7 @@
 | icon_width_left/right/top/bottom | 	icon 各方向 宽 	|
 
 > `RTextView` 控件新增支持多个方向同时设置 `icon`（老版本仅支持一个方向）为了兼容老版本用户，保留了原来字段 `icon_src_normal/pressed/unable/selected`
-> 
+>
 > 如果出现老版本属性默认开发者使用老版本逻辑（仅支持一个方向），新版请使用 `icon_normal_left/right/top/bottom` 等属性
 
 #### REditText
@@ -226,17 +226,17 @@
 #### RLinearLayout  /  RRelativeLayout  /  RFrameLayout  /  RView /  RConstraintLayout
 
 > 查看基础功能
-> 
+>
 > **重磅： ViewGroup 支持通过 clip_layout 设置是否裁剪子控件**
 
-#### RRadioButton  / RCheckBox  
+#### RRadioButton  / RCheckBox
 
 > 查看基础功能
 >
 > 查看 `RTextView` 所有功能
 >
-> 常使用选择属性 checked 
-> 
+> 常使用选择属性 checked
+>
 > 支持 `RTextView` 的基础功能 自定义各个状态 `drawableLeft` 以及 icon与文本居中等
 
 | 属性			|说明			 |
@@ -266,16 +266,16 @@
 
 #### RImageView
 
-> RImageView 不提供state状态   
->   
+> RImageView 不提供state状态
+>
 > 1.圆形图片
->   
+>
 > 2.圆角图片
->   
+>
 > 3.指定某一方向圆角图片
->   
+>
 > 4.边框
->     
+>
 
 | 属性			|说明			 |
 | ------------- |  :-------------|
@@ -301,6 +301,8 @@
 
 ### 版本历史
 
+**v1.1.19/v0.0.10**　`2021.05.25`　修改按下状态逻辑(背景/边框/文本颜色)
+
 **v1.1.18/v0.0.9**　`2021.02.24`　 修复 iconWithText Bug
 
 **v1.1.17/v0.0.8**　`2021.01.30`　 Fix bug [issues#68](https://github.com/RuffianZhong/RWidgetHelper/issues/68) | [issues#73](https://github.com/RuffianZhong/RWidgetHelper/issues/73)
@@ -311,7 +313,7 @@
 
 **v1.1.14/v0.0.5**　`2020.07.23`　 RTextView 支持多方向icon，优化按下状态（背景/字体颜色）默认值
 
-**v1.1.13/v0.0.4**　`2020.05.05`　 修复RImageView未设置宽高时出错，圆角最大值不超过高度的1/2 
+**v1.1.13/v0.0.4**　`2020.05.05`　 修复RImageView未设置宽高时出错，圆角最大值不超过高度的1/2
 
 **v1.1.12/v0.0.3**　`2020.04.02`　 修复RImageView未设置src时不能绘制边框
 
@@ -319,7 +321,7 @@
 
 **v0.0.1**　`2020.01.10`　 单独支持 AndroidX ，方便开发者选择 （基于v1.1.10）
 
-**v1.1.10**　`2020.01.10`　 还原 Support 包支持，分离 AndroidX 
+**v1.1.10**　`2020.01.10`　 还原 Support 包支持，分离 AndroidX
 
 **v1.1.9**　`2020.01.08`　 `androidx.appcompat` 和 `androidx.constraintlayout` 的依赖方式从编译时依赖到直接依赖，避免开发者未引入时不能正确使用
 

@@ -1,6 +1,7 @@
 package com.ruffian.library.widget;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.RadioButton;
@@ -53,6 +54,12 @@ public class RRadioButton extends RadioButton implements RHelper<RCheckHelper> {
     public void setChecked(boolean checked) {
         if (mHelper != null) mHelper.setChecked(checked);
         super.setChecked(checked);
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        if (mHelper != null) mHelper.drawIconWithText();
     }
 
 }
