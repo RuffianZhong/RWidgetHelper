@@ -16,15 +16,16 @@ import android.graphics.drawable.StateListDrawable;
 import android.graphics.drawable.shapes.RectShape;
 import android.graphics.drawable.shapes.RoundRectShape;
 import android.os.Build;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.StyleableRes;
+
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewTreeObserver;
-
-import androidx.annotation.ColorInt;
-import androidx.annotation.StyleableRes;
 
 import com.ruffian.library.widget.R;
 import com.ruffian.library.widget.clip.ClipHelper;
@@ -39,6 +40,9 @@ import com.ruffian.library.widget.shadow.ShadowDrawable;
  * @author ZhongDaFeng
  */
 public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGlobalLayoutListener {
+    //默认值 _C:颜色 _S:尺寸/宽高
+    protected final int _C = 0, _S = -1;
+
     /**
      * 背景类型{1:单一颜色值 2:颜色数组 3:图片}
      */
@@ -52,27 +56,28 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
     private float mCornerRadiusBottomRight;
 
     //BorderWidth
-    private float mBorderDashWidth = 0;
-    private float mBorderDashGap = 0;
-    private int mBorderWidthNormal = 0;
-    private int mBorderWidthPressed = 0;
-    private int mBorderWidthUnable = 0;
-    private int mBorderWidthChecked = 0;
-    private int mBorderWidthSelected = 0;
+    private float mBorderDashWidth = _S;
+    private float mBorderDashGap = _S;
+    private int mBorderWidthNormal = _S;
+    private int mBorderWidthPressed = _S;
+    private int mBorderWidthUnable = _S;
+    private int mBorderWidthChecked = _S;
+    private int mBorderWidthSelected = _S;
 
     //BorderColor
-    private int mBorderColorNormal;
-    private int mBorderColorPressed;
-    private int mBorderColorUnable;
-    private int mBorderColorChecked;
-    private int mBorderColorSelected;
+    private int mBorderColorNormal = _C;
+    private int mBorderColorPressed = _C;
+    private int mBorderColorUnable = _C;
+    private int mBorderColorChecked = _C;
+    private int mBorderColorSelected = _C;
 
     //Background
-    private int mBackgroundColorNormal;
-    private int mBackgroundColorPressed;
-    private int mBackgroundColorUnable;
-    private int mBackgroundColorChecked;
-    private int mBackgroundColorSelected;
+    private int mBackgroundColorNormal = _C;
+    private int mBackgroundColorPressed = _C;
+    private int mBackgroundColorUnable = _C;
+    private int mBackgroundColorChecked = _C;
+    private int mBackgroundColorSelected = _C;
+
     //BackgroundColorArray
     private int[] mBackgroundColorNormalArray;
     private int[] mBackgroundColorPressedArray;
@@ -151,7 +156,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
     protected T mView;
 
     //EmptyStateListDrawable
-    private StateListDrawable emptyStateListDrawable = new StateListDrawable();
+    private final StateListDrawable emptyStateListDrawable = new StateListDrawable();
 
     //ClipHelper
     protected ClipHelper mClipHelper = new ClipHelper();
@@ -187,18 +192,18 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         mCornerRadiusBottomLeft = a.getDimensionPixelSize(R.styleable.RBaseView_corner_radius_bottom_left, 0);
         mCornerRadiusBottomRight = a.getDimensionPixelSize(R.styleable.RBaseView_corner_radius_bottom_right, 0);
         //border
-        mBorderDashWidth = a.getDimensionPixelSize(R.styleable.RBaseView_border_dash_width, 0);
-        mBorderDashGap = a.getDimensionPixelSize(R.styleable.RBaseView_border_dash_gap, 0);
-        mBorderWidthNormal = a.getDimensionPixelSize(R.styleable.RBaseView_border_width_normal, 0);
-        mBorderWidthPressed = a.getDimensionPixelSize(R.styleable.RBaseView_border_width_pressed, 0);
-        mBorderWidthUnable = a.getDimensionPixelSize(R.styleable.RBaseView_border_width_unable, 0);
-        mBorderWidthChecked = a.getDimensionPixelSize(R.styleable.RBaseView_border_width_checked, 0);
-        mBorderWidthSelected = a.getDimensionPixelSize(R.styleable.RBaseView_border_width_selected, 0);
-        mBorderColorNormal = a.getColor(R.styleable.RBaseView_border_color_normal, Color.TRANSPARENT);
-        mBorderColorPressed = a.getColor(R.styleable.RBaseView_border_color_pressed, Color.TRANSPARENT);
-        mBorderColorUnable = a.getColor(R.styleable.RBaseView_border_color_unable, Color.TRANSPARENT);
-        mBorderColorChecked = a.getColor(R.styleable.RBaseView_border_color_checked, Color.TRANSPARENT);
-        mBorderColorSelected = a.getColor(R.styleable.RBaseView_border_color_selected, Color.TRANSPARENT);
+        mBorderDashWidth = a.getDimensionPixelSize(R.styleable.RBaseView_border_dash_width, _S);
+        mBorderDashGap = a.getDimensionPixelSize(R.styleable.RBaseView_border_dash_gap, _S);
+        mBorderWidthNormal = a.getDimensionPixelSize(R.styleable.RBaseView_border_width_normal, _S);
+        mBorderWidthPressed = a.getDimensionPixelSize(R.styleable.RBaseView_border_width_pressed, _S);
+        mBorderWidthUnable = a.getDimensionPixelSize(R.styleable.RBaseView_border_width_unable, _S);
+        mBorderWidthChecked = a.getDimensionPixelSize(R.styleable.RBaseView_border_width_checked, _S);
+        mBorderWidthSelected = a.getDimensionPixelSize(R.styleable.RBaseView_border_width_selected, _S);
+        mBorderColorNormal = a.getColor(R.styleable.RBaseView_border_color_normal, _C);
+        mBorderColorPressed = a.getColor(R.styleable.RBaseView_border_color_pressed, _C);
+        mBorderColorUnable = a.getColor(R.styleable.RBaseView_border_color_unable, _C);
+        mBorderColorChecked = a.getColor(R.styleable.RBaseView_border_color_checked, _C);
+        mBorderColorSelected = a.getColor(R.styleable.RBaseView_border_color_selected, _C);
         //background
         //normal
         Object[] bgInfoNormal = getBackgroundInfo(a, R.styleable.RBaseView_background_normal);
@@ -248,23 +253,6 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
 
         a.recycle();
 
-        mHasPressedBgColor = mBackgroundColorPressed != 0 || mBackgroundColorPressedArray != null;
-        mHasUnableBgColor = mBackgroundColorUnable != 0 || mBackgroundColorUnableArray != null;
-        mHasCheckedBgColor = mBackgroundColorChecked != 0 || mBackgroundColorCheckedArray != null;
-        mHasSelectedBgColor = mBackgroundColorSelected != 0 || mBackgroundColorSelectedArray != null;
-        mHasPressedBgBmp = mBackgroundPressedBmp != null;
-        mHasUnableBgBmp = mBackgroundUnableBmp != null;
-        mHasCheckedBgBmp = mBackgroundCheckedBmp != null;
-        mHasSelectedBgBmp = mBackgroundSelectedBmp != null;
-        mHasPressedBorderColor = mBorderColorPressed != 0;
-        mHasUnableBorderColor = mBorderColorUnable != 0;
-        mHasCheckedBorderColor = mBorderColorChecked != 0;
-        mHasSelectedBorderColor = mBorderColorSelected != 0;
-        mHasPressedBorderWidth = mBorderWidthPressed != 0;
-        mHasUnableBorderWidth = mBorderWidthUnable != 0;
-        mHasCheckedBorderWidth = mBorderWidthChecked != 0;
-        mHasSelectedBorderWidth = mBorderWidthSelected != 0;
-
         //setup
         setup();
 
@@ -288,21 +276,79 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         mBackgroundUnable = new GradientDrawable();
         mBackgroundChecked = new GradientDrawable();
         mBackgroundSelected = new GradientDrawable();
-        if (useShadow()) mShadowDrawable = new ShadowDrawable();
-
         mViewBackground = mView.getBackground();
         mStateBackground = new StateListDrawable();
+        if (useShadow()) mShadowDrawable = new ShadowDrawable();
+        //unable,focused,pressed,checked,selected,normal
+        states[0] = new int[]{-android.R.attr.state_enabled};//unable
+        states[1] = new int[]{android.R.attr.state_focused};//focused
+        states[2] = new int[]{android.R.attr.state_pressed};//pressed
+        states[3] = new int[]{android.R.attr.state_checked};//checked
+        states[4] = new int[]{android.R.attr.state_selected};//selected
+        states[5] = new int[]{android.R.attr.state_enabled};//normal
 
-        /**
-         * 设置背景默认值
-         * 备注:当存在 Checked 状态并且没有设置 Pressed 时，Pressed = Checked 更符合常规UI
-         */
+        //设置默认值
+        setupDefaultValue();
+
+        //设置渐变相关Gradient
+        setGradient();
+
+        //设置背景值
+        setStateListDrawable();
+
+        //设置边框
+        setBorder();
+
+        //设置圆角
+        setRadius();
+
+        //更新背景状态
+        setBackgroundState();
+    }
+
+    /**
+     * 设置默认值
+     * 备注: Pressed 未设置时 赋值逻辑
+     * 1.优先设置  Pressed ==  Checked 状态的值
+     * 2.其次设置  Pressed ==  Selected 状态的值
+     * 3.最终设置  Pressed ==  Normal 状态的值
+     */
+    private void setupDefaultValue() {
+        //基础判断
+        mHasPressedBgColor = mBackgroundColorPressed != _C || mBackgroundColorPressedArray != null;
+        mHasUnableBgColor = mBackgroundColorUnable != _C || mBackgroundColorUnableArray != null;
+        mHasCheckedBgColor = mBackgroundColorChecked != _C || mBackgroundColorCheckedArray != null;
+        mHasSelectedBgColor = mBackgroundColorSelected != _C || mBackgroundColorSelectedArray != null;
+        mHasPressedBgBmp = mBackgroundPressedBmp != null;
+        mHasUnableBgBmp = mBackgroundUnableBmp != null;
+        mHasCheckedBgBmp = mBackgroundCheckedBmp != null;
+        mHasSelectedBgBmp = mBackgroundSelectedBmp != null;
+        mHasPressedBorderColor = mBorderColorPressed != _C;
+        mHasUnableBorderColor = mBorderColorUnable != _C;
+        mHasCheckedBorderColor = mBorderColorChecked != _C;
+        mHasSelectedBorderColor = mBorderColorSelected != _C;
+        mHasPressedBorderWidth = mBorderWidthPressed != _S;
+        mHasUnableBorderWidth = mBorderWidthUnable != _S;
+        mHasCheckedBorderWidth = mBorderWidthChecked != _S;
+        mHasSelectedBorderWidth = mBorderWidthSelected != _S;
+
+        //设置背景默认值
         if (!mHasPressedBgColor) {
-            mBackgroundColorPressed = mHasCheckedBgColor ? mBackgroundColorChecked : mBackgroundColorNormal;
-            mBackgroundColorPressedArray = mHasCheckedBgColor ? mBackgroundColorCheckedArray : mBackgroundColorNormalArray;
+            mBackgroundColorPressed = mBackgroundColorNormal;
+            mBackgroundColorPressedArray = mBackgroundColorNormalArray;
+            if (mHasSelectedBgColor) {
+                mBackgroundColorPressed = mBackgroundColorSelected;
+                mBackgroundColorPressedArray = mBackgroundColorNormalArray;
+            }
+            if (mHasCheckedBgColor) {
+                mBackgroundColorPressed = mBackgroundColorChecked;
+                mBackgroundColorPressedArray = mBackgroundColorCheckedArray;
+            }
         }
         if (!mHasPressedBgBmp) {
-            mBackgroundPressedBmp = mHasCheckedBgBmp ? mBackgroundCheckedBmp : mBackgroundNormalBmp;
+            mBackgroundPressedBmp = mBackgroundNormalBmp;
+            if (mHasSelectedBgBmp) mBackgroundPressedBmp = mBackgroundSelectedBmp;
+            if (mHasCheckedBgBmp) mBackgroundPressedBmp = mBackgroundCheckedBmp;
         }
         if (!mHasUnableBgColor) {
             mBackgroundColorUnable = mBackgroundColorNormal;
@@ -326,9 +372,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
             mBackgroundSelectedBmp = mBackgroundNormalBmp;
         }
 
-        /**
-         * 设置背景颜色（包含渐变）
-         */
+        //设置背景颜色（包含渐变）
         if (mBackgroundColorNormalArray != null && mBackgroundColorNormalArray.length > 0) {
             mBackgroundNormal = setColors(mBackgroundNormal, mBackgroundColorNormalArray);
         } else {
@@ -354,30 +398,12 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         } else {
             mBackgroundSelected.setColor(mBackgroundColorSelected);
         }
-        //设置渐变相关Gradient
-        setGradient();
 
-        //unable,focused,pressed,checked,selected,normal
-        states[0] = new int[]{-android.R.attr.state_enabled};//unable
-        states[1] = new int[]{android.R.attr.state_focused};//focused
-        states[2] = new int[]{android.R.attr.state_pressed};//pressed
-        states[3] = new int[]{android.R.attr.state_checked};//checked
-        states[4] = new int[]{android.R.attr.state_selected};//selected
-        states[5] = new int[]{android.R.attr.state_enabled};//normal
-
-        //unable,focused,pressed,checked,normal
-        mStateBackground.addState(states[0], mBackgroundUnableBmp == null ? mBackgroundUnable : mBackgroundUnableBmp);
-        mStateBackground.addState(states[1], mBackgroundPressedBmp == null ? mBackgroundPressed : mBackgroundPressedBmp);
-        mStateBackground.addState(states[2], mBackgroundPressedBmp == null ? mBackgroundPressed : mBackgroundPressedBmp);
-        mStateBackground.addState(states[3], mBackgroundCheckedBmp == null ? mBackgroundChecked : mBackgroundCheckedBmp);
-        mStateBackground.addState(states[4], mBackgroundSelectedBmp == null ? mBackgroundSelected : mBackgroundSelectedBmp);
-        mStateBackground.addState(states[5], mBackgroundNormalBmp == null ? mBackgroundNormal : mBackgroundNormalBmp);
-
-        /**
-         * 设置边框默认值
-         */
+        //设置边框默认值
         if (!mHasPressedBorderWidth) {
-            mBorderWidthPressed = mHasCheckedBorderWidth ? mBorderWidthChecked : mBorderWidthNormal;
+            mBorderWidthPressed = mBorderWidthNormal;
+            if (mHasSelectedBorderWidth) mBorderWidthPressed = mBorderWidthSelected;
+            if (mHasCheckedBorderWidth) mBorderWidthPressed = mBorderWidthChecked;
         }
         if (!mHasUnableBorderWidth) {
             mBorderWidthUnable = mBorderWidthNormal;
@@ -389,7 +415,9 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
             mBorderWidthSelected = mBorderWidthNormal;
         }
         if (!mHasPressedBorderColor) {
-            mBorderColorPressed = mHasCheckedBorderColor ? mBorderColorChecked : mBorderColorNormal;
+            mBorderColorPressed = mBorderColorNormal;
+            if (mHasSelectedBorderColor) mBorderColorPressed = mBorderColorSelected;
+            if (mHasCheckedBorderColor) mBorderColorPressed = mBorderColorChecked;
         }
         if (!mHasUnableBorderColor) {
             mBorderColorUnable = mBorderColorNormal;
@@ -400,18 +428,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         if (!mHasSelectedBorderColor) {
             mBorderColorSelected = mBorderColorNormal;
         }
-
-        //设置背景
-        //setBackgroundState();
-
-        //设置边框
-        setBorder();
-
-        //设置圆角
-        setRadiusValue();
-
     }
-
 
     /*********************
      * Gradient
@@ -504,16 +521,19 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         mBackgroundColorUnable = unable;
         mBackgroundColorChecked = checked;
         mBackgroundColorSelected = selected;
-        mHasPressedBgColor = true;
-        mHasUnableBgColor = true;
-        mHasCheckedBgColor = true;
-        mHasSelectedBgColor = true;
-        mBackgroundNormal.setColor(mBackgroundColorNormal);
-        mBackgroundPressed.setColor(mBackgroundColorPressed);
-        mBackgroundUnable.setColor(mBackgroundColorUnable);
-        mBackgroundChecked.setColor(mBackgroundColorChecked);
-        mBackgroundSelected.setColor(mBackgroundColorSelected);
-        setBackgroundState();
+
+        mBackgroundColorNormalArray = null;
+        mBackgroundColorPressedArray = null;
+        mBackgroundColorUnableArray = null;
+        mBackgroundColorCheckedArray = null;
+        mBackgroundColorSelectedArray = null;
+
+        mBackgroundNormalBmp = null;
+        mBackgroundPressedBmp = null;
+        mBackgroundSelectedBmp = null;
+        mBackgroundCheckedBmp = null;
+
+        updateBackgroundValue();
         return this;
     }
 
@@ -523,19 +543,19 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         mBackgroundColorUnableArray = unableArray;
         mBackgroundColorCheckedArray = checkedArray;
         mBackgroundColorSelectedArray = selectedArray;
-        mHasPressedBgColor = true;
-        mHasUnableBgColor = true;
-        mHasCheckedBgColor = true;
-        mHasSelectedBgColor = true;
-        mBackgroundNormal = setColors(mBackgroundNormal, mBackgroundColorNormalArray);
-        mBackgroundPressed = setColors(mBackgroundPressed, mBackgroundColorPressedArray);
-        mBackgroundUnable = setColors(mBackgroundUnable, mBackgroundColorUnableArray);
-        mBackgroundChecked = setColors(mBackgroundChecked, mBackgroundColorCheckedArray);
-        mBackgroundSelected = setColors(mBackgroundSelected, mBackgroundColorSelectedArray);
-        setBorder();
-        setRadiusUI();
-        setGradient();
-        setBackgroundState();
+
+        mBackgroundColorNormal = _C;
+        mBackgroundColorPressed = _C;
+        mBackgroundColorUnable = _C;
+        mBackgroundColorChecked = _C;
+        mBackgroundColorSelected = _C;
+
+        mBackgroundNormalBmp = null;
+        mBackgroundPressedBmp = null;
+        mBackgroundSelectedBmp = null;
+        mBackgroundCheckedBmp = null;
+
+        updateBackgroundValue();
         return this;
     }
 
@@ -545,12 +565,140 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         mBackgroundUnableBmp = unable;
         mBackgroundCheckedBmp = checked;
         mBackgroundSelectedBmp = selected;
-        mHasPressedBgBmp = true;
-        mHasUnableBgBmp = true;
-        mHasCheckedBgBmp = true;
-        mHasSelectedBgBmp = true;
-        refreshStateListDrawable();
-        setBackgroundState();
+
+        mBackgroundColorNormalArray = null;
+        mBackgroundColorPressedArray = null;
+        mBackgroundColorUnableArray = null;
+        mBackgroundColorCheckedArray = null;
+        mBackgroundColorSelectedArray = null;
+
+        mBackgroundColorNormal = _C;
+        mBackgroundColorPressed = _C;
+        mBackgroundColorUnable = _C;
+        mBackgroundColorChecked = _C;
+        mBackgroundColorSelected = _C;
+
+        updateBackgroundValue();
+        return this;
+    }
+
+    public RBaseHelper setBackgroundColorNormal(@ColorInt int colorNormal) {
+        this.mBackgroundColorNormal = colorNormal;
+        mBackgroundColorNormalArray = null;
+        mBackgroundNormalBmp = null;
+        updateBackgroundValue();
+        return this;
+    }
+
+    public RBaseHelper setBackgroundColorNormalArray(int[] colorNormalArray) {
+        this.mBackgroundColorNormalArray = colorNormalArray;
+        mBackgroundColorNormal = _C;
+        mBackgroundNormalBmp = null;
+        updateBackgroundValue();
+        return this;
+    }
+
+    public RBaseHelper setBackgroundDrawableNormal(Drawable drawableNormal) {
+        this.mBackgroundNormalBmp = drawableNormal;
+        this.mBackgroundColorNormalArray = null;
+        mBackgroundColorNormal = _C;
+        updateBackgroundValue();
+        return this;
+    }
+
+    public RBaseHelper setBackgroundColorPressed(@ColorInt int colorPressed) {
+        this.mBackgroundColorPressed = colorPressed;
+        mBackgroundColorPressedArray = null;
+        mBackgroundPressedBmp = null;
+        updateBackgroundValue();
+        return this;
+    }
+
+    public RBaseHelper setBackgroundColorPressedArray(int[] colorPressedArray) {
+        this.mBackgroundColorPressedArray = colorPressedArray;
+        mBackgroundColorPressed = _C;
+        mBackgroundPressedBmp = null;
+        updateBackgroundValue();
+        return this;
+    }
+
+    public RBaseHelper setBackgroundDrawablePressed(Drawable drawablePressed) {
+        this.mBackgroundPressedBmp = drawablePressed;
+        this.mBackgroundColorPressedArray = null;
+        mBackgroundColorPressed = _C;
+        updateBackgroundValue();
+        return this;
+    }
+
+    public RBaseHelper setBackgroundColorUnable(@ColorInt int colorUnable) {
+        this.mBackgroundColorUnable = colorUnable;
+        mBackgroundColorUnableArray = null;
+        mBackgroundUnableBmp = null;
+        updateBackgroundValue();
+        return this;
+    }
+
+    public RBaseHelper setBackgroundDrawableUnable(Drawable drawableUnable) {
+        this.mBackgroundUnableBmp = drawableUnable;
+        this.mBackgroundColorUnable = _C;
+        mBackgroundColorUnableArray = null;
+        updateBackgroundValue();
+        return this;
+    }
+
+    public RBaseHelper setBackgroundColorUnableArray(int[] colorUnableArray) {
+        this.mBackgroundColorUnableArray = colorUnableArray;
+        this.mBackgroundColorUnable = _C;
+        mBackgroundUnableBmp = null;
+        updateBackgroundValue();
+        return this;
+    }
+
+    public RBaseHelper setBackgroundColorChecked(@ColorInt int colorChecked) {
+        this.mBackgroundColorChecked = colorChecked;
+        mBackgroundColorCheckedArray = null;
+        mBackgroundCheckedBmp = null;
+        updateBackgroundValue();
+        return this;
+    }
+
+    public RBaseHelper setBackgroundColorSelected(@ColorInt int colorSelected) {
+        this.mBackgroundColorSelected = colorSelected;
+        mBackgroundColorSelectedArray = null;
+        mBackgroundSelectedBmp = null;
+        updateBackgroundValue();
+        return this;
+    }
+
+    public RBaseHelper setBackgroundColorCheckedArray(int[] colorCheckedArray) {
+        this.mBackgroundColorCheckedArray = colorCheckedArray;
+        mBackgroundColorChecked = _C;
+        mBackgroundCheckedBmp = null;
+        updateBackgroundValue();
+        return this;
+    }
+
+    public RBaseHelper setBackgroundColorSelectedArray(int[] colorSelectedArray) {
+        this.mBackgroundColorSelectedArray = colorSelectedArray;
+        mBackgroundColorSelected = _C;
+        mBackgroundSelectedBmp = null;
+        updateBackgroundValue();
+        return this;
+    }
+
+    public RBaseHelper setBackgroundDrawableChecked(Drawable drawableChecked) {
+        this.mBackgroundCheckedBmp = drawableChecked;
+        mBackgroundColorChecked = _C;
+        mBackgroundColorCheckedArray = null;
+        updateBackgroundValue();
+        return this;
+    }
+
+    public RBaseHelper setBackgroundDrawableSelected(Drawable drawableSelected) {
+        this.mBackgroundSelectedBmp = drawableSelected;
+        mBackgroundColorSelected = _C;
+        mBackgroundColorSelectedArray = null;
+        updateBackgroundValue();
         return this;
     }
 
@@ -614,206 +762,21 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         return mBackgroundSelectedBmp;
     }
 
-    public RBaseHelper setBackgroundColorNormal(@ColorInt int colorNormal) {
-        this.mBackgroundColorNormal = colorNormal;
-        /**
-         * 设置背景默认值
-         */
-        if (!mHasPressedBgColor) {
-            mBackgroundColorPressed = mHasCheckedBgColor ? mBackgroundColorChecked : mBackgroundColorNormal;
-            mBackgroundPressed.setColor(mBackgroundColorPressed);
-        }
-        if (!mHasUnableBgColor) {
-            mBackgroundColorUnable = mBackgroundColorNormal;
-            mBackgroundUnable.setColor(mBackgroundColorUnable);
-        }
-        if (!mHasCheckedBgColor) {
-            mBackgroundColorChecked = mBackgroundColorNormal;
-            mBackgroundChecked.setColor(mBackgroundColorChecked);
-        }
-        if (!mHasSelectedBgColor) {
-            mBackgroundColorSelected = mBackgroundColorNormal;
-            mBackgroundSelected.setColor(mBackgroundColorSelected);
-        }
-        mBackgroundNormal.setColor(mBackgroundColorNormal);
-        setBackgroundState();
-        return this;
-    }
 
-    public RBaseHelper setBackgroundColorNormalArray(int[] colorNormalArray) {
-        this.mBackgroundColorNormalArray = colorNormalArray;
-        /**
-         * 设置背景默认值
-         */
-        if (!mHasPressedBgColor) {
-            mBackgroundColorPressedArray = mHasCheckedBgColor ? mBackgroundColorCheckedArray : mBackgroundColorNormalArray;
-            mBackgroundPressed = setColors(mBackgroundPressed, mBackgroundColorPressedArray);
-        }
-        if (!mHasUnableBgColor) {
-            mBackgroundColorUnableArray = mBackgroundColorNormalArray;
-            mBackgroundUnable = setColors(mBackgroundUnable, mBackgroundColorUnableArray);
-        }
-        if (!mHasCheckedBgColor) {
-            mBackgroundColorCheckedArray = mBackgroundColorNormalArray;
-            mBackgroundChecked = setColors(mBackgroundChecked, mBackgroundColorCheckedArray);
-        }
-        if (!mHasSelectedBgColor) {
-            mBackgroundColorSelectedArray = mBackgroundColorNormalArray;
-            mBackgroundSelected = setColors(mBackgroundSelected, mBackgroundColorSelectedArray);
-        }
-        mBackgroundNormal = setColors(mBackgroundNormal, mBackgroundColorNormalArray);
-
-        setBorder();
-        setRadiusUI();
-        setGradient();
+    /**
+     * 更新背景值(单一颜色，渐变，背景图)
+     */
+    private void updateBackgroundValue() {
+        setupDefaultValue();
+        setStateListDrawable();
         setBackgroundState();
-        return this;
-    }
-
-    public RBaseHelper setBackgroundDrawableNormal(Drawable drawableNormal) {
-        this.mBackgroundNormalBmp = drawableNormal;
-        /**
-         * 设置背景默认值
-         */
-        if (!mHasPressedBgBmp) {
-            mBackgroundPressedBmp = mHasCheckedBgBmp ? mBackgroundCheckedBmp : mBackgroundNormalBmp;
-        }
-        if (!mHasUnableBgBmp) {
-            mBackgroundUnableBmp = mBackgroundNormalBmp;
-        }
-        if (!mHasCheckedBgBmp) {
-            mBackgroundCheckedBmp = mBackgroundNormalBmp;
-        }
-        if (!mHasSelectedBgBmp) {
-            mBackgroundSelectedBmp = mBackgroundNormalBmp;
-        }
-        refreshStateListDrawable();
-        setBackgroundState();
-        return this;
-    }
-
-    public RBaseHelper setBackgroundColorPressed(@ColorInt int colorPressed) {
-        this.mBackgroundColorPressed = colorPressed;
-        this.mHasPressedBgColor = true;
-        mBackgroundPressed.setColor(mBackgroundColorPressed);
-        setBackgroundState();
-        return this;
-    }
-
-    public RBaseHelper setBackgroundColorPressedArray(int[] colorPressedArray) {
-        this.mBackgroundColorPressedArray = colorPressedArray;
-        this.mHasPressedBgColor = true;
-        mBackgroundPressed = setColors(mBackgroundPressed, mBackgroundColorPressedArray);
-        setBorder();
-        setRadiusUI();
-        setGradient();
-        setBackgroundState();
-        return this;
-    }
-
-    public RBaseHelper setBackgroundDrawablePressed(Drawable drawablePressed) {
-        this.mBackgroundPressedBmp = drawablePressed;
-        this.mHasPressedBgBmp = true;
-        refreshStateListDrawable();
-        setBackgroundState();
-        return this;
-    }
-
-    public RBaseHelper setBackgroundColorUnable(@ColorInt int colorUnable) {
-        this.mBackgroundColorUnable = colorUnable;
-        this.mHasUnableBgColor = true;
-        mBackgroundUnable.setColor(mBackgroundColorUnable);
-        setBackgroundState();
-        return this;
-    }
-
-    public RBaseHelper setBackgroundDrawableUnable(Drawable drawableUnable) {
-        this.mBackgroundUnableBmp = drawableUnable;
-        this.mHasUnableBgBmp = true;
-        refreshStateListDrawable();
-        setBackgroundState();
-        return this;
-    }
-
-    public RBaseHelper setBackgroundColorUnableArray(int[] colorUnableArray) {
-        this.mBackgroundColorUnableArray = colorUnableArray;
-        this.mHasUnableBgColor = true;
-        mBackgroundUnable = setColors(mBackgroundUnable, mBackgroundColorUnableArray);
-        setBorder();
-        setRadiusUI();
-        setGradient();
-        setBackgroundState();
-        return this;
-    }
-
-    public RBaseHelper setBackgroundColorChecked(@ColorInt int colorChecked) {
-        this.mBackgroundColorChecked = colorChecked;
-        this.mHasCheckedBgColor = true;
-        mBackgroundChecked.setColor(mBackgroundColorChecked);
-        if (!mHasPressedBgColor) {
-            mBackgroundColorPressed = mHasCheckedBgColor ? mBackgroundColorChecked : mBackgroundColorNormal;
-            mBackgroundPressed.setColor(mBackgroundColorPressed);
-        }
-        setBackgroundState();
-        return this;
-    }
-
-    public RBaseHelper setBackgroundColorSelected(@ColorInt int colorSelected) {
-        this.mBackgroundColorSelected = colorSelected;
-        this.mHasSelectedBgColor = true;
-        mBackgroundSelected.setColor(mBackgroundColorSelected);
-        setBackgroundState();
-        return this;
-    }
-
-    public RBaseHelper setBackgroundColorCheckedArray(int[] colorCheckedArray) {
-        this.mBackgroundColorCheckedArray = colorCheckedArray;
-        this.mHasCheckedBgColor = true;
-        mBackgroundChecked = setColors(mBackgroundChecked, mBackgroundColorCheckedArray);
-        if (!mHasPressedBgColor) {
-            mBackgroundColorPressedArray = mHasCheckedBgColor ? mBackgroundColorCheckedArray : mBackgroundColorNormalArray;
-            mBackgroundPressed = setColors(mBackgroundPressed, mBackgroundColorPressedArray);
-        }
-        setBorder();
-        setRadiusUI();
-        setGradient();
-        setBackgroundState();
-        return this;
-    }
-
-    public RBaseHelper setBackgroundColorSelectedArray(int[] colorSelectedArray) {
-        this.mBackgroundColorSelectedArray = colorSelectedArray;
-        this.mHasSelectedBgColor = true;
-        mBackgroundSelected = setColors(mBackgroundSelected, mBackgroundColorSelectedArray);
-        setBorder();
-        setRadiusUI();
-        setGradient();
-        setBackgroundState();
-        return this;
-    }
-
-    public RBaseHelper setBackgroundDrawableChecked(Drawable drawableChecked) {
-        this.mBackgroundCheckedBmp = drawableChecked;
-        this.mHasCheckedBgBmp = true;
-        if (!mHasPressedBgBmp) mBackgroundPressedBmp = mBackgroundCheckedBmp;
-        refreshStateListDrawable();
-        setBackgroundState();
-        return this;
-    }
-
-    public RBaseHelper setBackgroundDrawableSelected(Drawable drawableSelected) {
-        this.mBackgroundSelectedBmp = drawableSelected;
-        this.mHasSelectedBgBmp = true;
-        refreshStateListDrawable();
-        setBackgroundState();
-        return this;
     }
 
     /**
      * 刷新StateListDrawable状态
      * 更新drawable背景时时候刷新
      */
-    private void refreshStateListDrawable() {
+    private void setStateListDrawable() {
         mStateBackground = emptyStateListDrawable;
         //unable,focused,pressed,checked,selected,normal
         mStateBackground.addState(states[0], mBackgroundUnableBmp == null ? mBackgroundUnable : mBackgroundUnableBmp);
@@ -828,7 +791,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
 
         boolean hasCustom = false;//是否存在自定义
         boolean hasCusBg, hasCusBorder = false, hasCusCorner = false;//存在自定义相关属性
-        boolean unHasBgColor = mBackgroundColorNormal == 0 && mBackgroundColorUnable == 0 && mBackgroundColorPressed == 0 && mBackgroundColorChecked == 0 && mBackgroundColorSelected == 0;
+        boolean unHasBgColor = mBackgroundColorNormal == _C && mBackgroundColorUnable == _C && mBackgroundColorPressed == _C && mBackgroundColorChecked == _C && mBackgroundColorSelected == _C;
         boolean unHasBgColorArray = mBackgroundColorNormalArray == null && mBackgroundColorUnableArray == null && mBackgroundColorPressedArray == null && mBackgroundColorCheckedArray == null && mBackgroundColorSelectedArray == null;
         boolean unHasBgDrawable = mBackgroundNormalBmp == null && mBackgroundPressedBmp == null && mBackgroundUnableBmp == null && mBackgroundCheckedBmp == null && mBackgroundSelectedBmp == null;
 
@@ -840,9 +803,9 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         }
 
         //是否自定义了边框
-        if (mBorderDashWidth != 0 || mBorderDashGap != 0
-                || mBorderWidthNormal != 0 || mBorderWidthPressed != 0 || mBorderWidthUnable != 0 || mBorderWidthChecked != 0 || mBorderWidthSelected != 0
-                || mBorderColorNormal != 0 || mBorderColorPressed != 0 || mBorderColorUnable != 0 || mBorderColorChecked != 0 || mBorderColorSelected != 0) {
+        if (mBorderDashWidth != _S || mBorderDashGap != _S
+                || mBorderWidthNormal != _S || mBorderWidthPressed != _S || mBorderWidthUnable != _S || mBorderWidthChecked != _S || mBorderWidthSelected != _S
+                || mBorderColorNormal != _C || mBorderColorPressed != _C || mBorderColorUnable != _C || mBorderColorChecked != _C || mBorderColorSelected != _C) {
             hasCusBorder = true;
         }
 
@@ -1102,23 +1065,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
 
     public RBaseHelper setBorderWidthNormal(int width) {
         this.mBorderWidthNormal = width;
-        if (!mHasPressedBorderWidth) {
-            mBorderWidthPressed = mHasCheckedBorderWidth ? mBorderWidthChecked : mBorderWidthNormal;
-            setBorderPressed();
-        }
-        if (!mHasUnableBorderWidth) {
-            mBorderWidthUnable = mBorderWidthNormal;
-            setBorderUnable();
-        }
-        if (!mHasCheckedBorderWidth) {
-            mBorderWidthChecked = mBorderWidthNormal;
-            setBorderChecked();
-        }
-        if (!mHasSelectedBorderWidth) {
-            mBorderWidthSelected = mBorderWidthNormal;
-            setBorderSelected();
-        }
-        setBorderNormal();
+        updateBorderValue();
         return this;
     }
 
@@ -1128,23 +1075,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
 
     public RBaseHelper setBorderColorNormal(@ColorInt int color) {
         this.mBorderColorNormal = color;
-        if (!mHasPressedBorderColor) {
-            mBorderColorPressed = mHasCheckedBorderColor ? mBorderColorChecked : mBorderColorNormal;
-            setBorderPressed();
-        }
-        if (!mHasUnableBorderColor) {
-            mBorderColorUnable = mBorderColorNormal;
-            setBorderUnable();
-        }
-        if (!mHasCheckedBorderColor) {
-            mBorderColorChecked = mBorderColorNormal;
-            setBorderChecked();
-        }
-        if (!mHasSelectedBorderColor) {
-            mBorderColorSelected = mBorderColorNormal;
-            setBorderSelected();
-        }
-        setBorderNormal();
+        updateBorderValue();
         return this;
     }
 
@@ -1154,8 +1085,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
 
     public RBaseHelper setBorderWidthPressed(int width) {
         this.mBorderWidthPressed = width;
-        this.mHasPressedBorderWidth = true;
-        setBorderPressed();
+        updateBorderValue();
         return this;
     }
 
@@ -1165,8 +1095,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
 
     public RBaseHelper setBorderColorPressed(@ColorInt int color) {
         this.mBorderColorPressed = color;
-        this.mHasPressedBorderColor = true;
-        setBorderPressed();
+        updateBorderValue();
         return this;
     }
 
@@ -1176,9 +1105,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
 
     public RBaseHelper setBorderColorChecked(@ColorInt int color) {
         this.mBorderColorChecked = color;
-        this.mHasCheckedBorderColor = true;
-        if (!mHasPressedBorderColor) mBorderColorPressed = mBorderColorChecked;
-        setBorderChecked();
+        updateBorderValue();
         return this;
     }
 
@@ -1188,8 +1115,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
 
     public RBaseHelper setBorderColorSelected(@ColorInt int color) {
         this.mBorderColorSelected = color;
-        this.mHasSelectedBorderColor = true;
-        setBorderSelected();
+        updateBorderValue();
         return this;
     }
 
@@ -1199,9 +1125,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
 
     public RBaseHelper setBorderWidthChecked(int width) {
         this.mBorderWidthChecked = width;
-        this.mHasCheckedBorderWidth = true;
-        if (!mHasPressedBorderWidth) mBorderWidthPressed = mBorderWidthChecked;
-        setBorderChecked();
+        updateBorderValue();
         return this;
     }
 
@@ -1211,8 +1135,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
 
     public RBaseHelper setBorderWidthSelected(int width) {
         this.mBorderWidthSelected = width;
-        this.mHasSelectedBorderWidth = true;
-        setBorderChecked();
+        updateBorderValue();
         return this;
     }
 
@@ -1222,8 +1145,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
 
     public RBaseHelper setBorderWidthUnable(int width) {
         this.mBorderWidthUnable = width;
-        this.mHasUnableBorderWidth = true;
-        setBorderUnable();
+        updateBorderValue();
         return this;
     }
 
@@ -1233,8 +1155,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
 
     public RBaseHelper setBorderColorUnable(@ColorInt int color) {
         this.mBorderColorUnable = color;
-        this.mHasUnableBorderColor = true;
-        setBorderUnable();
+        updateBorderValue();
         return this;
     }
 
@@ -1249,11 +1170,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         this.mBorderWidthUnable = unable;
         this.mBorderWidthChecked = checked;
         this.mBorderWidthSelected = selected;
-        this.mHasPressedBorderWidth = true;
-        this.mHasUnableBorderWidth = true;
-        this.mHasCheckedBorderWidth = true;
-        this.mHasSelectedBorderWidth = true;
-        setBorder();
+        updateBorderValue();
         return this;
     }
 
@@ -1264,17 +1181,13 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         this.mBorderColorUnable = unable;
         this.mBorderColorChecked = checked;
         this.mBorderColorSelected = selected;
-        this.mHasPressedBorderColor = true;
-        this.mHasUnableBorderColor = true;
-        this.mHasCheckedBorderColor = true;
-        this.mHasSelectedBorderColor = true;
-        setBorder();
+        updateBorderValue();
         return this;
     }
 
     public RBaseHelper setBorderDashWidth(float dashWidth) {
         this.mBorderDashWidth = dashWidth;
-        setBorder();
+        updateBorderValue();
         return this;
     }
 
@@ -1284,7 +1197,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
 
     public RBaseHelper setBorderDashGap(float dashGap) {
         this.mBorderDashGap = dashGap;
-        setBorder();
+        updateBorderValue();
         return this;
     }
 
@@ -1295,7 +1208,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
     public RBaseHelper setBorderDash(float dashWidth, float dashGap) {
         this.mBorderDashWidth = dashWidth;
         this.mBorderDashGap = dashGap;
-        setBorder();
+        updateBorderValue();
         return this;
     }
 
@@ -1305,31 +1218,14 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         mBackgroundUnable.setStroke(mBorderWidthUnable, mBorderColorUnable, mBorderDashWidth, mBorderDashGap);
         mBackgroundChecked.setStroke(mBorderWidthChecked, mBorderColorChecked, mBorderDashWidth, mBorderDashGap);
         mBackgroundSelected.setStroke(mBorderWidthSelected, mBorderColorSelected, mBorderDashWidth, mBorderDashGap);
-        setBackgroundState();
     }
 
-    private void setBorderNormal() {
-        mBackgroundNormal.setStroke(mBorderWidthNormal, mBorderColorNormal, mBorderDashWidth, mBorderDashGap);
-        setBackgroundState();
-    }
-
-    private void setBorderPressed() {
-        mBackgroundPressed.setStroke(mBorderWidthPressed, mBorderColorPressed, mBorderDashWidth, mBorderDashGap);
-        setBackgroundState();
-    }
-
-    private void setBorderUnable() {
-        mBackgroundUnable.setStroke(mBorderWidthUnable, mBorderColorUnable, mBorderDashWidth, mBorderDashGap);
-        setBackgroundState();
-    }
-
-    private void setBorderChecked() {
-        mBackgroundChecked.setStroke(mBorderWidthChecked, mBorderColorChecked, mBorderDashWidth, mBorderDashGap);
-        setBackgroundState();
-    }
-
-    private void setBorderSelected() {
-        mBackgroundSelected.setStroke(mBorderWidthSelected, mBorderColorSelected, mBorderDashWidth, mBorderDashGap);
+    /**
+     * 更新边框值
+     */
+    private void updateBorderValue() {
+        setupDefaultValue();
+        setBorder();
         setBackgroundState();
     }
 
@@ -1339,7 +1235,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
 
     public void setCornerRadius(float radius) {
         this.mCornerRadius = radius;
-        setRadiusValue();
+        updateRadiusValue();
     }
 
     public float getCornerRadius() {
@@ -1349,7 +1245,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
     public RBaseHelper setCornerRadiusTopLeft(float topLeft) {
         this.mCornerRadius = -1;
         this.mCornerRadiusTopLeft = topLeft;
-        setRadiusValue();
+        updateRadiusValue();
         return this;
     }
 
@@ -1360,7 +1256,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
     public RBaseHelper setCornerRadiusTopRight(float topRight) {
         this.mCornerRadius = -1;
         this.mCornerRadiusTopRight = topRight;
-        setRadiusValue();
+        updateRadiusValue();
         return this;
     }
 
@@ -1371,7 +1267,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
     public RBaseHelper setCornerRadiusBottomRight(float bottomRight) {
         this.mCornerRadius = -1;
         this.mCornerRadiusBottomRight = bottomRight;
-        setRadiusValue();
+        updateRadiusValue();
         return this;
     }
 
@@ -1382,7 +1278,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
     public RBaseHelper setCornerRadiusBottomLeft(float bottomLeft) {
         this.mCornerRadius = -1;
         this.mCornerRadiusBottomLeft = bottomLeft;
-        setRadiusValue();
+        updateRadiusValue();
         return this;
     }
 
@@ -1397,26 +1293,22 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         this.mCornerRadiusTopRight = topRight;
         this.mCornerRadiusBottomRight = bottomRight;
         this.mCornerRadiusBottomLeft = bottomLeft;
-        setRadiusValue();
+        updateRadiusValue();
         return this;
     }
 
     /**
-     * 设置圆角UI
+     * 更新圆角值
      */
-    private void setRadiusUI() {
-        mBackgroundNormal.setCornerRadii(mBorderRadii);
-        mBackgroundPressed.setCornerRadii(mBorderRadii);
-        mBackgroundUnable.setCornerRadii(mBorderRadii);
-        mBackgroundChecked.setCornerRadii(mBorderRadii);
-        mBackgroundSelected.setCornerRadii(mBorderRadii);
+    private void updateRadiusValue() {
+        setRadius();
         setBackgroundState();
     }
 
     /**
      * 设置圆角数值
      */
-    private void setRadiusValue() {
+    private void setRadius() {
         if (mCornerRadius >= 0) {
             mBorderRadii[0] = mCornerRadius;
             mBorderRadii[1] = mCornerRadius;
@@ -1426,11 +1318,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
             mBorderRadii[5] = mCornerRadius;
             mBorderRadii[6] = mCornerRadius;
             mBorderRadii[7] = mCornerRadius;
-            setRadiusUI();
-            return;
-        }
-
-        if (mCornerRadius < 0) {
+        } else {
             mBorderRadii[0] = mCornerRadiusTopLeft;
             mBorderRadii[1] = mCornerRadiusTopLeft;
             mBorderRadii[2] = mCornerRadiusTopRight;
@@ -1439,9 +1327,12 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
             mBorderRadii[5] = mCornerRadiusBottomRight;
             mBorderRadii[6] = mCornerRadiusBottomLeft;
             mBorderRadii[7] = mCornerRadiusBottomLeft;
-            setRadiusUI();
-            return;
         }
+        mBackgroundNormal.setCornerRadii(mBorderRadii);
+        mBackgroundPressed.setCornerRadii(mBorderRadii);
+        mBackgroundUnable.setCornerRadii(mBorderRadii);
+        mBackgroundChecked.setCornerRadii(mBorderRadii);
+        mBackgroundSelected.setCornerRadii(mBorderRadii);
     }
 
     /**
