@@ -13,11 +13,11 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
 
 import com.ruffian.library.widget.rounded.RoundDrawable;
 
@@ -26,7 +26,7 @@ import com.ruffian.library.widget.rounded.RoundDrawable;
  *
  * @author ZhongDaFeng
  */
-public class RImageView extends ImageView {
+public class RImageView extends AppCompatImageView {
 
     //圆角
     private float mCorner = -1;

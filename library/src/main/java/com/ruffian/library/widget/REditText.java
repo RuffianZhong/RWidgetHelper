@@ -3,7 +3,8 @@ package com.ruffian.library.widget;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.widget.EditText;
+
+import androidx.appcompat.widget.AppCompatEditText;
 
 import com.ruffian.library.widget.helper.RTextViewHelper;
 import com.ruffian.library.widget.iface.RHelper;
@@ -13,7 +14,7 @@ import com.ruffian.library.widget.iface.RHelper;
  *
  * @author ZhongDaFeng
  */
-public class REditText extends EditText implements RHelper<RTextViewHelper> {
+public class REditText extends AppCompatEditText implements RHelper<RTextViewHelper> {
 
     private RTextViewHelper mHelper;
 

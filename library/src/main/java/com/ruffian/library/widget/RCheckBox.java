@@ -4,7 +4,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.widget.CheckBox;
+
+import androidx.appcompat.widget.AppCompatCheckBox;
 
 import com.ruffian.library.widget.helper.RCheckHelper;
 import com.ruffian.library.widget.iface.RHelper;
@@ -14,7 +15,7 @@ import com.ruffian.library.widget.iface.RHelper;
  *
  * @author ZhongDaFeng
  */
-public class RCheckBox extends CheckBox implements RHelper<RCheckHelper> {
+public class RCheckBox extends AppCompatCheckBox implements RHelper<RCheckHelper> {
 
     private RCheckHelper mHelper;
 
