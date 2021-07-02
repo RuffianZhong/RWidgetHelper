@@ -303,12 +303,12 @@ allprojects {
 
 //support 版本
 dependencies {
-    implementation 'com.github.RuffianZhong:RWidgetHelper:support.v0.0.1'
+    implementation 'com.github.RuffianZhong:RWidgetHelper:support.v0.0.2'
 }
 
 //androidx 版本
 dependencies {
-    implementation 'com.github.RuffianZhong:RWidgetHelper:androidx.v0.0.1'
+    implementation 'com.github.RuffianZhong:RWidgetHelper:androidx.v0.0.2'
 }
 ```
 #### 老版本依赖方式 JCenter 2022 年 2 月 1 日开始无法使用
@@ -321,6 +321,8 @@ compile 'com.ruffian.library:RWidgetHelper-AndroidX:0.0.9'
 ```
 
 ### 版本历史
+
+**support.v0.0.2/androidx.v0.0.2**　`2021.07.02`　基础控件继承自 Appcompat XX
 
 **support.v0.0.1/androidx.v0.0.1**　`2021.05.25`　修改按下状态逻辑(背景/边框/文本颜色)
 
