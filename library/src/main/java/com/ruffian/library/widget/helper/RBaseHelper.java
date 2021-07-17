@@ -155,9 +155,6 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
     // view
     protected T mView;
 
-    //EmptyStateListDrawable
-    private final StateListDrawable emptyStateListDrawable = new StateListDrawable();
-
     //ClipHelper
     protected ClipHelper mClipHelper = new ClipHelper();
     //clipLayout
@@ -777,7 +774,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
      * 更新drawable背景时时候刷新
      */
     private void setStateListDrawable() {
-        mStateBackground = emptyStateListDrawable;
+        mStateBackground = new StateListDrawable();
         //unable,focused,pressed,checked,selected,normal
         mStateBackground.addState(states[0], mBackgroundUnableBmp == null ? mBackgroundUnable : mBackgroundUnableBmp);
         mStateBackground.addState(states[1], mBackgroundPressedBmp == null ? mBackgroundPressed : mBackgroundPressedBmp);
