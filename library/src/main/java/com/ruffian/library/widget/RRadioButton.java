@@ -2,9 +2,9 @@ package com.ruffian.library.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.support.v7.widget.AppCompatRadioButton;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.widget.RadioButton;
 
 import com.ruffian.library.widget.helper.RCheckHelper;
 import com.ruffian.library.widget.iface.RHelper;
@@ -14,7 +14,7 @@ import com.ruffian.library.widget.iface.RHelper;
  *
  * @author ZhongDaFeng
  */
-public class RRadioButton extends RadioButton implements RHelper<RCheckHelper> {
+public class RRadioButton extends AppCompatRadioButton implements RHelper<RCheckHelper> {
 
     private RCheckHelper mHelper;
 

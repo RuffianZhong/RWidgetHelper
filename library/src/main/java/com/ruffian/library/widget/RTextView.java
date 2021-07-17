@@ -2,10 +2,9 @@ package com.ruffian.library.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.View;
-import android.widget.TextView;
 
 import com.ruffian.library.widget.helper.RTextViewHelper;
 import com.ruffian.library.widget.iface.RHelper;
@@ -15,7 +14,7 @@ import com.ruffian.library.widget.iface.RHelper;
  *
  * @author ZhongDaFeng
  */
-public class RTextView extends TextView implements RHelper<RTextViewHelper> {
+public class RTextView extends AppCompatTextView implements RHelper<RTextViewHelper> {
 
     private RTextViewHelper mHelper;
 

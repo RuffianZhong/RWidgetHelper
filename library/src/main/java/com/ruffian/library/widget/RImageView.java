@@ -15,8 +15,8 @@ import android.graphics.drawable.LayerDrawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
 import com.ruffian.library.widget.rounded.RoundDrawable;
 
@@ -25,7 +25,7 @@ import com.ruffian.library.widget.rounded.RoundDrawable;
  *
  * @author ZhongDaFeng
  */
-public class RImageView extends ImageView {
+public class RImageView extends AppCompatImageView {
 
     //圆角
     private float mCorner = -1;
