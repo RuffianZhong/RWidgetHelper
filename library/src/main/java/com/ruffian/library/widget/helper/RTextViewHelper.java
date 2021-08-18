@@ -265,17 +265,15 @@ public class RTextViewHelper extends RBaseHelper<TextView> implements ITextViewF
 
     }
 
-    private void setupDefaultValue() {
-        mHasPressedTextColor = mTextColorPressed != _C;
-        mHasUnableTextColor = mTextColorUnable != _C;
-        mHasSelectedTextColor = mTextColorSelected != _C;
-        mHasCheckedTextColor = mTextColorChecked != _C;
-
-        if (!mHasPressedTextColor) {
-            mTextColorPressed = mTextColorNormal;
-            if (mHasSelectedTextColor) mTextColorPressed = mTextColorSelected;
-            if (mHasCheckedTextColor) mTextColorPressed = mTextColorChecked;
+    private void setupDefaultValue(boolean init) {
+        if (init) {
+            mHasPressedTextColor = mTextColorPressed != _C;
+            mHasUnableTextColor = mTextColorUnable != _C;
+            mHasSelectedTextColor = mTextColorSelected != _C;
+            mHasCheckedTextColor = mTextColorChecked != _C;
         }
+
+        if (!mHasPressedTextColor) mTextColorPressed = mTextColorNormal;
         if (!mHasUnableTextColor) mTextColorUnable = mTextColorNormal;
         if (!mHasSelectedTextColor) mTextColorSelected = mTextColorNormal;
         if (!mHasCheckedTextColor) mTextColorChecked = mTextColorNormal;
@@ -316,10 +314,6 @@ public class RTextViewHelper extends RBaseHelper<TextView> implements ITextViewF
             mIconBottom = mIconNormalBottom;
         }
 
-        if (mIconNormalLeft != null) {
-            mIconLeft = mView.isSelected() ? mIconSelectedLeft : mIconNormalLeft;
-        }
-
         //unable,focused,pressed,checked,selected,normal
         states[0] = new int[]{-android.R.attr.state_enabled};//unable
         states[1] = new int[]{android.R.attr.state_focused};//focused
@@ -329,7 +323,7 @@ public class RTextViewHelper extends RBaseHelper<TextView> implements ITextViewF
         states[5] = new int[]{android.R.attr.state_enabled};//normal
 
         //设置默认值
-        setupDefaultValue();
+        setupDefaultValue(true);
 
         //设置文本颜色
         setTextColor();
@@ -852,18 +846,16 @@ public class RTextViewHelper extends RBaseHelper<TextView> implements ITextViewF
      * @param drawableBottom
      */
     private void setCompoundDrawables(Drawable drawableLeft, Drawable drawableRight, Drawable drawableTop, Drawable drawableBottom) {
-        if (drawableLeft != null || drawableRight != null || drawableTop != null || drawableBottom != null) {
-            if (drawableLeft != null)
-                drawableLeft.setBounds(0, 0, mIconWidthLeft, mIconHeightLeft);
-            if (drawableRight != null)
-                drawableRight.setBounds(0, 0, mIconWidthRight, mIconHeightRight);
-            if (drawableTop != null)
-                drawableTop.setBounds(0, 0, mIconWidthTop, mIconHeightTop);
-            if (drawableBottom != null)
-                drawableBottom.setBounds(0, 0, mIconWidthBottom, mIconHeightBottom);
-            //setDrawable
-            mView.setCompoundDrawables(drawableLeft, drawableTop, drawableRight, drawableBottom);
-        }
+        if (drawableLeft != null)
+            drawableLeft.setBounds(0, 0, mIconWidthLeft, mIconHeightLeft);
+        if (drawableRight != null)
+            drawableRight.setBounds(0, 0, mIconWidthRight, mIconHeightRight);
+        if (drawableTop != null)
+            drawableTop.setBounds(0, 0, mIconWidthTop, mIconHeightTop);
+        if (drawableBottom != null)
+            drawableBottom.setBounds(0, 0, mIconWidthBottom, mIconHeightBottom);
+        //setDrawable
+        mView.setCompoundDrawables(drawableLeft, drawableTop, drawableRight, drawableBottom);
     }
 
     /**
@@ -876,14 +868,14 @@ public class RTextViewHelper extends RBaseHelper<TextView> implements ITextViewF
      */
     @Deprecated
     private void setSingleCompoundDrawable(Drawable drawable, int drawableWidth, int drawableHeight, int direction) {
-        if (drawable != null) {
+        if (drawable != null)
             drawable.setBounds(0, 0, drawableWidth, drawableHeight);
-            mView.setCompoundDrawables(
-                    direction == ICON_DIR_LEFT ? drawable : null,
-                    direction == ICON_DIR_TOP ? drawable : null,
-                    direction == ICON_DIR_RIGHT ? drawable : null,
-                    direction == ICON_DIR_BOTTOM ? drawable : null);
-        }
+        mView.setCompoundDrawables(
+                direction == ICON_DIR_LEFT ? drawable : null,
+                direction == ICON_DIR_TOP ? drawable : null,
+                direction == ICON_DIR_RIGHT ? drawable : null,
+                direction == ICON_DIR_BOTTOM ? drawable : null);
+
     }
 
 
@@ -998,18 +990,21 @@ public class RTextViewHelper extends RBaseHelper<TextView> implements ITextViewF
 
     public RTextViewHelper setTextColorPressed(@ColorInt int textColor) {
         this.mTextColorPressed = textColor;
+        mHasPressedTextColor = true;
         updateTextColor();
         return this;
     }
 
     public RTextViewHelper setTextColorUnable(@ColorInt int textColor) {
         this.mTextColorUnable = textColor;
+        mHasUnableTextColor = true;
         updateTextColor();
         return this;
     }
 
     public RTextViewHelper setTextColorSelected(@ColorInt int textColor) {
         this.mTextColorSelected = textColor;
+        mHasSelectedTextColor = true;
         updateTextColor();
         return this;
     }
@@ -1020,6 +1015,10 @@ public class RTextViewHelper extends RBaseHelper<TextView> implements ITextViewF
         this.mTextColorUnable = unable;
         this.mTextColorSelected = selected;
         this.mTextColorChecked = checked;
+        mHasPressedTextColor = true;
+        mHasUnableTextColor = true;
+        mHasSelectedTextColor = true;
+        mHasCheckedTextColor = true;
         updateTextColor();
         return this;
     }
@@ -1042,6 +1041,7 @@ public class RTextViewHelper extends RBaseHelper<TextView> implements ITextViewF
 
     public RTextViewHelper setTextColorChecked(@ColorInt int textColor) {
         this.mTextColorChecked = textColor;
+        mHasCheckedTextColor = true;
         updateTextColor();
         return this;
     }
@@ -1061,7 +1061,7 @@ public class RTextViewHelper extends RBaseHelper<TextView> implements ITextViewF
      * 更新文本颜色
      */
     private void updateTextColor() {
-        setupDefaultValue();
+        setupDefaultValue(false);
         setTextColor();
     }
 
@@ -1081,16 +1081,6 @@ public class RTextViewHelper extends RBaseHelper<TextView> implements ITextViewF
         }
     }
 
-    /**
-     * 初始化按下状态文本颜色
-     * 备注:当存在 Checked 状态并且没有设置 Pressed 时，Pressed = Checked 更符合常规UI
-     * 备注:使用子类 RCheckHelper 中的属性，提供方法入口
-     */
-    protected void initPressedTextColor(boolean hasCheckedTextColor, int textColorChecked) {
-        if (!mHasPressedTextColor) {
-            mTextColorPressed = hasCheckedTextColor ? textColorChecked : mTextColorNormal;
-        }
-    }
 
     @Override
     public void onGlobalLayout() {
@@ -1109,39 +1099,11 @@ public class RTextViewHelper extends RBaseHelper<TextView> implements ITextViewF
     @SuppressWarnings("unchecked")
     @Override
     public void setEnabled(boolean enabled) {
-        if (enabled) {
-            if (mIconNormalLeft != null) {
-                mIconLeft = mIconNormalLeft;
-            }
-            if (mIconNormalRight != null) {
-                mIconRight = mIconNormalRight;
-            }
-            if (mIconNormalTop != null) {
-                mIconTop = mIconNormalTop;
-            }
-            if (mIconNormalBottom != null) {
-                mIconBottom = mIconNormalBottom;
-            }
-            if (mIconNormal != null) {
-                mIcon = mIconNormal;
-            }
-        } else {
-            if (mIconUnableLeft != null) {
-                mIconLeft = mIconUnableLeft;
-            }
-            if (mIconUnableRight != null) {
-                mIconRight = mIconUnableRight;
-            }
-            if (mIconUnableTop != null) {
-                mIconTop = mIconUnableTop;
-            }
-            if (mIconUnableBottom != null) {
-                mIconBottom = mIconUnableBottom;
-            }
-            if (mIconUnable != null) {
-                mIcon = mIconUnable;
-            }
-        }
+        mIconLeft = !enabled && mIconUnableLeft != null ? mIconUnableLeft : mIconNormalLeft;
+        mIconRight = !enabled && mIconUnableRight != null ? mIconUnableRight : mIconNormalRight;
+        mIconTop = !enabled && mIconUnableTop != null ? mIconUnableTop : mIconNormalTop;
+        mIconBottom = !enabled && mIconUnableBottom != null ? mIconUnableBottom : mIconNormalBottom;
+        mIcon = !enabled && mIconUnable != null ? mIconUnable : mIconNormal;
         setIcon();
     }
 
@@ -1153,39 +1115,11 @@ public class RTextViewHelper extends RBaseHelper<TextView> implements ITextViewF
     @Override
     public void setSelected(boolean selected) {
         if (!mView.isEnabled()) return;
-        if (selected) {
-            if (mIconSelectedLeft != null) {
-                mIconLeft = mIconSelectedLeft;
-            }
-            if (mIconSelectedRight != null) {
-                mIconRight = mIconSelectedRight;
-            }
-            if (mIconSelectedTop != null) {
-                mIconTop = mIconSelectedTop;
-            }
-            if (mIconSelectedBottom != null) {
-                mIconBottom = mIconSelectedBottom;
-            }
-            if (mIconSelected != null) {
-                mIcon = mIconSelected;
-            }
-        } else {
-            if (mIconNormalLeft != null) {
-                mIconLeft = mIconNormalLeft;
-            }
-            if (mIconNormalRight != null) {
-                mIconRight = mIconNormalRight;
-            }
-            if (mIconNormalTop != null) {
-                mIconTop = mIconNormalTop;
-            }
-            if (mIconNormalBottom != null) {
-                mIconBottom = mIconNormalBottom;
-            }
-            if (mIconNormal != null) {
-                mIcon = mIconNormal;
-            }
-        }
+        mIconLeft = selected && mIconSelectedLeft != null ? mIconSelectedLeft : mIconNormalLeft;
+        mIconRight = selected && mIconSelectedRight != null ? mIconSelectedRight : mIconNormalRight;
+        mIconTop = selected && mIconSelectedTop != null ? mIconSelectedTop : mIconNormalTop;
+        mIconBottom = selected && mIconSelectedBottom != null ? mIconSelectedBottom : mIconNormalBottom;
+        mIcon = selected && mIconSelected != null ? mIconSelected : mIconNormal;
         setIcon();
     }
 
@@ -1198,64 +1132,36 @@ public class RTextViewHelper extends RBaseHelper<TextView> implements ITextViewF
     public void onTouchEvent(MotionEvent event) {
         if (!mView.isEnabled()) return;
         if (isCompoundButtonChecked()) return;
+        if (mView.isSelected()) return;
         int action = event.getAction();
         switch (action) {
             case MotionEvent.ACTION_UP://抬起
             case MotionEvent.ACTION_CANCEL://父级控件获取控制权
-                if (mIconNormalLeft != null) {
-                    mIconLeft = mView.isSelected() ? mIconSelectedLeft : mIconNormalLeft;
-                }
-                if (mIconNormalRight != null) {
-                    mIconRight = mView.isSelected() ? mIconSelectedRight : mIconNormalRight;
-                }
-                if (mIconNormalTop != null) {
-                    mIconTop = mView.isSelected() ? mIconSelectedTop : mIconNormalTop;
-                }
-                if (mIconNormalBottom != null) {
-                    mIconBottom = mView.isSelected() ? mIconSelectedBottom : mIconNormalBottom;
-                }
-                if (mIconNormal != null) {
-                    mIcon = mView.isSelected() ? mIconSelected : mIconNormal;
-                }
+                mIconLeft = mIconNormalLeft;
+                mIconRight = mIconNormalRight;
+                mIconTop = mIconNormalTop;
+                mIconBottom = mIconNormalBottom;
+                mIcon = mIconNormal;
                 setIcon();
                 break;
             case MotionEvent.ACTION_DOWN://按下
-                if (mIconPressedLeft != null) {
-                    mIconLeft = mIconPressedLeft;
-                }
-                if (mIconPressedRight != null) {
-                    mIconRight = mIconPressedRight;
-                }
-                if (mIconPressedTop != null) {
-                    mIconTop = mIconPressedTop;
-                }
-                if (mIconPressedBottom != null) {
-                    mIconBottom = mIconPressedBottom;
-                }
-                if (mIconPressed != null) {
-                    mIcon = mIconPressed;
-                }
+                //对应的状态有没有值，没有则不改变（使用默认状态）
+                if (mIconPressedLeft != null) mIconLeft = mIconPressedLeft;
+                if (mIconPressedRight != null) mIconRight = mIconPressedRight;
+                if (mIconPressedTop != null) mIconTop = mIconPressedTop;
+                if (mIconPressedBottom != null) mIconBottom = mIconPressedBottom;
+                if (mIconPressed != null) mIcon = mIconPressed;
                 setIcon();
                 break;
             case MotionEvent.ACTION_MOVE://移动
                 int x = (int) event.getX();
                 int y = (int) event.getY();
                 if (isOutsideView(x, y)) {
-                    if (mIconNormalLeft != null) {
-                        mIconLeft = mView.isSelected() ? mIconSelectedLeft : mIconNormalLeft;
-                    }
-                    if (mIconNormalRight != null) {
-                        mIconRight = mView.isSelected() ? mIconSelectedRight : mIconNormalRight;
-                    }
-                    if (mIconNormalTop != null) {
-                        mIconTop = mView.isSelected() ? mIconSelectedTop : mIconNormalTop;
-                    }
-                    if (mIconNormalBottom != null) {
-                        mIconBottom = mView.isSelected() ? mIconSelectedBottom : mIconNormalBottom;
-                    }
-                    if (mIconNormal != null) {
-                        mIcon = mView.isSelected() ? mIconSelected : mIconNormal;
-                    }
+                    mIconLeft = mIconNormalLeft;
+                    mIconRight = mIconNormalRight;
+                    mIconTop = mIconNormalTop;
+                    mIconBottom = mIconNormalBottom;
+                    mIcon = mIconNormal;
                     setIcon();
                 }
                 break;
