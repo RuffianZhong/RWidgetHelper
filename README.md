@@ -303,12 +303,12 @@ allprojects {
 
 //support 版本
 dependencies {
-    implementation 'com.github.RuffianZhong:RWidgetHelper:support.v0.0.3'
+    implementation 'com.github.RuffianZhong:RWidgetHelper:support.v0.0.4'
 }
 
 //androidx 版本
 dependencies {
-    implementation 'com.github.RuffianZhong:RWidgetHelper:androidx.v0.0.3'
+    implementation 'com.github.RuffianZhong:RWidgetHelper:androidx.v0.0.4'
 }
 ```
 #### 老版本依赖方式 JCenter 2022 年 2 月 1 日开始无法使用
@@ -321,6 +321,8 @@ compile 'com.ruffian.library:RWidgetHelper-AndroidX:0.0.9'
 ```
 
 ### 版本历史
+
+**support.v0.0.4/androidx.v0.0.4**　`2021.08.18`　背景 || 边框 || 图标 ，未设置 "按下"/"选中"/"不可用"等状态时，使用默认状态的资源
 
 **support.v0.0.3/androidx.v0.0.3**　`2021.07.19`　bugfix:修复support.v0.0.1/androidx.v0.0.1版本引起的在代码中设置背景图不起效问题；修复重复设置背景图不起效问题
 
