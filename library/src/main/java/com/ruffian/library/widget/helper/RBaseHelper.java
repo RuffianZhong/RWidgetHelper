@@ -16,16 +16,15 @@ import android.graphics.drawable.StateListDrawable;
 import android.graphics.drawable.shapes.RectShape;
 import android.graphics.drawable.shapes.RoundRectShape;
 import android.os.Build;
-
-import androidx.annotation.ColorInt;
-import androidx.annotation.StyleableRes;
-
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewTreeObserver;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.StyleableRes;
 
 import com.ruffian.library.widget.R;
 import com.ruffian.library.widget.clip.ClipHelper;
@@ -285,7 +284,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         states[5] = new int[]{android.R.attr.state_enabled};//normal
 
         //设置默认值
-        setupDefaultValue();
+        setupDefaultValue(true);
 
         //设置渐变相关Gradient
         setGradient();
@@ -303,49 +302,45 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         setBackgroundState();
     }
 
+
     /**
      * 设置默认值
      * 备注: Pressed 未设置时 赋值逻辑
      * 1.优先设置  Pressed ==  Checked 状态的值
      * 2.其次设置  Pressed ==  Selected 状态的值
      * 3.最终设置  Pressed ==  Normal 状态的值
+     *
+     * @param init 初始化
      */
-    private void setupDefaultValue() {
+    private void setupDefaultValue(boolean init) {
+
         //基础判断
-        mHasPressedBgColor = mBackgroundColorPressed != _C || mBackgroundColorPressedArray != null;
-        mHasUnableBgColor = mBackgroundColorUnable != _C || mBackgroundColorUnableArray != null;
-        mHasCheckedBgColor = mBackgroundColorChecked != _C || mBackgroundColorCheckedArray != null;
-        mHasSelectedBgColor = mBackgroundColorSelected != _C || mBackgroundColorSelectedArray != null;
-        mHasPressedBgBmp = mBackgroundPressedBmp != null;
-        mHasUnableBgBmp = mBackgroundUnableBmp != null;
-        mHasCheckedBgBmp = mBackgroundCheckedBmp != null;
-        mHasSelectedBgBmp = mBackgroundSelectedBmp != null;
-        mHasPressedBorderColor = mBorderColorPressed != _C;
-        mHasUnableBorderColor = mBorderColorUnable != _C;
-        mHasCheckedBorderColor = mBorderColorChecked != _C;
-        mHasSelectedBorderColor = mBorderColorSelected != _C;
-        mHasPressedBorderWidth = mBorderWidthPressed != _S;
-        mHasUnableBorderWidth = mBorderWidthUnable != _S;
-        mHasCheckedBorderWidth = mBorderWidthChecked != _S;
-        mHasSelectedBorderWidth = mBorderWidthSelected != _S;
+        if (init) {//初始化时需要做基础判断
+            mHasPressedBgColor = mBackgroundColorPressed != _C || mBackgroundColorPressedArray != null;
+            mHasUnableBgColor = mBackgroundColorUnable != _C || mBackgroundColorUnableArray != null;
+            mHasCheckedBgColor = mBackgroundColorChecked != _C || mBackgroundColorCheckedArray != null;
+            mHasSelectedBgColor = mBackgroundColorSelected != _C || mBackgroundColorSelectedArray != null;
+            mHasPressedBgBmp = mBackgroundPressedBmp != null;
+            mHasUnableBgBmp = mBackgroundUnableBmp != null;
+            mHasCheckedBgBmp = mBackgroundCheckedBmp != null;
+            mHasSelectedBgBmp = mBackgroundSelectedBmp != null;
+            mHasPressedBorderColor = mBorderColorPressed != _C;
+            mHasUnableBorderColor = mBorderColorUnable != _C;
+            mHasCheckedBorderColor = mBorderColorChecked != _C;
+            mHasSelectedBorderColor = mBorderColorSelected != _C;
+            mHasPressedBorderWidth = mBorderWidthPressed != _S;
+            mHasUnableBorderWidth = mBorderWidthUnable != _S;
+            mHasCheckedBorderWidth = mBorderWidthChecked != _S;
+            mHasSelectedBorderWidth = mBorderWidthSelected != _S;
+        }
 
         //设置背景默认值
         if (!mHasPressedBgColor) {
             mBackgroundColorPressed = mBackgroundColorNormal;
             mBackgroundColorPressedArray = mBackgroundColorNormalArray;
-            if (mHasSelectedBgColor) {
-                mBackgroundColorPressed = mBackgroundColorSelected;
-                mBackgroundColorPressedArray = mBackgroundColorNormalArray;
-            }
-            if (mHasCheckedBgColor) {
-                mBackgroundColorPressed = mBackgroundColorChecked;
-                mBackgroundColorPressedArray = mBackgroundColorCheckedArray;
-            }
         }
         if (!mHasPressedBgBmp) {
             mBackgroundPressedBmp = mBackgroundNormalBmp;
-            if (mHasSelectedBgBmp) mBackgroundPressedBmp = mBackgroundSelectedBmp;
-            if (mHasCheckedBgBmp) mBackgroundPressedBmp = mBackgroundCheckedBmp;
         }
         if (!mHasUnableBgColor) {
             mBackgroundColorUnable = mBackgroundColorNormal;
@@ -399,8 +394,6 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         //设置边框默认值
         if (!mHasPressedBorderWidth) {
             mBorderWidthPressed = mBorderWidthNormal;
-            if (mHasSelectedBorderWidth) mBorderWidthPressed = mBorderWidthSelected;
-            if (mHasCheckedBorderWidth) mBorderWidthPressed = mBorderWidthChecked;
         }
         if (!mHasUnableBorderWidth) {
             mBorderWidthUnable = mBorderWidthNormal;
@@ -413,8 +406,6 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         }
         if (!mHasPressedBorderColor) {
             mBorderColorPressed = mBorderColorNormal;
-            if (mHasSelectedBorderColor) mBorderColorPressed = mBorderColorSelected;
-            if (mHasCheckedBorderColor) mBorderColorPressed = mBorderColorChecked;
         }
         if (!mHasUnableBorderColor) {
             mBorderColorUnable = mBorderColorNormal;
@@ -530,6 +521,16 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         mBackgroundSelectedBmp = null;
         mBackgroundCheckedBmp = null;
 
+        mHasPressedBgColor = true;
+        mHasCheckedBgColor = true;
+        mHasSelectedBgColor = true;
+        mHasUnableBgColor = true;
+
+        mHasPressedBgBmp = false;
+        mHasCheckedBgBmp = false;
+        mHasSelectedBgBmp = false;
+        mHasUnableBgBmp = false;
+
         updateBackgroundValue();
         return this;
     }
@@ -551,6 +552,16 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         mBackgroundPressedBmp = null;
         mBackgroundSelectedBmp = null;
         mBackgroundCheckedBmp = null;
+
+        mHasPressedBgColor = true;
+        mHasCheckedBgColor = true;
+        mHasSelectedBgColor = true;
+        mHasUnableBgColor = true;
+
+        mHasPressedBgBmp = false;
+        mHasCheckedBgBmp = false;
+        mHasSelectedBgBmp = false;
+        mHasUnableBgBmp = false;
 
         updateBackgroundValue();
         return this;
@@ -574,6 +585,16 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         mBackgroundColorUnable = _C;
         mBackgroundColorChecked = _C;
         mBackgroundColorSelected = _C;
+
+        mHasPressedBgColor = false;
+        mHasCheckedBgColor = false;
+        mHasSelectedBgColor = false;
+        mHasUnableBgColor = false;
+
+        mHasPressedBgBmp = true;
+        mHasCheckedBgBmp = true;
+        mHasSelectedBgBmp = true;
+        mHasUnableBgBmp = true;
 
         updateBackgroundValue();
         return this;
@@ -607,6 +628,8 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         this.mBackgroundColorPressed = colorPressed;
         mBackgroundColorPressedArray = null;
         mBackgroundPressedBmp = null;
+        mHasPressedBgColor = true;
+        mHasPressedBgBmp = false;
         updateBackgroundValue();
         return this;
     }
@@ -615,6 +638,8 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         this.mBackgroundColorPressedArray = colorPressedArray;
         mBackgroundColorPressed = _C;
         mBackgroundPressedBmp = null;
+        mHasPressedBgColor = true;
+        mHasPressedBgBmp = false;
         updateBackgroundValue();
         return this;
     }
@@ -623,6 +648,8 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         this.mBackgroundPressedBmp = drawablePressed;
         this.mBackgroundColorPressedArray = null;
         mBackgroundColorPressed = _C;
+        mHasPressedBgColor = false;
+        mHasPressedBgBmp = true;
         updateBackgroundValue();
         return this;
     }
@@ -631,6 +658,8 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         this.mBackgroundColorUnable = colorUnable;
         mBackgroundColorUnableArray = null;
         mBackgroundUnableBmp = null;
+        mHasUnableBgColor = true;
+        mHasUnableBgBmp = false;
         updateBackgroundValue();
         return this;
     }
@@ -639,6 +668,8 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         this.mBackgroundUnableBmp = drawableUnable;
         this.mBackgroundColorUnable = _C;
         mBackgroundColorUnableArray = null;
+        mHasUnableBgColor = false;
+        mHasUnableBgBmp = true;
         updateBackgroundValue();
         return this;
     }
@@ -647,6 +678,8 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         this.mBackgroundColorUnableArray = colorUnableArray;
         this.mBackgroundColorUnable = _C;
         mBackgroundUnableBmp = null;
+        mHasUnableBgColor = true;
+        mHasUnableBgBmp = false;
         updateBackgroundValue();
         return this;
     }
@@ -655,6 +688,8 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         this.mBackgroundColorChecked = colorChecked;
         mBackgroundColorCheckedArray = null;
         mBackgroundCheckedBmp = null;
+        mHasCheckedBgColor = true;
+        mHasCheckedBgBmp = false;
         updateBackgroundValue();
         return this;
     }
@@ -663,6 +698,8 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         this.mBackgroundColorSelected = colorSelected;
         mBackgroundColorSelectedArray = null;
         mBackgroundSelectedBmp = null;
+        mHasSelectedBgColor = true;
+        mHasSelectedBgBmp = false;
         updateBackgroundValue();
         return this;
     }
@@ -671,6 +708,8 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         this.mBackgroundColorCheckedArray = colorCheckedArray;
         mBackgroundColorChecked = _C;
         mBackgroundCheckedBmp = null;
+        mHasCheckedBgColor = true;
+        mHasCheckedBgBmp = false;
         updateBackgroundValue();
         return this;
     }
@@ -679,6 +718,8 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         this.mBackgroundColorSelectedArray = colorSelectedArray;
         mBackgroundColorSelected = _C;
         mBackgroundSelectedBmp = null;
+        mHasSelectedBgColor = true;
+        mHasSelectedBgBmp = false;
         updateBackgroundValue();
         return this;
     }
@@ -687,6 +728,8 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         this.mBackgroundCheckedBmp = drawableChecked;
         mBackgroundColorChecked = _C;
         mBackgroundColorCheckedArray = null;
+        mHasCheckedBgColor = false;
+        mHasCheckedBgBmp = true;
         updateBackgroundValue();
         return this;
     }
@@ -695,6 +738,8 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         this.mBackgroundSelectedBmp = drawableSelected;
         mBackgroundColorSelected = _C;
         mBackgroundColorSelectedArray = null;
+        mHasSelectedBgColor = false;
+        mHasSelectedBgBmp = true;
         updateBackgroundValue();
         return this;
     }
@@ -764,10 +809,11 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
      * 更新背景值(单一颜色，渐变，背景图)
      */
     private void updateBackgroundValue() {
-        setupDefaultValue();
+        setupDefaultValue(false);
         setStateListDrawable();
         setBackgroundState();
     }
+
 
     /**
      * 刷新StateListDrawable状态
@@ -1082,6 +1128,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
 
     public RBaseHelper setBorderWidthPressed(int width) {
         this.mBorderWidthPressed = width;
+        mHasPressedBorderWidth = true;
         updateBorderValue();
         return this;
     }
@@ -1092,6 +1139,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
 
     public RBaseHelper setBorderColorPressed(@ColorInt int color) {
         this.mBorderColorPressed = color;
+        mHasPressedBorderColor = true;
         updateBorderValue();
         return this;
     }
@@ -1102,6 +1150,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
 
     public RBaseHelper setBorderColorChecked(@ColorInt int color) {
         this.mBorderColorChecked = color;
+        mHasCheckedBorderColor = true;
         updateBorderValue();
         return this;
     }
@@ -1112,6 +1161,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
 
     public RBaseHelper setBorderColorSelected(@ColorInt int color) {
         this.mBorderColorSelected = color;
+        mHasSelectedBorderColor = true;
         updateBorderValue();
         return this;
     }
@@ -1122,6 +1172,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
 
     public RBaseHelper setBorderWidthChecked(int width) {
         this.mBorderWidthChecked = width;
+        mHasCheckedBorderWidth = true;
         updateBorderValue();
         return this;
     }
@@ -1132,6 +1183,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
 
     public RBaseHelper setBorderWidthSelected(int width) {
         this.mBorderWidthSelected = width;
+        mHasSelectedBorderWidth = true;
         updateBorderValue();
         return this;
     }
@@ -1142,6 +1194,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
 
     public RBaseHelper setBorderWidthUnable(int width) {
         this.mBorderWidthUnable = width;
+        mHasUnableBorderWidth = true;
         updateBorderValue();
         return this;
     }
@@ -1152,6 +1205,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
 
     public RBaseHelper setBorderColorUnable(@ColorInt int color) {
         this.mBorderColorUnable = color;
+        mHasUnableBorderColor = true;
         updateBorderValue();
         return this;
     }
@@ -1167,6 +1221,11 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         this.mBorderWidthUnable = unable;
         this.mBorderWidthChecked = checked;
         this.mBorderWidthSelected = selected;
+
+        mHasPressedBorderWidth = true;
+        mHasUnableBorderWidth = true;
+        mHasCheckedBorderWidth = true;
+        mHasSelectedBorderWidth = true;
         updateBorderValue();
         return this;
     }
@@ -1178,6 +1237,11 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         this.mBorderColorUnable = unable;
         this.mBorderColorChecked = checked;
         this.mBorderColorSelected = selected;
+
+        mHasPressedBorderColor = true;
+        mHasUnableBorderColor = true;
+        mHasCheckedBorderColor = true;
+        mHasSelectedBorderColor = true;
         updateBorderValue();
         return this;
     }
@@ -1221,7 +1285,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
      * 更新边框值
      */
     private void updateBorderValue() {
-        setupDefaultValue();
+        setupDefaultValue(false);
         setBorder();
         setBackgroundState();
     }
