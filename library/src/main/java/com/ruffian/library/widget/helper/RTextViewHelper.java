@@ -1,5 +1,6 @@
 package com.ruffian.library.widget.helper;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.content.res.ColorStateList;
@@ -120,6 +121,7 @@ public class RTextViewHelper extends RBaseHelper<TextView> implements ITextViewF
      * @param context
      * @param attrs
      */
+    @SuppressLint("NewApi")
     private void initAttributeSet(Context context, AttributeSet attrs) {
         if (context == null || attrs == null) {
             setup();
@@ -246,6 +248,35 @@ public class RTextViewHelper extends RBaseHelper<TextView> implements ITextViewF
         mIconWidth = a.getDimensionPixelSize(R.styleable.RTextView_icon_width, 0);
         mIconHeight = a.getDimensionPixelSize(R.styleable.RTextView_icon_height, 0);
         mIconDirection = a.getInt(R.styleable.RTextView_icon_direction, ICON_DIR_LEFT);
+        //兼容系统原生drawableLeft
+        String namespace = "http://schemas.android.com/apk/res/android";//android的命名空间
+        int drawableLeft = attrs.getAttributeResourceValue(namespace, "drawableLeft", 0);
+        if (drawableLeft != 0) mIconNormalLeft = context.getResources().getDrawable(drawableLeft);
+        int drawableTop = attrs.getAttributeResourceValue(namespace, "drawableTop", 0);
+        if (drawableTop != 0) mIconNormalTop = context.getResources().getDrawable(drawableTop);
+        int drawableRight = attrs.getAttributeResourceValue(namespace, "drawableRight", 0);
+        if (drawableRight != 0)
+            mIconNormalRight = context.getResources().getDrawable(drawableRight);
+        int drawableBottom = attrs.getAttributeResourceValue(namespace, "drawableBottom", 0);
+        if (drawableBottom != 0)
+            mIconNormalBottom = context.getResources().getDrawable(drawableBottom);
+        int drawableStart = attrs.getAttributeResourceValue(namespace, "drawableStart", 0);
+        if (drawableStart != 0) {
+            if (TextViewUtils.isRight2Left()) {
+                mIconNormalRight = context.getResources().getDrawable(drawableStart);
+            } else {
+                mIconNormalLeft = context.getResources().getDrawable(drawableStart);
+            }
+        }
+        int drawableEnd = attrs.getAttributeResourceValue(namespace, "drawableEnd", 0);
+        if (drawableEnd != 0) {
+            if (TextViewUtils.isRight2Left()) {
+                mIconNormalLeft = context.getResources().getDrawable(drawableEnd);
+            } else {
+                mIconNormalRight = context.getResources().getDrawable(drawableEnd);
+            }
+        }
+
 
         //text
         mTextColorNormal = a.getColor(R.styleable.RTextView_text_color_normal, mView.getCurrentTextColor());
