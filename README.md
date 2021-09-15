@@ -303,12 +303,12 @@ allprojects {
 
 //support 版本
 dependencies {
-    implementation 'com.github.RuffianZhong:RWidgetHelper:support.v0.0.5'
+    implementation 'com.github.RuffianZhong:RWidgetHelper:support.v0.0.6'
 }
 
 //androidx 版本
 dependencies {
-    implementation 'com.github.RuffianZhong:RWidgetHelper:androidx.v0.0.5'
+    implementation 'com.github.RuffianZhong:RWidgetHelper:androidx.v0.0.6'
 }
 ```
 #### 老版本依赖方式 JCenter 2022 年 2 月 1 日开始无法使用
@@ -321,6 +321,8 @@ compile 'com.ruffian.library:RWidgetHelper-AndroidX:0.0.9'
 ```
 
 ### 版本历史
+
+**support.v0.0.6/androidx.v0.0.6**　`2021.09.15`　修复控件无法预览的问题
 
 **support.v0.0.5/androidx.v0.0.5**　`2021.09.11`　适配原生drawableLeft/Right/Top/Bottom
 
