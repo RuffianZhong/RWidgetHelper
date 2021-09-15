@@ -286,6 +286,13 @@
         <attr name="icon_width_top" />
         <attr name="icon_height_right" />
         <attr name="icon_width_right" />
+        <!--原生属性-->
+        <attr name="android:drawableLeft" />
+        <attr name="android:drawableRight" />
+        <attr name="android:drawableBottom" />
+        <attr name="android:drawableTop" />
+        <attr name="android:drawableStart" />
+        <attr name="android:drawableEnd" />
 
         <!--图标资源,大小,位置(版本兼容保留)-->
         <attr name="icon_src_normal" />

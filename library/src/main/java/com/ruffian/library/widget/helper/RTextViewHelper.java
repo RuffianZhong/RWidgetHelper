@@ -130,8 +130,10 @@ public class RTextViewHelper extends RBaseHelper<TextView> implements ITextViewF
         }
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RTextView);
         //icon
+        Drawable drawableLeft, drawableRight, drawableTop, drawableBottom, drawableStart, drawableEnd;
         //Vector兼容处理
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            //自定义属性
             mIconNormalLeft = a.getDrawable(R.styleable.RTextView_icon_normal_left);
             mIconPressedLeft = a.getDrawable(R.styleable.RTextView_icon_pressed_left);
             mIconUnableLeft = a.getDrawable(R.styleable.RTextView_icon_unable_left);
@@ -152,90 +154,54 @@ public class RTextViewHelper extends RBaseHelper<TextView> implements ITextViewF
             mIconUnableBottom = a.getDrawable(R.styleable.RTextView_icon_unable_bottom);
             mIconSelectedBottom = a.getDrawable(R.styleable.RTextView_icon_selected_bottom);
             mIconCheckedBottom = a.getDrawable(R.styleable.RTextView_icon_checked_bottom);
+            //兼容系统原生drawableLeft
+            drawableLeft = a.getDrawable(R.styleable.RTextView_android_drawableLeft);
+            drawableRight = a.getDrawable(R.styleable.RTextView_android_drawableRight);
+            drawableTop = a.getDrawable(R.styleable.RTextView_android_drawableTop);
+            drawableBottom = a.getDrawable(R.styleable.RTextView_android_drawableBottom);
+            drawableStart = a.getDrawable(R.styleable.RTextView_android_drawableStart);
+            drawableEnd = a.getDrawable(R.styleable.RTextView_android_drawableEnd);
             //版本兼容代码
             mIconNormal = a.getDrawable(R.styleable.RTextView_icon_src_normal);
             mIconPressed = a.getDrawable(R.styleable.RTextView_icon_src_pressed);
             mIconUnable = a.getDrawable(R.styleable.RTextView_icon_src_unable);
             mIconSelected = a.getDrawable(R.styleable.RTextView_icon_src_selected);
             mIconChecked = a.getDrawable(R.styleable.RTextView_icon_src_checked);
-
         } else {
-            int normalIdLeft = a.getResourceId(R.styleable.RTextView_icon_normal_left, -1);
-            int pressedIdLeft = a.getResourceId(R.styleable.RTextView_icon_pressed_left, -1);
-            int unableIdLeft = a.getResourceId(R.styleable.RTextView_icon_unable_left, -1);
-            int selectedIdLeft = a.getResourceId(R.styleable.RTextView_icon_selected_left, -1);
-            int checkedIdLeft = a.getResourceId(R.styleable.RTextView_icon_checked_left, -1);
-            int normalIdRight = a.getResourceId(R.styleable.RTextView_icon_normal_right, -1);
-            int pressedIdRight = a.getResourceId(R.styleable.RTextView_icon_pressed_right, -1);
-            int unableIdRight = a.getResourceId(R.styleable.RTextView_icon_unable_right, -1);
-            int selectedIdRight = a.getResourceId(R.styleable.RTextView_icon_selected_right, -1);
-            int checkedIdRight = a.getResourceId(R.styleable.RTextView_icon_checked_right, -1);
-            int normalIdTop = a.getResourceId(R.styleable.RTextView_icon_normal_top, -1);
-            int pressedIdTop = a.getResourceId(R.styleable.RTextView_icon_pressed_top, -1);
-            int unableIdTop = a.getResourceId(R.styleable.RTextView_icon_unable_top, -1);
-            int selectedIdTop = a.getResourceId(R.styleable.RTextView_icon_selected_top, -1);
-            int checkedIdTop = a.getResourceId(R.styleable.RTextView_icon_checked_top, -1);
-            int normalIdBottom = a.getResourceId(R.styleable.RTextView_icon_normal_bottom, -1);
-            int pressedIdBottom = a.getResourceId(R.styleable.RTextView_icon_pressed_bottom, -1);
-            int unableIdBottom = a.getResourceId(R.styleable.RTextView_icon_unable_bottom, -1);
-            int selectedIdBottom = a.getResourceId(R.styleable.RTextView_icon_selected_bottom, -1);
-            int checkedIdBottom = a.getResourceId(R.styleable.RTextView_icon_checked_bottom, -1);
-            if (normalIdLeft != -1)
-                mIconNormalLeft = AppCompatResources.getDrawable(context, normalIdLeft);
-            if (pressedIdLeft != -1)
-                mIconPressedLeft = AppCompatResources.getDrawable(context, pressedIdLeft);
-            if (unableIdLeft != -1)
-                mIconUnableLeft = AppCompatResources.getDrawable(context, unableIdLeft);
-            if (selectedIdLeft != -1)
-                mIconSelectedLeft = AppCompatResources.getDrawable(context, selectedIdLeft);
-            if (checkedIdLeft != -1)
-                mIconCheckedLeft = AppCompatResources.getDrawable(context, checkedIdLeft);
-            if (normalIdRight != -1)
-                mIconNormalRight = AppCompatResources.getDrawable(context, normalIdRight);
-            if (pressedIdRight != -1)
-                mIconPressedRight = AppCompatResources.getDrawable(context, pressedIdRight);
-            if (unableIdRight != -1)
-                mIconUnableRight = AppCompatResources.getDrawable(context, unableIdRight);
-            if (selectedIdRight != -1)
-                mIconSelectedRight = AppCompatResources.getDrawable(context, selectedIdRight);
-            if (checkedIdRight != -1)
-                mIconCheckedRight = AppCompatResources.getDrawable(context, checkedIdRight);
-            if (normalIdTop != -1)
-                mIconNormalTop = AppCompatResources.getDrawable(context, normalIdTop);
-            if (pressedIdTop != -1)
-                mIconPressedTop = AppCompatResources.getDrawable(context, pressedIdTop);
-            if (unableIdTop != -1)
-                mIconUnableTop = AppCompatResources.getDrawable(context, unableIdTop);
-            if (selectedIdTop != -1)
-                mIconSelectedTop = AppCompatResources.getDrawable(context, selectedIdTop);
-            if (checkedIdTop != -1)
-                mIconCheckedTop = AppCompatResources.getDrawable(context, checkedIdTop);
-            if (normalIdBottom != -1)
-                mIconNormalBottom = AppCompatResources.getDrawable(context, normalIdBottom);
-            if (pressedIdBottom != -1)
-                mIconPressedBottom = AppCompatResources.getDrawable(context, pressedIdBottom);
-            if (unableIdBottom != -1)
-                mIconUnableBottom = AppCompatResources.getDrawable(context, unableIdBottom);
-            if (selectedIdBottom != -1)
-                mIconSelectedBottom = AppCompatResources.getDrawable(context, selectedIdBottom);
-            if (checkedIdBottom != -1)
-                mIconCheckedBottom = AppCompatResources.getDrawable(context, checkedIdBottom);
+            //自定义属性
+            mIconNormalLeft = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_normal_left, -1));
+            mIconPressedLeft = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_pressed_left, -1));
+            mIconUnableLeft = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_unable_left, -1));
+            mIconSelectedLeft = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_selected_left, -1));
+            mIconCheckedLeft = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_checked_left, -1));
+            mIconNormalRight = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_normal_right, -1));
+            mIconPressedRight = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_pressed_right, -1));
+            mIconUnableRight = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_unable_right, -1));
+            mIconSelectedRight = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_selected_right, -1));
+            mIconCheckedRight = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_checked_right, -1));
+            mIconNormalTop = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_normal_top, -1));
+            mIconPressedTop = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_pressed_top, -1));
+            mIconUnableTop = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_unable_top, -1));
+            mIconSelectedTop = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_selected_top, -1));
+            mIconCheckedTop = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_checked_top, -1));
+            mIconNormalBottom = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_normal_bottom, -1));
+            mIconPressedBottom = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_pressed_bottom, -1));
+            mIconUnableBottom = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_unable_bottom, -1));
+            mIconSelectedBottom = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_selected_bottom, -1));
+            mIconCheckedBottom = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_checked_bottom, -1));
+            //兼容系统原生drawableLeft
+            drawableLeft = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_android_drawableLeft, -1));
+            drawableRight = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_android_drawableRight, -1));
+            drawableTop = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_android_drawableTop, -1));
+            drawableBottom = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_android_drawableBottom, -1));
+            drawableStart = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_android_drawableStart, -1));
+            drawableEnd = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_android_drawableEnd, -1));
             //版本兼容代码
-            int normalId = a.getResourceId(R.styleable.RTextView_icon_src_normal, -1);
-            int pressedId = a.getResourceId(R.styleable.RTextView_icon_src_pressed, -1);
-            int unableId = a.getResourceId(R.styleable.RTextView_icon_src_unable, -1);
-            int selectedId = a.getResourceId(R.styleable.RTextView_icon_src_selected, -1);
-            int checkedId = a.getResourceId(R.styleable.RTextView_icon_src_checked, -1);
-            if (normalId != -1)
-                mIconNormal = AppCompatResources.getDrawable(context, normalId);
-            if (pressedId != -1)
-                mIconPressed = AppCompatResources.getDrawable(context, pressedId);
-            if (unableId != -1)
-                mIconUnable = AppCompatResources.getDrawable(context, unableId);
-            if (selectedId != -1)
-                mIconSelected = AppCompatResources.getDrawable(context, selectedId);
-            if (checkedId != -1)
-                mIconChecked = AppCompatResources.getDrawable(context, checkedId);
+            mIconNormal = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_src_normal, -1));
+            mIconPressed = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_src_pressed, -1));
+            mIconUnable = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_src_unable, -1));
+            mIconSelected = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_src_selected, -1));
+            mIconChecked = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_src_checked, -1));
         }
         mIconWidthLeft = a.getDimensionPixelSize(R.styleable.RTextView_icon_width_left, 0);
         mIconHeightLeft = a.getDimensionPixelSize(R.styleable.RTextView_icon_height_left, 0);
@@ -249,34 +215,18 @@ public class RTextViewHelper extends RBaseHelper<TextView> implements ITextViewF
         mIconWidth = a.getDimensionPixelSize(R.styleable.RTextView_icon_width, 0);
         mIconHeight = a.getDimensionPixelSize(R.styleable.RTextView_icon_height, 0);
         mIconDirection = a.getInt(R.styleable.RTextView_icon_direction, ICON_DIR_LEFT);
-        //兼容系统原生drawableLeft
-        String namespace = "http://schemas.android.com/apk/res/android";//android的命名空间
-        int drawableLeft = attrs.getAttributeResourceValue(namespace, "drawableLeft", 0);
-        if (drawableLeft != 0) mIconNormalLeft = context.getResources().getDrawable(drawableLeft);
-        int drawableTop = attrs.getAttributeResourceValue(namespace, "drawableTop", 0);
-        if (drawableTop != 0) mIconNormalTop = context.getResources().getDrawable(drawableTop);
-        int drawableRight = attrs.getAttributeResourceValue(namespace, "drawableRight", 0);
-        if (drawableRight != 0)
-            mIconNormalRight = context.getResources().getDrawable(drawableRight);
-        int drawableBottom = attrs.getAttributeResourceValue(namespace, "drawableBottom", 0);
-        if (drawableBottom != 0)
-            mIconNormalBottom = context.getResources().getDrawable(drawableBottom);
-        int drawableStart = attrs.getAttributeResourceValue(namespace, "drawableStart", 0);
-        if (drawableStart != 0) {
-            if (TextViewUtils.isRight2Left()) {
-                mIconNormalRight = context.getResources().getDrawable(drawableStart);
-            } else {
-                mIconNormalLeft = context.getResources().getDrawable(drawableStart);
-            }
+        //兼容逻辑(优先级 drawableStart > drawableLeft > icon_normal_left)
+        if (!TextViewUtils.isRight2Left()) {
+            if (drawableStart != null) drawableLeft = drawableStart;
+            if (drawableEnd != null) drawableRight = drawableEnd;
+        } else {
+            if (drawableEnd != null) drawableLeft = drawableEnd;
+            if (drawableStart != null) drawableRight = drawableStart;
         }
-        int drawableEnd = attrs.getAttributeResourceValue(namespace, "drawableEnd", 0);
-        if (drawableEnd != 0) {
-            if (TextViewUtils.isRight2Left()) {
-                mIconNormalLeft = context.getResources().getDrawable(drawableEnd);
-            } else {
-                mIconNormalRight = context.getResources().getDrawable(drawableEnd);
-            }
-        }
+        if (drawableLeft != null) mIconNormalLeft = drawableLeft;
+        if (drawableRight != null) mIconNormalRight = drawableRight;
+        if (drawableTop != null) mIconNormalTop = drawableTop;
+        if (drawableBottom != null) mIconNormalBottom = drawableBottom;
 
 
         //text
