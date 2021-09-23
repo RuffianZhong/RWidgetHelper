@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.widget.TextView;
 
 import androidx.annotation.ColorInt;
+import androidx.annotation.StyleableRes;
 import androidx.appcompat.content.res.AppCompatResources;
 
 import com.ruffian.library.widget.R;
@@ -130,91 +131,40 @@ public class RTextViewHelper extends RBaseHelper<TextView> implements ITextViewF
         }
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RTextView);
         //icon
-        Drawable drawableLeft, drawableRight, drawableTop, drawableBottom, drawableStart, drawableEnd;
-        //Vector兼容处理
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            //自定义属性
-            mIconNormalLeft = a.getDrawable(R.styleable.RTextView_icon_normal_left);
-            mIconPressedLeft = a.getDrawable(R.styleable.RTextView_icon_pressed_left);
-            mIconUnableLeft = a.getDrawable(R.styleable.RTextView_icon_unable_left);
-            mIconSelectedLeft = a.getDrawable(R.styleable.RTextView_icon_selected_left);
-            mIconCheckedLeft = a.getDrawable(R.styleable.RTextView_icon_checked_left);
-            mIconNormalRight = a.getDrawable(R.styleable.RTextView_icon_normal_right);
-            mIconPressedRight = a.getDrawable(R.styleable.RTextView_icon_pressed_right);
-            mIconUnableRight = a.getDrawable(R.styleable.RTextView_icon_unable_right);
-            mIconSelectedRight = a.getDrawable(R.styleable.RTextView_icon_selected_right);
-            mIconCheckedRight = a.getDrawable(R.styleable.RTextView_icon_checked_right);
-            mIconNormalTop = a.getDrawable(R.styleable.RTextView_icon_normal_top);
-            mIconPressedTop = a.getDrawable(R.styleable.RTextView_icon_pressed_top);
-            mIconUnableTop = a.getDrawable(R.styleable.RTextView_icon_unable_top);
-            mIconSelectedTop = a.getDrawable(R.styleable.RTextView_icon_selected_top);
-            mIconCheckedTop = a.getDrawable(R.styleable.RTextView_icon_checked_top);
-            mIconNormalBottom = a.getDrawable(R.styleable.RTextView_icon_normal_bottom);
-            mIconPressedBottom = a.getDrawable(R.styleable.RTextView_icon_pressed_bottom);
-            mIconUnableBottom = a.getDrawable(R.styleable.RTextView_icon_unable_bottom);
-            mIconSelectedBottom = a.getDrawable(R.styleable.RTextView_icon_selected_bottom);
-            mIconCheckedBottom = a.getDrawable(R.styleable.RTextView_icon_checked_bottom);
-            //兼容系统原生drawableLeft
-            drawableLeft = a.getDrawable(R.styleable.RTextView_android_drawableLeft);
-            drawableRight = a.getDrawable(R.styleable.RTextView_android_drawableRight);
-            drawableTop = a.getDrawable(R.styleable.RTextView_android_drawableTop);
-            drawableBottom = a.getDrawable(R.styleable.RTextView_android_drawableBottom);
-            drawableStart = a.getDrawable(R.styleable.RTextView_android_drawableStart);
-            drawableEnd = a.getDrawable(R.styleable.RTextView_android_drawableEnd);
-            //版本兼容代码
-            mIconNormal = a.getDrawable(R.styleable.RTextView_icon_src_normal);
-            mIconPressed = a.getDrawable(R.styleable.RTextView_icon_src_pressed);
-            mIconUnable = a.getDrawable(R.styleable.RTextView_icon_src_unable);
-            mIconSelected = a.getDrawable(R.styleable.RTextView_icon_src_selected);
-            mIconChecked = a.getDrawable(R.styleable.RTextView_icon_src_checked);
-        } else {
-            //自定义属性
-            mIconNormalLeft = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_normal_left, -1));
-            mIconPressedLeft = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_pressed_left, -1));
-            mIconUnableLeft = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_unable_left, -1));
-            mIconSelectedLeft = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_selected_left, -1));
-            mIconCheckedLeft = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_checked_left, -1));
-            mIconNormalRight = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_normal_right, -1));
-            mIconPressedRight = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_pressed_right, -1));
-            mIconUnableRight = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_unable_right, -1));
-            mIconSelectedRight = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_selected_right, -1));
-            mIconCheckedRight = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_checked_right, -1));
-            mIconNormalTop = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_normal_top, -1));
-            mIconPressedTop = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_pressed_top, -1));
-            mIconUnableTop = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_unable_top, -1));
-            mIconSelectedTop = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_selected_top, -1));
-            mIconCheckedTop = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_checked_top, -1));
-            mIconNormalBottom = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_normal_bottom, -1));
-            mIconPressedBottom = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_pressed_bottom, -1));
-            mIconUnableBottom = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_unable_bottom, -1));
-            mIconSelectedBottom = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_selected_bottom, -1));
-            mIconCheckedBottom = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_checked_bottom, -1));
-            //兼容系统原生drawableLeft
-            drawableLeft = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_android_drawableLeft, -1));
-            drawableRight = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_android_drawableRight, -1));
-            drawableTop = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_android_drawableTop, -1));
-            drawableBottom = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_android_drawableBottom, -1));
-            drawableStart = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_android_drawableStart, -1));
-            drawableEnd = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_android_drawableEnd, -1));
-            //版本兼容代码
-            mIconNormal = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_src_normal, -1));
-            mIconPressed = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_src_pressed, -1));
-            mIconUnable = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_src_unable, -1));
-            mIconSelected = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_src_selected, -1));
-            mIconChecked = AppCompatResources.getDrawable(context, a.getResourceId(R.styleable.RTextView_icon_src_checked, -1));
-        }
-        mIconWidthLeft = a.getDimensionPixelSize(R.styleable.RTextView_icon_width_left, 0);
-        mIconHeightLeft = a.getDimensionPixelSize(R.styleable.RTextView_icon_height_left, 0);
-        mIconWidthRight = a.getDimensionPixelSize(R.styleable.RTextView_icon_width_right, 0);
-        mIconHeightRight = a.getDimensionPixelSize(R.styleable.RTextView_icon_height_right, 0);
-        mIconWidthBottom = a.getDimensionPixelSize(R.styleable.RTextView_icon_width_bottom, 0);
-        mIconHeightBottom = a.getDimensionPixelSize(R.styleable.RTextView_icon_height_bottom, 0);
-        mIconWidthTop = a.getDimensionPixelSize(R.styleable.RTextView_icon_width_top, 0);
-        mIconHeightTop = a.getDimensionPixelSize(R.styleable.RTextView_icon_height_top, 0);
-        //老版本兼容代码
-        mIconWidth = a.getDimensionPixelSize(R.styleable.RTextView_icon_width, 0);
-        mIconHeight = a.getDimensionPixelSize(R.styleable.RTextView_icon_height, 0);
-        mIconDirection = a.getInt(R.styleable.RTextView_icon_direction, ICON_DIR_LEFT);
+        //自定义属性
+        mIconNormalLeft = getDrawable(context, a, R.styleable.RTextView_icon_normal_left);
+        mIconPressedLeft = getDrawable(context, a, R.styleable.RTextView_icon_pressed_left);
+        mIconUnableLeft = getDrawable(context, a, R.styleable.RTextView_icon_unable_left);
+        mIconSelectedLeft = getDrawable(context, a, R.styleable.RTextView_icon_selected_left);
+        mIconCheckedLeft = getDrawable(context, a, R.styleable.RTextView_icon_checked_left);
+        mIconNormalRight = getDrawable(context, a, R.styleable.RTextView_icon_normal_right);
+        mIconPressedRight = getDrawable(context, a, R.styleable.RTextView_icon_pressed_right);
+        mIconUnableRight = getDrawable(context, a, R.styleable.RTextView_icon_unable_right);
+        mIconSelectedRight = getDrawable(context, a, R.styleable.RTextView_icon_selected_right);
+        mIconCheckedRight = getDrawable(context, a, R.styleable.RTextView_icon_checked_right);
+        mIconNormalTop = getDrawable(context, a, R.styleable.RTextView_icon_normal_top);
+        mIconPressedTop = getDrawable(context, a, R.styleable.RTextView_icon_pressed_top);
+        mIconUnableTop = getDrawable(context, a, R.styleable.RTextView_icon_unable_top);
+        mIconSelectedTop = getDrawable(context, a, R.styleable.RTextView_icon_selected_top);
+        mIconCheckedTop = getDrawable(context, a, R.styleable.RTextView_icon_checked_top);
+        mIconNormalBottom = getDrawable(context, a, R.styleable.RTextView_icon_normal_bottom);
+        mIconPressedBottom = getDrawable(context, a, R.styleable.RTextView_icon_pressed_bottom);
+        mIconUnableBottom = getDrawable(context, a, R.styleable.RTextView_icon_unable_bottom);
+        mIconSelectedBottom = getDrawable(context, a, R.styleable.RTextView_icon_selected_bottom);
+        mIconCheckedBottom = getDrawable(context, a, R.styleable.RTextView_icon_checked_bottom);
+        //兼容系统原生drawableLeft
+        Drawable drawableLeft = getDrawable(context, a, R.styleable.RTextView_android_drawableLeft);
+        Drawable drawableRight = getDrawable(context, a, R.styleable.RTextView_android_drawableRight);
+        Drawable drawableTop = getDrawable(context, a, R.styleable.RTextView_android_drawableTop);
+        Drawable drawableBottom = getDrawable(context, a, R.styleable.RTextView_android_drawableBottom);
+        Drawable drawableStart = getDrawable(context, a, R.styleable.RTextView_android_drawableStart);
+        Drawable drawableEnd = getDrawable(context, a, R.styleable.RTextView_android_drawableEnd);
+        //版本兼容代码
+        mIconNormal = getDrawable(context, a, R.styleable.RTextView_icon_src_normal);
+        mIconPressed = getDrawable(context, a, R.styleable.RTextView_icon_src_pressed);
+        mIconUnable = getDrawable(context, a, R.styleable.RTextView_icon_src_unable);
+        mIconSelected = getDrawable(context, a, R.styleable.RTextView_icon_src_selected);
+        mIconChecked = getDrawable(context, a, R.styleable.RTextView_icon_src_checked);
         //兼容逻辑(优先级 drawableStart > drawableLeft > icon_normal_left)
         if (!TextViewUtils.isRight2Left()) {
             if (drawableStart != null) drawableLeft = drawableStart;
@@ -228,6 +178,19 @@ public class RTextViewHelper extends RBaseHelper<TextView> implements ITextViewF
         if (drawableTop != null) mIconNormalTop = drawableTop;
         if (drawableBottom != null) mIconNormalBottom = drawableBottom;
 
+        //icon-size
+        mIconWidthLeft = a.getDimensionPixelSize(R.styleable.RTextView_icon_width_left, 0);
+        mIconHeightLeft = a.getDimensionPixelSize(R.styleable.RTextView_icon_height_left, 0);
+        mIconWidthRight = a.getDimensionPixelSize(R.styleable.RTextView_icon_width_right, 0);
+        mIconHeightRight = a.getDimensionPixelSize(R.styleable.RTextView_icon_height_right, 0);
+        mIconWidthBottom = a.getDimensionPixelSize(R.styleable.RTextView_icon_width_bottom, 0);
+        mIconHeightBottom = a.getDimensionPixelSize(R.styleable.RTextView_icon_height_bottom, 0);
+        mIconWidthTop = a.getDimensionPixelSize(R.styleable.RTextView_icon_width_top, 0);
+        mIconHeightTop = a.getDimensionPixelSize(R.styleable.RTextView_icon_height_top, 0);
+        //老版本兼容代码
+        mIconWidth = a.getDimensionPixelSize(R.styleable.RTextView_icon_width, 0);
+        mIconHeight = a.getDimensionPixelSize(R.styleable.RTextView_icon_height, 0);
+        mIconDirection = a.getInt(R.styleable.RTextView_icon_direction, ICON_DIR_LEFT);
 
         //text
         mTextColorNormal = a.getColor(R.styleable.RTextView_text_color_normal, mView.getCurrentTextColor());
@@ -318,6 +281,25 @@ public class RTextViewHelper extends RBaseHelper<TextView> implements ITextViewF
 
     }
 
+    /**
+     * 获取drawable兼容处理
+     *
+     * @param context
+     * @param a
+     * @param index
+     * @return
+     */
+    private Drawable getDrawable(Context context, TypedArray a, @StyleableRes int index) {
+        Drawable drawable = null;
+        //Vector兼容处理
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            drawable = a.getDrawable(index);
+        } else {
+            int resId = a.getResourceId(index, -1);
+            if (resId != -1) drawable = AppCompatResources.getDrawable(context, resId);
+        }
+        return drawable;
+    }
 
     /************************
      * Typeface
