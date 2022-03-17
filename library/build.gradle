@@ -2,14 +2,14 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.novoda.bintray-release'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 28
     buildToolsVersion '28.0.3'
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 26
-        versionCode 32
-        versionName "support.v0.0.7"
+        targetSdkVersion 28
+        versionCode 33
+        versionName "support.v0.0.9"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -31,7 +31,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     //直接依赖，避免开发者不能正常使用
-    compile 'com.android.support:appcompat-v7:26.1.0'
+    compile 'com.android.support:appcompat-v7:28.0.0'
     compile 'com.android.support.constraint:constraint-layout:1.1.3'
     testCompile 'junit:junit:4.12'
 }
