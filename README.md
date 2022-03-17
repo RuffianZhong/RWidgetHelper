@@ -303,12 +303,12 @@ allprojects {
 
 //support 版本
 dependencies {
-    implementation 'com.github.RuffianZhong:RWidgetHelper:support.v0.0.7'
+    implementation 'com.github.RuffianZhong:RWidgetHelper:support.v0.0.9'
 }
 
 //androidx 版本
 dependencies {
-    implementation 'com.github.RuffianZhong:RWidgetHelper:androidx.v0.0.8'
+    implementation 'com.github.RuffianZhong:RWidgetHelper:androidx.v0.0.9'
 }
 ```
 #### 老版本依赖方式 JCenter 2022 年 2 月 1 日开始无法使用
@@ -321,6 +321,8 @@ compile 'com.ruffian.library:RWidgetHelper-AndroidX:0.0.9'
 ```
 
 ### 版本历史
+
+**support.v0.0.9/androidx.v0.0.9**　`2022.03.17`　支持Right to left(从右到左布局)
 
 **support.v0.0.7/androidx.v0.0.7｜androidx.v0.0.8**　`2021.09.23`　修复RTextView在5.0以下版本崩溃问题（v0.0.6修改不当导致）
 
