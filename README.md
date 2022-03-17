@@ -322,7 +322,7 @@ compile 'com.ruffian.library:RWidgetHelper-AndroidX:0.0.9'
 
 ### 版本历史
 
-**support.v0.0.9/androidx.v0.0.9**　`2022.03.17`　支持Right to left(从右到左布局)
+**support.v0.0.9/androidx.v0.0.9**　`2022.03.17`　支持Right to left(从右到左布局)(left=left||start,right=right||end)
 
 **support.v0.0.7/androidx.v0.0.7｜androidx.v0.0.8**　`2021.09.23`　修复RTextView在5.0以下版本崩溃问题（v0.0.6修改不当导致）
 
