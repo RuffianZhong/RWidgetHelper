@@ -18,6 +18,8 @@ import android.graphics.drawable.shapes.RoundRectShape;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.StyleableRes;
+import android.support.v4.text.TextUtilsCompat;
+import android.support.v4.view.ViewCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -30,6 +32,8 @@ import com.ruffian.library.widget.clip.ClipHelper;
 import com.ruffian.library.widget.clip.ClipPathManager;
 import com.ruffian.library.widget.clip.IClip;
 import com.ruffian.library.widget.shadow.ShadowDrawable;
+
+import java.util.Locale;
 
 
 /**
@@ -1605,5 +1609,14 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         }
         //初始化clip
         initClip();
+    }
+
+    /**
+     * 是否从右到左布局
+     *
+     * @return
+     */
+    protected static boolean isRtl() {
+        return TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault()) == ViewCompat.LAYOUT_DIRECTION_RTL;
     }
 }
