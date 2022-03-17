@@ -165,7 +165,7 @@ public class RTextViewHelper extends RBaseHelper<TextView> implements ITextViewF
         mIconSelected = getDrawable(context, a, R.styleable.RTextView_icon_src_selected);
         mIconChecked = getDrawable(context, a, R.styleable.RTextView_icon_src_checked);
         //兼容逻辑(优先级 drawableStart > drawableLeft > icon_normal_left)
-        if (!TextViewUtils.isRight2Left()) {
+        if (!isRtl()) {
             if (drawableStart != null) drawableLeft = drawableStart;
             if (drawableEnd != null) drawableRight = drawableEnd;
         } else {
@@ -817,8 +817,9 @@ public class RTextViewHelper extends RBaseHelper<TextView> implements ITextViewF
             drawableTop.setBounds(0, 0, mIconWidthTop, mIconHeightTop);
         if (drawableBottom != null)
             drawableBottom.setBounds(0, 0, mIconWidthBottom, mIconHeightBottom);
+        boolean rtl = isRtl();
         //setDrawable
-        mView.setCompoundDrawables(drawableLeft, drawableTop, drawableRight, drawableBottom);
+        mView.setCompoundDrawables(rtl ? drawableRight : drawableLeft, drawableTop, rtl ? drawableLeft : drawableRight, drawableBottom);
     }
 
     /**
@@ -833,12 +834,21 @@ public class RTextViewHelper extends RBaseHelper<TextView> implements ITextViewF
     private void setSingleCompoundDrawable(Drawable drawable, int drawableWidth, int drawableHeight, int direction) {
         if (drawable != null)
             drawable.setBounds(0, 0, drawableWidth, drawableHeight);
-        mView.setCompoundDrawables(
-                direction == ICON_DIR_LEFT ? drawable : null,
-                direction == ICON_DIR_TOP ? drawable : null,
-                direction == ICON_DIR_RIGHT ? drawable : null,
-                direction == ICON_DIR_BOTTOM ? drawable : null);
 
+        boolean rtl = isRtl();
+        if (rtl) {
+            mView.setCompoundDrawables(
+                    direction == ICON_DIR_RIGHT ? drawable : null,
+                    direction == ICON_DIR_TOP ? drawable : null,
+                    direction == ICON_DIR_LEFT ? drawable : null,
+                    direction == ICON_DIR_BOTTOM ? drawable : null);
+        } else {
+            mView.setCompoundDrawables(
+                    direction == ICON_DIR_LEFT ? drawable : null,
+                    direction == ICON_DIR_TOP ? drawable : null,
+                    direction == ICON_DIR_RIGHT ? drawable : null,
+                    direction == ICON_DIR_BOTTOM ? drawable : null);
+        }
     }
 
 
