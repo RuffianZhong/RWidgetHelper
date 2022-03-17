@@ -1,16 +1,10 @@
 package com.ruffian.library.widget.utils;
 
 import android.graphics.Paint;
-import android.os.Build;
-import android.text.TextUtils;
-import android.view.View;
 import android.widget.TextView;
-
-import androidx.annotation.RequiresApi;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Locale;
 
 /**
  * TextView工具类
@@ -106,19 +100,6 @@ public class TextViewUtils {
             textHeight = maxHeight;
         }
         return textHeight;
-    }
-
-    /**
-     * 是否从右到左布局
-     *
-     * @return
-     */
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public static boolean isRight2Left() {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            return TextUtils.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_RTL;
-        }
-        return false;
     }
 
 }

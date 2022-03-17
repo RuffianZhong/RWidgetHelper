@@ -25,12 +25,16 @@ import android.view.ViewTreeObserver;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.StyleableRes;
+import androidx.core.text.TextUtilsCompat;
+import androidx.core.view.ViewCompat;
 
 import com.ruffian.library.widget.R;
 import com.ruffian.library.widget.clip.ClipHelper;
 import com.ruffian.library.widget.clip.ClipPathManager;
 import com.ruffian.library.widget.clip.IClip;
 import com.ruffian.library.widget.shadow.ShadowDrawable;
+
+import java.util.Locale;
 
 
 /**
@@ -1606,5 +1610,14 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         }
         //初始化clip
         initClip();
+    }
+
+    /**
+     * 是否从右到左布局
+     *
+     * @return
+     */
+    protected static boolean isRtl() {
+        return TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault()) == ViewCompat.LAYOUT_DIRECTION_RTL;
     }
 }
