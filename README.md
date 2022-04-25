@@ -303,12 +303,12 @@ allprojects {
 
 //support 版本
 dependencies {
-    implementation 'com.github.RuffianZhong:RWidgetHelper:support.v0.0.9'
+    implementation 'com.github.RuffianZhong:RWidgetHelper:support.v0.0.10'
 }
 
 //androidx 版本
 dependencies {
-    implementation 'com.github.RuffianZhong:RWidgetHelper:androidx.v0.0.9'
+    implementation 'com.github.RuffianZhong:RWidgetHelper:androidx.v0.0.10'
 }
 ```
 #### 老版本依赖方式 JCenter 2022 年 2 月 1 日开始无法使用
@@ -321,6 +321,8 @@ compile 'com.ruffian.library:RWidgetHelper-AndroidX:0.0.9'
 ```
 
 ### 版本历史
+
+**support.v0.0.10/androidx.v0.0.10**　`2022.04.25`　圆角支持Right to left(从右到左布局)
 
 **support.v0.0.9/androidx.v0.0.9**　`2022.03.17`　支持Right to left(从右到左布局)(left=left||start,right=right||end)
 
