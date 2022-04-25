@@ -1384,14 +1384,15 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
             mBorderRadii[6] = mCornerRadius;
             mBorderRadii[7] = mCornerRadius;
         } else {
-            mBorderRadii[0] = mCornerRadiusTopLeft;
-            mBorderRadii[1] = mCornerRadiusTopLeft;
-            mBorderRadii[2] = mCornerRadiusTopRight;
-            mBorderRadii[3] = mCornerRadiusTopRight;
-            mBorderRadii[4] = mCornerRadiusBottomRight;
-            mBorderRadii[5] = mCornerRadiusBottomRight;
-            mBorderRadii[6] = mCornerRadiusBottomLeft;
-            mBorderRadii[7] = mCornerRadiusBottomLeft;
+            boolean isRtl = isRtl();
+            mBorderRadii[0] = isRtl ? mCornerRadiusTopRight : mCornerRadiusTopLeft;
+            mBorderRadii[1] = isRtl ? mCornerRadiusTopRight : mCornerRadiusTopLeft;
+            mBorderRadii[2] = isRtl ? mCornerRadiusTopLeft : mCornerRadiusTopRight;
+            mBorderRadii[3] = isRtl ? mCornerRadiusTopLeft : mCornerRadiusTopRight;
+            mBorderRadii[4] = isRtl ? mCornerRadiusBottomLeft : mCornerRadiusBottomRight;
+            mBorderRadii[5] = isRtl ? mCornerRadiusBottomLeft : mCornerRadiusBottomRight;
+            mBorderRadii[6] = isRtl ? mCornerRadiusBottomRight : mCornerRadiusBottomLeft;
+            mBorderRadii[7] = isRtl ? mCornerRadiusBottomRight : mCornerRadiusBottomLeft;
         }
         mBackgroundNormal.setCornerRadii(mBorderRadii);
         mBackgroundPressed.setCornerRadii(mBorderRadii);
