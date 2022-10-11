@@ -23,18 +23,19 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewTreeObserver;
 
-import androidx.annotation.ColorInt;
-import androidx.annotation.StyleableRes;
-import androidx.core.text.TextUtilsCompat;
-import androidx.core.view.ViewCompat;
-
 import com.ruffian.library.widget.R;
 import com.ruffian.library.widget.clip.ClipHelper;
 import com.ruffian.library.widget.clip.ClipPathManager;
 import com.ruffian.library.widget.clip.IClip;
-import com.ruffian.library.widget.shadow.ShadowDrawable;
+import com.ruffian.library.widget.shadow.ShadowBitmapDrawable;
 
 import java.util.Locale;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.RequiresApi;
+import androidx.annotation.StyleableRes;
+import androidx.core.text.TextUtilsCompat;
+import androidx.core.view.ViewCompat;
 
 
 /**
@@ -104,7 +105,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
     private GradientDrawable.Orientation mGradientOrientation = GradientDrawable.Orientation.TOP_BOTTOM;
 
     //shadow
-    private ShadowDrawable mShadowDrawable;
+    private ShadowBitmapDrawable mShadowDrawable;
     private int mShadowDx;
     private int mShadowDy;
     private int mShadowColor;
@@ -172,6 +173,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         //监听View大小改变
         addOnGlobalLayoutListener();
     }
+
 
     /**
      * 初始化控件属性
@@ -278,7 +280,6 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         mBackgroundSelected = new GradientDrawable();
         mViewBackground = mView.getBackground();
         mStateBackground = new StateListDrawable();
-        if (useShadow()) mShadowDrawable = new ShadowDrawable();
         //unable,focused,pressed,checked,selected,normal
         states[0] = new int[]{-android.R.attr.state_enabled};//unable
         states[1] = new int[]{android.R.attr.state_focused};//focused
@@ -818,7 +819,6 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         setBackgroundState();
     }
 
-
     /**
      * 刷新StateListDrawable状态
      * 更新drawable背景时时候刷新
@@ -874,16 +874,27 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
             //获取drawable
             mBackgroundDrawable = getBackgroundDrawable(hasCustom, mRippleColor);
             if (useShadow()) {
-                mView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);//禁止硬件加速,must,导致绘制耗时(寻找优化路径)
-                if (mShadowDrawable == null) mShadowDrawable = new ShadowDrawable();
+
+                //1.早期实现方式禁止了硬件加速，并且由于 LAYER_TYPE_SOFTWARE 的特性导致在列表中卡顿（频繁创建缓存再渲染）(超过限制的view创建缓存过大导致无法展示背景)
+                //mView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);//禁止硬件加速,must,导致绘制耗时(寻找优化路径)
+                //if (mShadowDrawable == null) mShadowDrawable = new ShadowDrawable();
+                //mShadowDrawable.updateParameter(mShadowColor, mShadowRadius, mShadowDx, mShadowDy, mBorderRadii);
+                //int shadowOffset = (int) mShadowDrawable.getShadowOffset();
+                //int left = shadowOffset + Math.abs(mShadowDx);
+                //int right = shadowOffset + Math.abs(mShadowDx);
+                //int top = shadowOffset + Math.abs(mShadowDy);
+                //int bottom = shadowOffset + Math.abs(mShadowDy);
+
+                //2.将阴影背景绘制成bitmap渲染，没有禁止硬件加速，和 LAYER_TYPE_SOFTWARE 的特性，大大提升性能。（在列表中大量使用阴影时，可能导致内存较高）
+                if (mShadowDrawable == null) mShadowDrawable = new ShadowBitmapDrawable();
                 mShadowDrawable.updateParameter(mShadowColor, mShadowRadius, mShadowDx, mShadowDy, mBorderRadii);
 
-                int shadowOffset = (int) mShadowDrawable.getShadowOffset();
-                int left = shadowOffset + Math.abs(mShadowDx);
-                int right = shadowOffset + Math.abs(mShadowDx);
-                int top = shadowOffset + Math.abs(mShadowDy);
-                int bottom = shadowOffset + Math.abs(mShadowDy);
+                int left = mShadowRadius + Math.abs(mShadowDx);
+                int right = mShadowRadius + Math.abs(mShadowDx);
+                int top = mShadowRadius + Math.abs(mShadowDy);
+                int bottom = mShadowRadius + Math.abs(mShadowDy);
 
+                //设置背景
                 LayerDrawable layerDrawable = new LayerDrawable(new Drawable[]{mShadowDrawable, mBackgroundDrawable});
                 layerDrawable.setLayerInset(1, left, top, right, bottom);//设置第二层drawable四周偏移量
                 mBackgroundDrawable = layerDrawable;
@@ -900,7 +911,6 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         }
 
     }
-
 
     /**
      * 获取 BackgroundDrawable
@@ -947,6 +957,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
      * @param hasCustom   是否存在自定义背景
      * @param rippleColor 水波纹颜色
      */
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private Object[] getRippleDrawableWithTag(boolean hasCustom, int rippleColor) {
         boolean isMaskNull;//是否不受限制的水波纹效果{ contentDrawable == null && maskDrawable == null }
         RippleDrawable rippleDrawable;//水波纹drawable
@@ -1612,6 +1623,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         //初始化clip
         initClip();
     }
+
 
     /**
      * 是否从右到左布局
