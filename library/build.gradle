@@ -8,8 +8,8 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 28
-        versionCode 13
-        versionName "androidx.v0.0.10"
+        versionCode 14
+        versionName "androidx.v0.0.11"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -40,7 +40,7 @@ publish {
     userOrg = 'ruffian'
     groupId = 'com.ruffian.library'
     artifactId = 'RWidgetHelper-AndroidX'
-    publishVersion = '0.0.10'
+    publishVersion = '0.0.11'
     desc = 'A set widget for developer easy to use.'
     website = 'https://github.com/RuffianZhong/RWidgetHelper'
 }
