@@ -303,12 +303,12 @@ allprojects {
 
 //support 版本
 dependencies {
-    implementation 'com.github.RuffianZhong:RWidgetHelper:support.v0.0.11'
+    implementation 'com.github.RuffianZhong:RWidgetHelper:support.v0.0.12'
 }
 
 //androidx 版本
 dependencies {
-    implementation 'com.github.RuffianZhong:RWidgetHelper:androidx.v0.0.11'
+    implementation 'com.github.RuffianZhong:RWidgetHelper:androidx.v0.0.12'
 }
 ```
 #### 老版本依赖方式 JCenter 2022 年 2 月 1 日开始无法使用
@@ -321,6 +321,8 @@ compile 'com.ruffian.library:RWidgetHelper-AndroidX:0.0.9'
 ```
 
 ### 版本历史
+
+**support.v0.0.12/androidx.v0.0.12**　`2023.02.21`　支持新版 Android studio 布局预览
 
 **support.v0.0.11/androidx.v0.0.11**　`2022.10.14`　优化性能，修改阴影实现方式
 
