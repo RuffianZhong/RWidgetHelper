@@ -17,6 +17,7 @@ import android.graphics.drawable.shapes.RectShape;
 import android.graphics.drawable.shapes.RoundRectShape;
 import android.os.Build;
 import android.support.annotation.ColorInt;
+import android.support.annotation.RequiresApi;
 import android.support.annotation.StyleableRes;
 import android.support.v4.text.TextUtilsCompat;
 import android.support.v4.view.ViewCompat;
@@ -32,7 +33,7 @@ import com.ruffian.library.widget.clip.ClipHelper;
 import com.ruffian.library.widget.clip.ClipPathManager;
 import com.ruffian.library.widget.clip.IClip;
 import com.ruffian.library.widget.shadow.ShadowBitmapDrawable;
-import com.ruffian.library.widget.shadow.ShadowDrawable;
+import com.ruffian.library.widget.utils.RippleDrawableUtils;
 
 import java.util.Locale;
 
@@ -172,6 +173,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         //监听View大小改变
         addOnGlobalLayoutListener();
     }
+
 
     /**
      * 初始化控件属性
@@ -817,20 +819,52 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         setBackgroundState();
     }
 
-
     /**
      * 刷新StateListDrawable状态
      * 更新drawable背景时时候刷新
      */
     private void setStateListDrawable() {
         mStateBackground = new StateListDrawable();
+
+
         //unable,focused,pressed,checked,selected,normal
-        mStateBackground.addState(states[0], mBackgroundUnableBmp == null ? mBackgroundUnable : mBackgroundUnableBmp);
-        mStateBackground.addState(states[1], mBackgroundPressedBmp == null ? mBackgroundPressed : mBackgroundPressedBmp);
-        mStateBackground.addState(states[2], mBackgroundPressedBmp == null ? mBackgroundPressed : mBackgroundPressedBmp);
-        mStateBackground.addState(states[3], mBackgroundCheckedBmp == null ? mBackgroundChecked : mBackgroundCheckedBmp);
-        mStateBackground.addState(states[4], mBackgroundSelectedBmp == null ? mBackgroundSelected : mBackgroundSelectedBmp);
-        mStateBackground.addState(states[5], mBackgroundNormalBmp == null ? mBackgroundNormal : mBackgroundNormalBmp);
+        //android studio 预览：不支持直接三目运算赋值
+
+        if (mBackgroundUnableBmp == null) {
+            mStateBackground.addState(states[0], mBackgroundUnable);
+        } else {
+            mStateBackground.addState(states[0], mBackgroundUnableBmp);
+        }
+
+        if (mBackgroundPressedBmp == null) {
+            mStateBackground.addState(states[1], mBackgroundPressed);
+        } else {
+            mStateBackground.addState(states[1], mBackgroundPressedBmp);
+        }
+
+        if (mBackgroundPressedBmp == null) {
+            mStateBackground.addState(states[2], mBackgroundPressed);
+        } else {
+            mStateBackground.addState(states[2], mBackgroundPressedBmp);
+        }
+
+        if (mBackgroundCheckedBmp == null) {
+            mStateBackground.addState(states[3], mBackgroundChecked);
+        } else {
+            mStateBackground.addState(states[3], mBackgroundCheckedBmp);
+        }
+
+        if (mBackgroundSelectedBmp == null) {
+            mStateBackground.addState(states[4], mBackgroundSelected);
+        } else {
+            mStateBackground.addState(states[4], mBackgroundSelectedBmp);
+        }
+
+        if (mBackgroundNormalBmp == null) {
+            mStateBackground.addState(states[5], mBackgroundNormal);
+        } else {
+            mStateBackground.addState(states[5], mBackgroundNormalBmp);
+        }
     }
 
     private void setBackgroundState() {
@@ -897,7 +931,6 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
                 LayerDrawable layerDrawable = new LayerDrawable(new Drawable[]{mShadowDrawable, mBackgroundDrawable});
                 layerDrawable.setLayerInset(1, left, top, right, bottom);//设置第二层drawable四周偏移量
                 mBackgroundDrawable = layerDrawable;
-
             }
         }
 
@@ -911,7 +944,6 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         }
 
     }
-
 
     /**
      * 获取 BackgroundDrawable
@@ -943,10 +975,26 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
                 states[3] = new int[]{android.R.attr.state_enabled};//normal
 
                 //unable,checked,normal
-                stateBackground.addState(states[0], mBackgroundUnableBmp == null ? mBackgroundUnable : mBackgroundUnableBmp);
-                stateBackground.addState(states[1], mBackgroundCheckedBmp == null ? mBackgroundChecked : mBackgroundCheckedBmp);
-                stateBackground.addState(states[2], mBackgroundSelectedBmp == null ? mBackgroundSelected : mBackgroundSelectedBmp);
+                //android studio 预览：不支持直接三目运算赋值
+                if (mBackgroundUnableBmp == null) {
+                    stateBackground.addState(states[0], mBackgroundUnable);
+                } else {
+                    stateBackground.addState(states[0], mBackgroundUnableBmp);
+                }
+
+                if (mBackgroundCheckedBmp == null) {
+                    stateBackground.addState(states[1], mBackgroundChecked);
+                } else {
+                    stateBackground.addState(states[1], mBackgroundCheckedBmp);
+                }
+
+                if (mBackgroundSelectedBmp == null) {
+                    stateBackground.addState(states[2], mBackgroundSelected);
+                } else {
+                    stateBackground.addState(states[2], mBackgroundSelectedBmp);
+                }
                 stateBackground.addState(states[3], rippleDrawable);
+
                 return stateBackground;
             }
         }
@@ -958,20 +1006,23 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
      * @param hasCustom   是否存在自定义背景
      * @param rippleColor 水波纹颜色
      */
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private Object[] getRippleDrawableWithTag(boolean hasCustom, int rippleColor) {
-        boolean isMaskNull;//是否不受限制的水波纹效果{ contentDrawable == null && maskDrawable == null }
-        RippleDrawable rippleDrawable;//水波纹drawable
+
         /**
          * RippleDrawable -> 内容默认drawable
          * 1. 存在自定义背景 提取 mBackgroundNormalBmp || mBackgroundNormal
          * 2. null
          */
-        Drawable contentDrawable;
+        Drawable contentDrawable = null;
         if (hasCustom) {
             //存在背景图片，优先使用背景图片，不存在使用默认背景
-            contentDrawable = mBackgroundNormalBmp == null ? mBackgroundNormal : mBackgroundNormalBmp;
-        } else {//null
-            contentDrawable = null;
+            //android studio 预览：不支持直接三目运算赋值
+            if (mBackgroundNormalBmp == null) {
+                contentDrawable = mBackgroundNormal;
+            } else {
+                contentDrawable = mBackgroundNormalBmp;
+            }
         }
 
         /**
@@ -1004,6 +1055,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
                 break;
         }
 
+
         /**
          * 水波纹颜色值
          * 可以有多个状态，暂时支持一个
@@ -1020,11 +1072,16 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
                 rippleColor,
                 rippleColor
         };
+
+
         ColorStateList colorStateList = new ColorStateList(stateList, stateColorList);
 
         //水波纹drawable
-        rippleDrawable = new RippleDrawable(colorStateList, contentDrawable, maskDrawable);
-        isMaskNull = contentDrawable == null && maskDrawable == null;
+        //android studio 预览：不支持给 drawable 赋值 null
+        RippleDrawable rippleDrawable = new RippleDrawableUtils(contentDrawable, maskDrawable).getRippleDrawable(colorStateList);
+
+        //是否不受限制的水波纹效果{ contentDrawable == null && maskDrawable == null }
+        boolean isMaskNull = contentDrawable == null && maskDrawable == null;
 
         return new Object[]{rippleDrawable, isMaskNull};
     }
@@ -1624,6 +1681,7 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         initClip();
     }
 
+
     /**
      * 是否从右到左布局
      *
@@ -1631,5 +1689,6 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
      */
     protected static boolean isRtl() {
         return TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault()) == ViewCompat.LAYOUT_DIRECTION_RTL;
+
     }
 }
