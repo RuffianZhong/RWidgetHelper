@@ -1,15 +1,13 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.novoda.bintray-release'
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion "28.0.3"
+    compileSdkVersion 30
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 28
-        versionCode 14
-        versionName "androidx.v0.0.11"
+        targetSdkVersion 30
+        versionCode 15
+        versionName "androidx.v0.0.12"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -34,13 +32,4 @@ dependencies {
     //不要使用编译时依赖，确保开发者正确使用
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-}
-
-publish {
-    userOrg = 'ruffian'
-    groupId = 'com.ruffian.library'
-    artifactId = 'RWidgetHelper-AndroidX'
-    publishVersion = '0.0.11'
-    desc = 'A set widget for developer easy to use.'
-    website = 'https://github.com/RuffianZhong/RWidgetHelper'
 }
