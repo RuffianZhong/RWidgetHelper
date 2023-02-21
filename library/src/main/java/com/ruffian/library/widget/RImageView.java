@@ -12,6 +12,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.os.Build;
 import android.util.AttributeSet;
 
 import androidx.annotation.ColorInt;
@@ -52,7 +53,7 @@ public class RImageView extends AppCompatImageView {
 
     public RImageView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        initAttributeSet(attrs);
+        initAttributeSet(context, attrs);
     }
 
     /**
@@ -60,8 +61,10 @@ public class RImageView extends AppCompatImageView {
      *
      * @param attrs
      */
-    private void initAttributeSet(AttributeSet attrs) {
-        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.RImageView);
+    private void initAttributeSet(Context context, AttributeSet attrs) {
+        if (context == null || attrs == null) return;
+
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RImageView);
         mIsCircle = a.getBoolean(R.styleable.RImageView_is_circle, false);
         mCorner = a.getDimensionPixelSize(R.styleable.RImageView_corner_radius, -1);
         mCornerTopLeft = a.getDimensionPixelSize(R.styleable.RImageView_corner_radius_top_left, 0);
@@ -70,13 +73,21 @@ public class RImageView extends AppCompatImageView {
         mCornerBottomRight = a.getDimensionPixelSize(R.styleable.RImageView_corner_radius_bottom_right, 0);
         mBorderWidth = a.getDimensionPixelSize(R.styleable.RImageView_border_width, 0);
         mBorderColor = a.getColor(R.styleable.RImageView_border_color, Color.BLACK);
+
         //get system attrs
         String namespace = "http://schemas.android.com/apk/res/android";//android的命名空间
         int tintColor = attrs.getAttributeResourceValue(namespace, "tint", 0);
-        if (tintColor != 0)
-            mColorFilter = new PorterDuffColorFilter(getResources().getColor(tintColor), mTintMode);
+
         int tintMode = attrs.getAttributeIntValue(namespace, "tintMode", 0);
         if (tintMode != 0) mTintMode = wrapTintMode(tintMode);
+        //android studio 预览：需要区分版本或者使用 isInEditMode() 判断区分
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setImageTintList(getImageTintList());
+        } else {
+            if (tintColor != 0) {
+                mColorFilter = new PorterDuffColorFilter(getResources().getColor(tintColor), mTintMode);
+            }
+        }
 
         a.recycle();
         updateDrawableAttrs();
@@ -127,7 +138,9 @@ public class RImageView extends AppCompatImageView {
     @Override
     public void setImageTintList(@Nullable ColorStateList tint) {
         super.setImageTintList(tint);
-        this.mColorFilter = new PorterDuffColorFilter(tint.getDefaultColor(), mTintMode);
+        if (tint != null) {
+            this.mColorFilter = new PorterDuffColorFilter(tint.getDefaultColor(), mTintMode);
+        }
         setColorFilter();
     }
 
