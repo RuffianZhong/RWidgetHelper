@@ -7,15 +7,12 @@ buildscript {
         maven { url 'https://maven.aliyun.com/repository/public' }
         maven { url 'https://maven.aliyun.com/repository/google' }
         maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
-        maven { url "http://mvn.mob.com/android" }
 
         google()
-        jcenter()
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.0'
-        classpath 'com.novoda:bintray-release:0.9.2'
+        classpath 'com.android.tools.build:gradle:7.2.1'
     }
 }
 
