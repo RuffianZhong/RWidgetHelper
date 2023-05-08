@@ -303,12 +303,12 @@ allprojects {
 
 //support 版本
 dependencies {
-    implementation 'com.github.RuffianZhong:RWidgetHelper:support.v0.0.13'
+    implementation 'com.github.RuffianZhong:RWidgetHelper:support.v0.0.14'
 }
 
 //androidx 版本
 dependencies {
-    implementation 'com.github.RuffianZhong:RWidgetHelper:androidx.v0.0.13'
+    implementation 'com.github.RuffianZhong:RWidgetHelper:androidx.v0.0.14'
 }
 ```
 #### 老版本依赖方式 JCenter 2022 年 2 月 1 日开始无法使用
@@ -321,6 +321,8 @@ compile 'com.ruffian.library:RWidgetHelper-AndroidX:0.0.9'
 ```
 
 ### 版本历史
+
+**support.v0.0.14/androidx.v0.0.14**　`2023.05.08`　Fix bug [issues#118](https://github.com/RuffianZhong/RWidgetHelper/issues/118) | [issues#121](https://github.com/RuffianZhong/RWidgetHelper/issues/121)
 
 **support.v0.0.13/androidx.v0.0.13**　`2023.02.21`　支持 Android Studio Electric Eel | 2022.1.1 Patch 1 布局预览
 
