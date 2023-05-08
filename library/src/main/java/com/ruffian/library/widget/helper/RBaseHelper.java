@@ -373,27 +373,27 @@ public class RBaseHelper<T extends View> implements IClip, ViewTreeObserver.OnGl
         if (mBackgroundColorNormalArray != null && mBackgroundColorNormalArray.length > 0) {
             mBackgroundNormal = setColors(mBackgroundNormal, mBackgroundColorNormalArray);
         } else {
-            mBackgroundNormal.setColor(mBackgroundColorNormal);
+            mBackgroundNormal = setColors(mBackgroundNormal, new int[]{mBackgroundColorNormal, mBackgroundColorNormal});
         }
         if (mBackgroundColorPressedArray != null && mBackgroundColorPressedArray.length > 0) {
             mBackgroundPressed = setColors(mBackgroundPressed, mBackgroundColorPressedArray);
         } else {
-            mBackgroundPressed.setColor(mBackgroundColorPressed);
+            mBackgroundPressed = setColors(mBackgroundPressed, new int[]{mBackgroundColorPressed, mBackgroundColorPressed});
         }
         if (mBackgroundColorUnableArray != null && mBackgroundColorUnableArray.length > 0) {
             mBackgroundUnable = setColors(mBackgroundUnable, mBackgroundColorUnableArray);
         } else {
-            mBackgroundUnable.setColor(mBackgroundColorUnable);
+            mBackgroundUnable = setColors(mBackgroundUnable, new int[]{mBackgroundColorUnable, mBackgroundColorUnable});
         }
         if (mBackgroundColorCheckedArray != null && mBackgroundColorCheckedArray.length > 0) {
             mBackgroundChecked = setColors(mBackgroundChecked, mBackgroundColorCheckedArray);
         } else {
-            mBackgroundChecked.setColor(mBackgroundColorChecked);
+            mBackgroundChecked = setColors(mBackgroundChecked, new int[]{mBackgroundColorChecked, mBackgroundColorChecked});
         }
         if (mBackgroundColorSelectedArray != null && mBackgroundColorSelectedArray.length > 0) {
             mBackgroundSelected = setColors(mBackgroundSelected, mBackgroundColorSelectedArray);
         } else {
-            mBackgroundSelected.setColor(mBackgroundColorSelected);
+            mBackgroundSelected = setColors(mBackgroundSelected, new int[]{mBackgroundColorSelected, mBackgroundColorSelected});
         }
 
         //设置边框默认值
