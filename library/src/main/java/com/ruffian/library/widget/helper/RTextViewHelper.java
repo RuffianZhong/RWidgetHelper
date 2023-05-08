@@ -13,13 +13,13 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.TextView;
 
-import androidx.annotation.ColorInt;
-import androidx.annotation.StyleableRes;
-import androidx.appcompat.content.res.AppCompatResources;
-
 import com.ruffian.library.widget.R;
 import com.ruffian.library.widget.iface.ITextViewFeature;
 import com.ruffian.library.widget.utils.TextViewUtils;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.StyleableRes;
+import androidx.appcompat.content.res.AppCompatResources;
 
 /**
  * TextView-Helper
@@ -884,6 +884,7 @@ public class RTextViewHelper extends RBaseHelper<TextView> implements ITextViewF
         if (translateX < 0) translateX = 0;
         //垂直方向计算
         float textHeight = TextViewUtils.get().getTextHeight(mView, drawableHeight, mPaddingTop, mPaddingBottom, drawablePaddingVertical);
+        textHeight = Math.max(textHeight, Math.max(mIconHeightLeft, mIconHeightRight));//交叉轴存在icon时高度重新计算
         float bodyHeight = textHeight + drawableHeight + drawablePaddingVertical;//内容高度
         float actualHeight = mView.getHeight() - (mPaddingTop + mPaddingBottom);//实际可用高度
         int translateY = (int) (actualHeight - bodyHeight) / 2;
@@ -932,6 +933,7 @@ public class RTextViewHelper extends RBaseHelper<TextView> implements ITextViewF
         if (translateX < 0) translateX = 0;
         //垂直方向计算
         float textHeight = TextViewUtils.get().getTextHeight(mView, drawableHeightFinal, mPaddingTop, mPaddingBottom, drawablePaddingVerticalFinal);
+        textHeight = Math.max(textHeight, Math.max(mIconHeightLeft, mIconHeightRight));//交叉轴存在icon时高度重新计算
         float bodyHeight = textHeight + drawableHeightFinal + drawablePaddingVerticalFinal;//内容高度
         float actualHeight = mView.getHeight() - (mPaddingTop + mPaddingBottom);//实际可用高度
         int translateY = (int) (actualHeight - bodyHeight) / 2;
